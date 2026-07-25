@@ -1,0 +1,25 @@
+module,n,mean_us,mean_ms,p99_us,max_us,pct_of_cycle
+M1  - RMS (5 channels),1002,108010.1,108.01,108021,108025,11.37
+M2  - Frequency (3 channels),1002,324368.4,324.37,324411,324423,34.15
+M5  - THD / Harmonics (3 channels),1002,309077.6,309.08,309103,309110,32.54
+M4  - Phase angle (2 channels),1002,25245.1,25.25,25548,35802,2.66
+M4  - Power + P/Q/S/PF (2 channels),1002,107839.7,107.84,107865,107874,11.35
+Alarm evaluation,1002,1.0,0.00,1,2,0.00
+M6  - DNP3 frame build,1002,45.1,0.05,53,54,0.00
+Serial output (verbose debug),1002,75190.0,75.19,75218,75219,7.92
+"TOTAL (per-cycle, summed mean)",1002,949776.9,949.78,950140,960244,100.00
+
+# derived,,,,,,
+cycle_mean_ms,1002,,949.78,,960.24,
+acquisition_pct_of_full_cycle,,,,,,84.2
+acquisition_pct_of_operational_cycle_excl_serial,,,,,,91.4
+noncompute_wait_pct_of_full_cycle,,,,,,92.1
+
+# per-measurand sampling breakdown (Anton briefing point 3)
+measurand,adc_rate_kHz,samples_per_window,window_ms_nominal,channels,measured_mean_ms,notes
+M1 RMS (V/I),2.0,40,20,5,108.01,shared 500us ADC clock; sequential channels
+M2 Frequency,2.0,200,100,3,324.37,shared 500us ADC clock; sequential channels
+M5 THD,2.0,200,100,3,309.08,shared 500us ADC clock; sequential channels
+M4 Phase,2.0,<=200,<=100,2,25.25,early-exit on zero-crossing
+M4 Power,2.0,100,50,2,107.84,shared 500us ADC clock; sequential channels
+Full cycle / DNP3,-,-,-,-,949.78,one reading per ~0.95 s

@@ -1,0 +1,136 @@
+{
+  "csv": "replay_20260627_102507V2.csv",
+  "schema_version": "1.1",
+  "alpha": 0.05,
+  "windows": {
+    "pre_event_nominal": {
+      "Class I (\u00b110 mHz)": {
+        "n": 48,
+        "mean": -21.197916666666927,
+        "sd": 20.435612319832938,
+        "se": 2.949626568477595,
+        "df": 47,
+        "t1": -3.7963845275663357,
+        "p1": 0.9999265891481876,
+        "t2": -10.576903869824191,
+        "p2": 1.90676101805706e-26,
+        "equivalent": false
+      },
+      "Class II (\u00b1100 mHz)": {
+        "n": 48,
+        "mean": -21.197916666666927,
+        "sd": 20.435612319832938,
+        "se": 2.949626568477595,
+        "df": 47,
+        "t1": 26.715952512594015,
+        "p1": 0.0,
+        "t2": -41.08924090998455,
+        "p2": 0.0,
+        "equivalent": true
+      },
+      "bootstrap_ci_mean": {
+        "n": 48,
+        "n_resamples": 10000,
+        "seed": 20260628,
+        "alpha": 0.05,
+        "observed_mean_mhz": -21.197916666666927,
+        "bootstrap_mean_of_means_mhz": -21.182203125000253,
+        "bootstrap_ci_lower_mhz": -26.333333333333396,
+        "bootstrap_ci_upper_mhz": -15.041666666667433,
+        "bootstrap_ci_halfwidth_mhz": 5.645833333332981,
+        "asymptotic_ci_lower_mhz": -26.97907850872548,
+        "asymptotic_ci_upper_mhz": -15.416754824608374,
+        "asymptotic_ci_halfwidth_mhz": 5.7811618420585535,
+        "max_deviation_mhz": 0.6457451753920829,
+        "max_deviation_pct_of_asym_halfwidth": 11.169816604929126,
+        "agreement_verdict": "agreement (sub-mHz absolute)"
+      }
+    },
+    "post_event_settled": {
+      "Class I (\u00b110 mHz)": {
+        "n": 63,
+        "mean": -9.153968253967841,
+        "sd": 39.365552426835755,
+        "se": 4.959593425908694,
+        "df": 62,
+        "t1": 0.1705848994823904,
+        "p1": 0.43227508617403854,
+        "t2": -3.8620037186734635,
+        "p2": 5.623042714494598e-05,
+        "equivalent": false
+      },
+      "Class II (\u00b1100 mHz)": {
+        "n": 63,
+        "mean": -9.153968253967841,
+        "sd": 39.365552426835755,
+        "se": 4.959593425908694,
+        "df": 62,
+        "t1": 18.317233681183733,
+        "p1": 0.0,
+        "t2": -22.008652500374808,
+        "p2": 1.1897989715853964e-107,
+        "equivalent": true
+      },
+      "bootstrap_ci_mean": {
+        "n": 63,
+        "n_resamples": 10000,
+        "seed": 20260628,
+        "alpha": 0.05,
+        "observed_mean_mhz": -9.153968253967841,
+        "bootstrap_mean_of_means_mhz": -9.188878888888473,
+        "bootstrap_ci_lower_mhz": -18.588888888888256,
+        "bootstrap_ci_upper_mhz": 0.3587301587297738,
+        "bootstrap_ci_halfwidth_mhz": 9.473809523809015,
+        "asymptotic_ci_lower_mhz": -18.874592746710505,
+        "asymptotic_ci_upper_mhz": 0.5666562387748204,
+        "asymptotic_ci_halfwidth_mhz": 9.720624492742662,
+        "max_deviation_mhz": 0.2857038578222486,
+        "max_deviation_pct_of_asym_halfwidth": 2.939151265801418,
+        "agreement_verdict": "agreement (sub-mHz absolute)"
+      }
+    },
+    "full_replay_window": {
+      "Class I (\u00b110 mHz)": {
+        "n": 379,
+        "mean": 1.662532981530246,
+        "sd": 208.93290452321972,
+        "se": 10.732162422851784,
+        "df": 378,
+        "t1": 1.086689943929421,
+        "p1": 0.13858692984587506,
+        "t2": -0.7768673907428896,
+        "p2": 0.21861850600735985,
+        "equivalent": false
+      },
+      "Class II (\u00b1100 mHz)": {
+        "n": 379,
+        "mean": 1.662532981530246,
+        "sd": 208.93290452321972,
+        "se": 10.732162422851784,
+        "df": 378,
+        "t1": 9.472697949954819,
+        "p1": 0.0,
+        "t2": -9.162875396768287,
+        "p2": 2.52662714312032e-20,
+        "equivalent": true
+      },
+      "bootstrap_ci_mean": {
+        "n": 379,
+        "n_resamples": 10000,
+        "seed": 20260628,
+        "alpha": 0.05,
+        "observed_mean_mhz": 1.662532981530246,
+        "bootstrap_mean_of_means_mhz": 1.727253456464283,
+        "bootstrap_ci_lower_mhz": -19.263324538258544,
+        "bootstrap_ci_upper_mhz": 22.297361477572533,
+        "bootstrap_ci_halfwidth_mhz": 20.78034300791554,
+        "asymptotic_ci_lower_mhz": -19.372118843493375,
+        "asymptotic_ci_upper_mhz": 22.69718480655387,
+        "asymptotic_ci_halfwidth_mhz": 21.034651825023623,
+        "max_deviation_mhz": 0.39982332898133777,
+        "max_deviation_pct_of_asym_halfwidth": 1.9007841551515139,
+        "agreement_verdict": "agreement (sub-mHz absolute)"
+      }
+    }
+  }
+}

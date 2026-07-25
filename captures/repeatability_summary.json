@@ -1,0 +1,131 @@
+{
+  "tool": "C.2 repeatability analysis (chat session, 24 Jul 2026)",
+  "reference": "canonical trajectory reconstructed from replay_20260627_102507V2.csv (replay_index -> f_target_hz), nadir 48.787 Hz at idx 120",
+  "alignment": "cross-correlation of f_Vb vs 20 ms-expanded trajectory",
+  "archived_basis": "Table 6: overall mean 78.3 mHz over 15,896 frames (truncated settled tail); weighted comparison uses Table 6 regional n",
+  "verdict": "PASS - all three Table6-weighted means within +/-8 mHz of 78.3; run-to-run spread < 3.5 mHz; every regional mean at or below Table 6",
+  "runs": {
+    "run1": {
+      "file": "replay_20260724_130842_v6_run1.csv",
+      "replay_start_s": 2.76,
+      "align_corr": 0.9868,
+      "in_replay_frames": 18000,
+      "overall_mean_mHz": 71.5,
+      "overall_max_mHz": 483.2,
+      "classII_pct": 73.3,
+      "classI_pct": 10.3,
+      "regions": {
+        "Pre-event": {
+          "n": 2250,
+          "mean_mHz": 20.2,
+          "max_mHz": 57.5
+        },
+        "RoCoF descent": {
+          "n": 2750,
+          "mean_mHz": 64.0,
+          "max_mHz": 432.1
+        },
+        "Nadir": {
+          "n": 4000,
+          "mean_mHz": 82.5,
+          "max_mHz": 483.2
+        },
+        "Recovery": {
+          "n": 5250,
+          "mean_mHz": 114.5,
+          "max_mHz": 360.5
+        },
+        "Settled tail": {
+          "n": 3750,
+          "mean_mHz": 35.9,
+          "max_mHz": 162.1
+        }
+      },
+      "table6_weighted_mean_mHz": 74.2,
+      "within_pm8_of_78p3_weighted": true
+    },
+    "run2": {
+      "file": "replay_20260724_131622_v6_run2.csv",
+      "replay_start_s": 3.92,
+      "align_corr": 0.9878,
+      "in_replay_frames": 18000,
+      "overall_mean_mHz": 68.5,
+      "overall_max_mHz": 459.7,
+      "classII_pct": 74.7,
+      "classI_pct": 11.8,
+      "regions": {
+        "Pre-event": {
+          "n": 2250,
+          "mean_mHz": 20.1,
+          "max_mHz": 74.2
+        },
+        "RoCoF descent": {
+          "n": 2750,
+          "mean_mHz": 61.8,
+          "max_mHz": 426.2
+        },
+        "Nadir": {
+          "n": 4000,
+          "mean_mHz": 68.6,
+          "max_mHz": 459.7
+        },
+        "Recovery": {
+          "n": 5250,
+          "mean_mHz": 115.7,
+          "max_mHz": 365.3
+        },
+        "Settled tail": {
+          "n": 3750,
+          "mean_mHz": 36.2,
+          "max_mHz": 131.7
+        }
+      },
+      "table6_weighted_mean_mHz": 70.7,
+      "within_pm8_of_78p3_weighted": true
+    },
+    "run3": {
+      "file": "replay_20260724_132305_v6_run3.csv",
+      "replay_start_s": 3.26,
+      "align_corr": 0.9869,
+      "in_replay_frames": 18000,
+      "overall_mean_mHz": 71.4,
+      "overall_max_mHz": 460.1,
+      "classII_pct": 72.8,
+      "classI_pct": 10.6,
+      "regions": {
+        "Pre-event": {
+          "n": 2250,
+          "mean_mHz": 20.1,
+          "max_mHz": 53.2
+        },
+        "RoCoF descent": {
+          "n": 2750,
+          "mean_mHz": 63.3,
+          "max_mHz": 378.2
+        },
+        "Nadir": {
+          "n": 4000,
+          "mean_mHz": 80.8,
+          "max_mHz": 460.1
+        },
+        "Recovery": {
+          "n": 5250,
+          "mean_mHz": 115.3,
+          "max_mHz": 360.9
+        },
+        "Settled tail": {
+          "n": 3750,
+          "mean_mHz": 36.8,
+          "max_mHz": 198.7
+        }
+      },
+      "table6_weighted_mean_mHz": 74.0,
+      "within_pm8_of_78p3_weighted": true
+    }
+  },
+  "sha256": {
+    "replay_20260724_130842_v6_run1.csv": "2F6C395E2AF6B1352EA41802011178E8EEFFA03A19F9E8AED966D3DA510804D7",
+    "replay_20260724_131622_v6_run2.csv": "CEF09BE313E2022B3B2368347053ADB17344B1E284697D3B50E24B9EA4738DFE",
+    "replay_20260724_132305_v6_run3.csv": "EEFC5FB8158272CAFF2781CDCA2D0115A5BB52CA4020DF729CF4A2FDA05E4C63"
+  }
+}

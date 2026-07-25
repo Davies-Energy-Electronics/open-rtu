@@ -1,0 +1,645 @@
+{
+  "schema_version": "1.0",
+  "tool": "tost_sweep.py",
+  "input": {
+    "source_file": "replay_canonical.csv",
+    "sha256": "dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f"
+  },
+  "constants": {
+    "alpha": 0.05,
+    "delta_min_mHz": 5.0,
+    "delta_max_mHz": 200.0,
+    "delta_step_mHz": 5.0,
+    "class_I_delta_mHz": 10.0,
+    "class_II_delta_mHz": 100.0
+  },
+  "windows": {
+    "Pre-event nominal": {
+      "index_range": "0-45",
+      "n_frames": 48,
+      "mean_error_mHz": -21.197916666666927,
+      "std_error_mHz": 20.435612319832938,
+      "crossover_delta_mHz": 30.0,
+      "sweep": [
+        {
+          "delta_mHz": 5.0,
+          "p_tost": 0.9999999800749046,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 10.0,
+          "p_tost": 0.9999265891481874,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 15.0,
+          "p_tost": 0.9821906926493069,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 20.0,
+          "p_tost": 0.6576745684807968,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 25.0,
+          "p_tost": 0.09869817778920009,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 30.0,
+          "p_tost": 0.001421907208425166,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 35.0,
+          "p_tost": 1.4395281255907832e-06,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 40.0,
+          "p_tost": 9.184364380132592e-11,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 45.0,
+          "p_tost": 3.3306690738754696e-16,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 50.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 55.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 60.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 65.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 70.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 75.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 80.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 85.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 90.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 95.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 100.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 105.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 110.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 115.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 120.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 125.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 130.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 135.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 140.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 145.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 150.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 155.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 160.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 165.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 170.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 175.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 180.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 185.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 190.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 195.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 200.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        }
+      ]
+    },
+    "Post-event settled": {
+      "index_range": "301-359",
+      "n_frames": 63,
+      "mean_error_mHz": -9.153968253967841,
+      "std_error_mHz": 39.365552426835755,
+      "crossover_delta_mHz": 20.0,
+      "sweep": [
+        {
+          "delta_mHz": 5.0,
+          "p_tost": 0.7988617005243974,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 10.0,
+          "p_tost": 0.43227508617403854,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 15.0,
+          "p_tost": 0.11925244380289479,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 20.0,
+          "p_tost": 0.01437567155608821,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 25.0,
+          "p_tost": 0.0006990903406440818,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 30.0,
+          "p_tost": 1.3159933560658033e-05,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 35.0,
+          "p_tost": 9.375051557292124e-08,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 40.0,
+          "p_tost": 2.4942192755617043e-10,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 45.0,
+          "p_tost": 2.4580337765200966e-13,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 50.0,
+          "p_tost": 1.1102230246251565e-16,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 55.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 60.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 65.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 70.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 75.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 80.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 85.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 90.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 95.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 100.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 105.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 110.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 115.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 120.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 125.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 130.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 135.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 140.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 145.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 150.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 155.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 160.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 165.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 170.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 175.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 180.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 185.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 190.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 195.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 200.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        }
+      ]
+    },
+    "Full 360 s replay": {
+      "index_range": "0-359",
+      "n_frames": 379,
+      "mean_error_mHz": 1.662532981530246,
+      "std_error_mHz": 208.93290452321972,
+      "crossover_delta_mHz": 20.0,
+      "sweep": [
+        {
+          "delta_mHz": 5.0,
+          "p_tost": 0.3779086515323111,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 10.0,
+          "p_tost": 0.21861850600735988,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 15.0,
+          "p_tost": 0.10697874698022247,
+          "equivalent": false
+        },
+        {
+          "delta_mHz": 20.0,
+          "p_tost": 0.04375826581019071,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 25.0,
+          "p_tost": 0.01483247522879666,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 30.0,
+          "p_tost": 0.004140109232530276,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 35.0,
+          "p_tost": 0.0009471770201082141,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 40.0,
+          "p_tost": 0.00017699515399360877,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 45.0,
+          "p_tost": 2.694377656348168e-05,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 50.0,
+          "p_tost": 3.3345919469573992e-06,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 55.0,
+          "p_tost": 3.349866236623811e-07,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 60.0,
+          "p_tost": 2.7281567394066286e-08,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 65.0,
+          "p_tost": 1.7994193912684864e-09,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 70.0,
+          "p_tost": 9.604234074700457e-11,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 75.0,
+          "p_tost": 4.145461751647872e-12,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 80.0,
+          "p_tost": 1.4460654895742664e-13,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 85.0,
+          "p_tost": 4.052314039881821e-15,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 90.0,
+          "p_tost": 1.1102230246251565e-16,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 95.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 100.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 105.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 110.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 115.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 120.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 125.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 130.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 135.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 140.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 145.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 150.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 155.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 160.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 165.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 170.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 175.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 180.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 185.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 190.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 195.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        },
+        {
+          "delta_mHz": 200.0,
+          "p_tost": 0.0,
+          "equivalent": true
+        }
+      ]
+    }
+  }
+}

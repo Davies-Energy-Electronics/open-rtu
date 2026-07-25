@@ -1,0 +1,45 @@
+{
+  "tool": "C.4 multi-event analysis (chat, 25 Jul 2026)",
+  "event": "December2023Peak",
+  "window": "2023-12-22 13:08:11 to 13:14:10, nadir 49.275 Hz at idx 120",
+  "capture": "replay_20260725_195552_dec2023peak_v6.csv",
+  "capture_sha256": "AFCB56E01D37ED27B6EB239025DBB10523F47D5934FF38620CAE57E84155E48E",
+  "neso_reference": "neso_trajectory_December2023Peak.csv",
+  "neso_sha256": "D8B4702088388F96E0343A12769D96CCD93CDC5F991D25A13A3DA0142F9E09AA",
+  "align_lag_s": 0.08,
+  "align_corr": 0.9113,
+  "overall": {
+    "n": 18000,
+    "mean_mHz": 114.8,
+    "max_mHz": 422.3,
+    "classII_pct": 48.9,
+    "classI_pct": 3.0
+  },
+  "regions": {
+    "Pre-event plateau": {
+      "n": 5000,
+      "mean_mHz": 75.4,
+      "max_mHz": 162.4,
+      "classII_pct": 85.0
+    },
+    "Collapse": {
+      "n": 1000,
+      "mean_mHz": 95.3,
+      "max_mHz": 422.3,
+      "classII_pct": 57.6
+    },
+    "Nadir & partial recovery": {
+      "n": 3000,
+      "mean_mHz": 88.1,
+      "max_mHz": 382.6,
+      "classII_pct": 59.7
+    },
+    "Slow recovery": {
+      "n": 9000,
+      "mean_mHz": 147.8,
+      "max_mHz": 370.5,
+      "classII_pct": 24.3
+    }
+  },
+  "note": "report-only per roadmap: Aug-2019 tolerance bands intentionally not applied"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.1",
+  "tool": "tve_metrics.py",
+  "input": {
+    "source_file": "replay_canonical.csv",
+    "sha256": "dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f",
+    "frames_processed": 379
+  },
+  "constants": {
+    "K_design": 0.2364,
+    "V_nom_V": 3.25,
+    "V_ref_V": 0.7683,
+    "T_report_s": 0.02,
+    "pmu_tve_threshold_pct": 1.0
+  },
+  "overall": {
+    "tve_max_pct": 8.722382600262966,
+    "tve_mean_pct": 3.183176247466138,
+    "tve_median_pct": 3.090638557417224,
+    "tve_p95_pct": 6.015478560438337,
+    "tve_std_pct": 1.6107978009514985,
+    "magnitude_contrib_mean_pct": 2.085645002484669,
+    "magnitude_contrib_max_pct": 5.193283873486925,
+    "phase_contrib_mean_pct": 2.0046875933393804,
+    "phase_contrib_max_pct": 7.561830936408015,
+    "compliance": "Above PMU threshold"
+  },
+  "regions": {
+    "Pre-event nominal": {
+      "index_range": "0\u201345",
+      "frame_count": 48,
+      "tve_max_pct": 3.0401573571565135,
+      "tve_mean_pct": 2.433980447666775,
+      "tve_p95_pct": 2.88990856741514,
+      "tve_std_pct": 0.30372366862198213,
+      "magnitude_contrib_mean_pct": 2.40574428391687,
+      "magnitude_contrib_max_pct": 3.0326695301314577,
+      "phase_contrib_mean_pct": 0.3044083541246713,
+      "phase_contrib_max_pct": 0.9724568416308427,
+      "compliance": "Above PMU threshold"
+    },
+    "RoCoF descent": {
+      "index_range": "46\u2013119",
+      "frame_count": 78,
+      "tve_max_pct": 8.388497037418166,
+      "tve_mean_pct": 3.8456250906072067,
+      "tve_p95_pct": 6.6274561006065795,
+      "tve_std_pct": 1.747455312285103,
+      "magnitude_contrib_mean_pct": 1.9865704168710803,
+      "magnitude_contrib_max_pct": 4.906937394247048,
+      "phase_contrib_mean_pct": 2.9289367174706626,
+      "phase_contrib_max_pct": 7.236207209048845,
+      "compliance": "Above PMU threshold"
+    },
+    "Nadir + early recovery": {
+      "index_range": "120\u2013200",
+      "frame_count": 85,
+      "tve_max_pct": 8.722382600262966,
+      "tve_mean_pct": 3.9411661425135143,
+      "tve_p95_pct": 6.682518050435436,
+      "tve_std_pct": 1.5481989835555634,
+      "magnitude_contrib_mean_pct": 2.3984197349380985,
+      "magnitude_contrib_max_pct": 5.193283873486925,
+      "phase_contrib_mean_pct": 2.749021858341569,
+      "phase_contrib_max_pct": 7.561830936408015,
+      "compliance": "Above PMU threshold"
+    },
+    "Late recovery": {
+      "index_range": "201\u2013300",
+      "frame_count": 105,
+      "tve_max_pct": 6.2734005225065905,
+      "tve_mean_pct": 3.538310792258733,
+      "tve_p95_pct": 5.099140484854732,
+      "tve_std_pct": 1.2146968901942536,
+      "magnitude_contrib_mean_pct": 2.287424927018836,
+      "magnitude_contrib_max_pct": 4.972016139528831,
+      "phase_contrib_mean_pct": 2.432012203525689,
+      "phase_contrib_max_pct": 5.492014267941558,
+      "compliance": "Above PMU threshold"
+    },
+    "Post-event settled": {
+      "index_range": "301\u2013359",
+      "frame_count": 63,
+      "tve_max_pct": 4.1270535335542275,
+      "tve_mean_pct": 1.31924164973783,
+      "tve_p95_pct": 3.2792039563950244,
+      "tve_std_pct": 0.8462576073257233,
+      "magnitude_contrib_mean_pct": 1.2061260792225286,
+      "magnitude_contrib_max_pct": 3.9958349603019734,
+      "phase_contrib_mean_pct": 0.43936180294759514,
+      "phase_contrib_max_pct": 1.0868201371828943,
+      "compliance": "Above PMU threshold"
+    }
+  }
+}
