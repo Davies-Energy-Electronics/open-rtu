@@ -8,7 +8,7 @@ toolchain and every capture reported in:
 > Replay Validation Against NESO Frequency-Event Records.* MDPI Sensors.
 > [DOI on acceptance]
 
-Archived at Zenodo, DOI [10.5281/zenodo.21575263](https://doi.org/10.5281/zenodo.21575263),
+Archived at Zenodo, concept DOI [10.5281/zenodo.21575262](https://doi.org/10.5281/zenodo.21575262),
 under GPL-3.0.
 
 ## One command reproduces the paper
@@ -38,6 +38,7 @@ open-rtu/
 ├── firmware/          Feather 1 measurement builds, Feather 2 generator
 ├── hmi/               SCADA_HMI.py — DNP3 ingest, live traces, capture
 ├── figures/           regenerable paper figures
+├── characterisation/  Section 3.12 acquisition-chain characterisation
 ├── hashes.txt         SHA-256 manifest of every released file
 ├── .gitattributes     line-ending conversion OFF — see below
 ├── README.md
