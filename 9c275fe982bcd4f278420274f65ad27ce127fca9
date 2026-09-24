@@ -1,0 +1,1 @@
+v1.1.0 was retagged. The first attempt stored LF blobs because .gitattributes was added without restaging; the canonical capture hash broke on a clean clone. This commit stores every released file byte-identical to the authoring copy the paper's hashes were computed from.
