@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "tool": "kalman_freq.py",
+  "source_file": "replay_20260627_102507V2.csv",
+  "provenance": "V4 row was an estimate in Draft V8; this is the true filter output. Q and R derived from first principles.",
+  "tuning": {
+    "R_measurement_noise_var_hz2": 0.0010779980277574898,
+    "R_rms_mhz": 32.83288028421341,
+    "R_source": "pooled variance of V2 (f_Vb - reference) over quiet regions 0-45 and 301-359",
+    "Q_process_noise_intensity": 0.0008356097348183354,
+    "Q_source": "variance of frame-to-frame change in reference RoCoF",
+    "dt_s": 1.0,
+    "manual_override": false
+  },
+  "v2_stats": {
+    "n": 379,
+    "mean_mhz": 1.662532981530246,
+    "std_mhz": 208.93290452321972,
+    "rmse_mhz": 208.6637086274301,
+    "max_mhz": 629.100000000001
+  },
+  "v4_stats": {
+    "n": 379,
+    "mean_mhz": 1.6963082497642485,
+    "std_mhz": 194.25387993878257,
+    "rmse_mhz": 194.00485515588002,
+    "max_mhz": 585.9998221645881
+  },
+  "v4_improvement_over_v2_std_pct": 7.025712210307111,
+  "achieved_std_mhz": {
+    "V4 Kalman": 194.25387993878257
+  }
+}

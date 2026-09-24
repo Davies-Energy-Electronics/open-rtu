@@ -1,0 +1,45 @@
+{
+  "alternation": {
+    "amplitude_us": 0.010705339880928477,
+    "random_jitter_us": 1.0072802094345228,
+    "mhz_from_alternation": 0.03784909212355657,
+    "mhz_from_random_jitter": 3.5612733332307847
+  },
+  "interval_us": {
+    "n": 16383,
+    "median": 539,
+    "mad_sigma": 0.0,
+    "mean": 539.6144173838735,
+    "sd": 1.0073370992948394,
+    "min": 539,
+    "max": 545
+  },
+  "sampling_rate_hz": {
+    "from_mean": 1853.1750964848948,
+    "from_median": 1855.287569573284,
+    "stated_in_paper": 2000.0,
+    "derived_in_3_12": 1854.6
+  },
+  "jitter": {
+    "sigma_sd_us": 1.0073370992948394,
+    "sigma_mad_us": 0.0,
+    "mhz_from_sd": 3.5614744692608373,
+    "mhz_from_mad": 0.0
+  },
+  "residual": {
+    "archived_floor_mhz": 5.46,
+    "estimator_char_mhz": 3.05,
+    "unattributed_mhz": 4.528697384458361,
+    "sigma_t_that_would_explain_it_us": 1.2809090521969153
+  },
+  "noise_cross_check": {
+    "n": 16384,
+    "sd_codes": 0.9723262336799737,
+    "mean_codes": 1872.194091796875
+  },
+  "input": {
+    "file": "C_b3.txt",
+    "f0_hz": 50.0,
+    "amplitude_v": 1.0939
+  }
+}

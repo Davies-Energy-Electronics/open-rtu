@@ -1,0 +1,14 @@
+{
+  "label": "B1_ac_running",
+  "fs_hz": 1999.8779,
+  "f_fitted_hz": 49.99693346847792,
+  "amplitude_volts": 1.0938567814489333,
+  "bias_volts": 1.506835660270719,
+  "sigma_ac_millivolts": 12.810879457215501,
+  "sigma_quiet_millivolts": 0.687,
+  "stimulus_term_millivolts": 12.792445562413237,
+  "n_windows": 81,
+  "n_estimates": 81,
+  "freq_mean_hz": 49.99686784675653,
+  "freq_sd_mhz": 4.307550589270382
+}

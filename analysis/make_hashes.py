@@ -30,7 +30,8 @@ MANIFEST = os.path.join(ROOT, "hashes.txt")
 
 # Directories that are part of the release. Anything outside them is working
 # material and is deliberately not manifested.
-INCLUDE_DIRS = ("analysis", "captures", "trajectories", "firmware", "hmi", "figures")
+INCLUDE_DIRS = ("analysis", "captures", "trajectories", "firmware", "hmi", "figures",
+                "characterisation")
 INCLUDE_ROOT_FILES = ("README.md", "LICENSE", "CITATION.cff", ".gitattributes")
 
 SKIP_NAMES = {".DS_Store", "Thumbs.db", "hashes.txt"}

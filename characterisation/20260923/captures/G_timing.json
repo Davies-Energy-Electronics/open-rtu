@@ -1,0 +1,45 @@
+{
+  "alternation": {
+    "amplitude_us": 0.004852417871461512,
+    "random_jitter_us": 1.1389603308115517,
+    "mhz_from_alternation": 0.01715588791030614,
+    "mhz_from_random_jitter": 4.026832867096609
+  },
+  "interval_us": {
+    "n": 16383,
+    "median": 550,
+    "mad_sigma": 0.0,
+    "mean": 550.5028383080022,
+    "sd": 1.1389706679975466,
+    "min": 549,
+    "max": 559
+  },
+  "sampling_rate_hz": {
+    "from_mean": 1816.5210611330356,
+    "from_median": 1818.1818181818182,
+    "stated_in_paper": 2000.0,
+    "derived_in_3_12": 1854.6
+  },
+  "jitter": {
+    "sigma_sd_us": 1.1389706679975466,
+    "sigma_mad_us": 0.0,
+    "mhz_from_sd": 4.026869414568185,
+    "mhz_from_mad": 0.0
+  },
+  "residual": {
+    "archived_floor_mhz": 5.46,
+    "estimator_char_mhz": 3.05,
+    "unattributed_mhz": 4.528697384458361,
+    "sigma_t_that_would_explain_it_us": 1.2809090521969153
+  },
+  "noise_cross_check": {
+    "n": 16384,
+    "sd_codes": 955.4674669982385,
+    "mean_codes": 1877.2457275390625
+  },
+  "input": {
+    "file": "G_stim_v2arith.txt",
+    "f0_hz": 50.0,
+    "amplitude_v": 1.0939
+  }
+}

@@ -170,9 +170,9 @@
     "cycle_mean_ms": 949.7768862275449,
     "pmu_target_ratio": 47.48884431137724,
     "classII_target_ratio": 9.497768862275448,
-    "acquisition_estimate_us": 958000,
-    "acquisition_pct_of_cycle": 100.86579426091498,
-    "residual_compute_us": -8223.113772455137,
-    "residual_pct_of_cycle": -0.8657942609149858
+    "acquisition_estimate_us": 799245.1027944111,
+    "acquisition_pct_of_cycle": 84.15082682933709,
+    "residual_compute_us": 150531.78343313374,
+    "residual_pct_of_cycle": 15.84917317066292
   }
 }

@@ -1,0 +1,23 @@
+{
+  "n_windows": 81,
+  "window_n": 200,
+  "pooling": "mean",
+  "mean_hz": 49.99998000675575,
+  "sd_mhz": 3.0777092004091413,
+  "successive_difference_mhz": 2.981256600965011,
+  "sd_uncertainty_mhz": 0.24331427622371282,
+  "min_hz": 49.99411308358884,
+  "max_hz": 50.00608358765722,
+  "periods_per_window_mean": 8,
+  "periods_per_window_expected": 7.9498999999999995,
+  "raw_crossings_per_window": 10,
+  "raw_crossings_expected": 9.9499,
+  "looks_like_noise_not_signal": false,
+  "bias_code": 1870.5455322265625,
+  "sd_codes": 956.17358252516,
+  "input": {
+    "file": "F_stim_baseline.txt",
+    "f0_hz": 50.0,
+    "noise_mhz": 3.047
+  }
+}

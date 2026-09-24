@@ -1,0 +1,45 @@
+{
+  "alternation": {
+    "amplitude_us": 0.0056944362643776,
+    "random_jitter_us": 1.197708633787584,
+    "mhz_from_alternation": 0.020132872487879965,
+    "mhz_from_random_jitter": 4.2345394841843795
+  },
+  "interval_us": {
+    "n": 16383,
+    "median": 550,
+    "mad_sigma": 1.4826,
+    "mean": 550.7080510285051,
+    "sd": 1.1977221714709023,
+    "min": 549,
+    "max": 560
+  },
+  "sampling_rate_hz": {
+    "from_mean": 1815.8441630413702,
+    "from_median": 1818.1818181818182,
+    "stated_in_paper": 2000.0,
+    "derived_in_3_12": 1854.6
+  },
+  "jitter": {
+    "sigma_sd_us": 1.1977221714709023,
+    "sigma_mad_us": 1.4826,
+    "mhz_from_sd": 4.23458734712276,
+    "mhz_from_mad": 5.241782568935876
+  },
+  "residual": {
+    "archived_floor_mhz": 5.46,
+    "estimator_char_mhz": 3.05,
+    "unattributed_mhz": 4.528697384458361,
+    "sigma_t_that_would_explain_it_us": 1.2809090521969153
+  },
+  "noise_cross_check": {
+    "n": 16384,
+    "sd_codes": 0.8895889869167123,
+    "mean_codes": 1872.125732421875
+  },
+  "input": {
+    "file": "D_b2.txt",
+    "f0_hz": 50.0,
+    "amplitude_v": 1.0939
+  }
+}

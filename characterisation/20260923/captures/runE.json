@@ -1,0 +1,14 @@
+{
+  "n_windows": 305,
+  "mean_hz": 49.9947868852459,
+  "sd_mhz": 7.972742945124371,
+  "successive_difference_mhz": 7.805908501255209,
+  "min_hz": 49.97,
+  "max_hz": 50.015,
+  "expected_quantisation_step_mhz": 2.4994787157011555,
+  "reference": {
+    "archived_floor_mhz": 5.46,
+    "september_clean_mhz": 3.047
+  },
+  "input": "runE_v2.txt"
+}
