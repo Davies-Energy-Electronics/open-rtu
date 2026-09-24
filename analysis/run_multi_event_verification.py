@@ -163,7 +163,7 @@ def main(argv=None):
             f'{od}/Figure_TOST_{args.label}.png',
         ],
     }
-    with open(f'{od}/multi_event_summary.json', 'w', encoding='utf-8') as fh:
+    with open(f'{od}/multi_event_summary.json', 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(summary, fh, indent=2)
     print(f'  Summary written: {od}/multi_event_summary.json')
     return 0

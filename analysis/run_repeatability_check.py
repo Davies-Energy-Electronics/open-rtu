@@ -4,8 +4,10 @@ run_repeatability_check.py
 
 Aggregate N independent V2 captures of the SAME NESO trajectory (default:
 9 August 2019) and report the run-to-run spread of every headline metric.
-This is the evidence that supports Roadmap Part C.2 — the repeatability
-claim ("independent captures agree to within run-to-run tolerance").
+This supports a repeatability claim of the form "independent captures
+agree to within run-to-run tolerance" for the canonical V2 build. The
+repeatability result reported in the paper (Section 3.8) is for the V6
+parallel build and is reproduced by analyse_v6_repeatability.py.
 
 Each capture is passed through run_live_verification.py individually,
 then this wrapper aggregates the per-run summary JSONs and reports:

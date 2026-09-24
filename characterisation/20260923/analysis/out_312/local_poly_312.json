@@ -1,0 +1,88 @@
+{
+  "synthetic": [
+    {
+      "case": "constant level",
+      "quantised": false,
+      "n_records": 20,
+      "mean_error_pct": -0.05885933480574812,
+      "sd_error_pct": 0.7305169068126438,
+      "max_abs_error_pct": 1.5851748244227526
+    },
+    {
+      "case": "constant level",
+      "quantised": true,
+      "n_records": 20,
+      "mean_error_pct": 0.0782831924946853,
+      "sd_error_pct": 0.5867773521000407,
+      "max_abs_error_pct": 1.4525570247753583
+    },
+    {
+      "case": "50 Hz sine",
+      "quantised": false,
+      "n_records": 20,
+      "mean_error_pct": 0.11918651427845595,
+      "sd_error_pct": 0.5690656198966336,
+      "max_abs_error_pct": 1.095042378522093
+    },
+    {
+      "case": "50 Hz sine",
+      "quantised": true,
+      "n_records": 20,
+      "mean_error_pct": 0.02004224386925879,
+      "sd_error_pct": 0.4448410709252531,
+      "max_abs_error_pct": 0.9148173598372167
+    },
+    {
+      "case": "50 Hz sine + H3 (-38.8 dBc)",
+      "quantised": false,
+      "n_records": 20,
+      "mean_error_pct": -0.03420907346040003,
+      "sd_error_pct": 0.44961750092317543,
+      "max_abs_error_pct": 0.7591112299340175
+    },
+    {
+      "case": "50 Hz sine + H3 (-38.8 dBc)",
+      "quantised": true,
+      "n_records": 20,
+      "mean_error_pct": -0.16705715533026297,
+      "sd_error_pct": 0.5886362177882943,
+      "max_abs_error_pct": 1.2769494663764314
+    }
+  ],
+  "quiet_A1_estimate_codes": 0.8340037692764103,
+  "quiet_A1_true_codes": 0.852647349090491,
+  "B1_pooled_codes": 3.445449495928642,
+  "B1_pooled_corrected_codes": 3.297080857347983,
+  "ratio_to_0659_raw": 4.2132818017325695,
+  "ratio_to_0659_corrected": 4.031848614098153,
+  "ratio_to_0905_raw": 3.8071265148382785,
+  "ratio_to_0905_corrected": 3.6431832677878266,
+  "top5_harmonics": [
+    {
+      "h": 19,
+      "f_hz": 949.9415592689179,
+      "share_pct": 25.20097720948053
+    },
+    {
+      "h": 17,
+      "f_hz": 849.9477109248213,
+      "share_pct": 12.745866476462094
+    },
+    {
+      "h": 15,
+      "f_hz": 749.9538625807246,
+      "share_pct": 12.39962663537507
+    },
+    {
+      "h": 11,
+      "f_hz": 549.9661658925314,
+      "share_pct": 12.03242865708733
+    },
+    {
+      "h": 13,
+      "f_hz": 649.960014236628,
+      "share_pct": 10.469907579328755
+    }
+  ],
+  "harmonic_share_pct": 84.79301397995643
+}

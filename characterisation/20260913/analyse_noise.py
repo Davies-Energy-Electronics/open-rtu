@@ -18,6 +18,16 @@ Usage:
 Writes a JSON sidecar so the figures can be chained into crb_analysis.py
 rather than retyped.
 
+CRB FIGURE — NOT THE BOUND THE PAPER USES. The "CRB at N=200, this SNR" line
+printed by this script, and the sidecar field crb_mhz_at_freq_win, use the
+coefficient 6 in the Rife-Boorstyn expression. That is the bound for a
+COMPLEX exponential. For the real sampled sinusoid the paper analyses the
+coefficient is 12 (analysis/crb_analysis.py, confirmed by
+analysis/crb_confirm.py), so the figure printed here is LOW by exactly
+sqrt(2). It is left unchanged because the archived sidecars were generated
+with it; it is not used anywhere in the paper. The Section 3.12 bounds
+(0.301 and 0.332 mHz at 61.4 dB) come from analysis/crb_analysis.py.
+
 Standard library plus numpy.
 """
 from __future__ import annotations
@@ -77,6 +87,10 @@ def analyse(codes, meta, label):
 
     # Cramer-Rao bound at the estimator's own basis, with this measured noise.
     rho = AMPLITUDE ** 2 / (2 * sd_v ** 2)
+    # NOTE: coefficient 6 is the COMPLEX-exponential bound. The paper uses the
+    # real-sinusoid bound (coefficient 12, analysis/crb_analysis.py), which is
+    # larger by sqrt(2). This figure is kept as archived and is not used by
+    # the paper; see the module docstring.
     crb_hz = math.sqrt(6.0 * fs * fs /
                        ((2 * math.pi) ** 2 * rho * FREQ_WIN * (FREQ_WIN ** 2 - 1)))
 

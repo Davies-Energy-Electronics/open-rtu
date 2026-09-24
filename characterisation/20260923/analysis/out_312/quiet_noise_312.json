@@ -1,0 +1,130 @@
+{
+  "records": [
+    {
+      "file": "20260913/A1_quiet_single.txt",
+      "warmed": true,
+      "sd_code_raw": 0.852647349090491,
+      "sd_code_detrended": 0.8526242812958528,
+      "mv_raw": 0.6871150798531429,
+      "mv_detrended": 0.6870964904215663
+    },
+    {
+      "file": "20260913/A2_quiet_single_run2.txt",
+      "warmed": false,
+      "sd_code_raw": 0.7869244511934854,
+      "sd_code_detrended": 0.7857809573181445,
+      "mv_raw": 0.6341515723903545,
+      "mv_detrended": 0.6332300754944754
+    },
+    {
+      "file": "20260913/A3_quiet_single_run3.txt",
+      "warmed": false,
+      "sd_code_raw": 0.8150440876827412,
+      "sd_code_detrended": 0.8133890271726215,
+      "mv_raw": 0.6568120853120991,
+      "mv_detrended": 0.6554783369156656
+    },
+    {
+      "file": "20260923/captures/A1_quiet_single_run2.txt",
+      "warmed": true,
+      "sd_code_raw": 0.8612272571482048,
+      "sd_code_detrended": 0.8602234761161486,
+      "mv_raw": 0.6940292914747438,
+      "mv_detrended": 0.6932203836833432
+    },
+    {
+      "file": "20260923/captures/A1_quiet_single_run3.txt",
+      "warmed": true,
+      "sd_code_raw": 0.9941181709269,
+      "sd_code_detrended": 0.992712291863997,
+      "mv_raw": 0.801120870344022,
+      "mv_detrended": 0.7999879275094481
+    },
+    {
+      "file": "20260923/captures/A2_quiet_roundrobin_run1.txt",
+      "warmed": true,
+      "sd_code_raw": 1.130080148477899,
+      "sd_code_detrended": 1.1286138874929672,
+      "mv_raw": 0.9106872991396989,
+      "mv_detrended": 0.9095056968807794
+    },
+    {
+      "file": "20260923/captures/A2_quiet_roundrobin_run2.txt",
+      "warmed": false,
+      "sd_code_raw": 0.8980361979081419,
+      "sd_code_detrended": 0.8978844799660621,
+      "mv_raw": 0.7236921741384295,
+      "mv_detrended": 0.7235699105953615
+    },
+    {
+      "file": "20260923/captures/A2_quiet_roundrobin_run3.txt",
+      "warmed": false,
+      "sd_code_raw": 0.9284937022992833,
+      "sd_code_detrended": 0.9284700772254784,
+      "mv_raw": 0.7482366831715836,
+      "mv_detrended": 0.7482176446505686
+    }
+  ],
+  "sept13_mv_raw": {
+    "rms": 0.659716470700047,
+    "mean": 0.6593595791851988,
+    "half_range_over_mean_pct": 4.016284068264989,
+    "full_range_over_mean_pct": 8.032568136529978
+  },
+  "sept13_mv_detrended": {
+    "rms": 0.6589723731756133,
+    "mean": 0.6586016342772357,
+    "half_range_over_mean_pct": 4.089453481709402,
+    "full_range_over_mean_pct": 8.178906963418804
+  },
+  "conditions": {
+    "single_warm": {
+      "n": 3,
+      "rms_mv_raw": 0.7292915373354447,
+      "mean_mv_raw": 0.7274217472239695,
+      "half_range_over_mean_pct_mv_raw": 7.836292420865533,
+      "full_range_over_mean_pct_mv_raw": 15.672584841731066,
+      "rms_mv_detrended": 0.7286143862758904,
+      "mean_mv_detrended": 0.7267682672047858,
+      "half_range_over_mean_pct_mv_detrended": 7.7666735176861925,
+      "full_range_over_mean_pct_mv_detrended": 15.533347035372385,
+      "code_rms_raw": 0.9049844986026201
+    },
+    "single_cold": {
+      "n": 2,
+      "rms_mv_raw": 0.6455812621882652,
+      "mean_mv_raw": 0.6454818288512267,
+      "half_range_over_mean_pct_mv_raw": 1.7553176486837658,
+      "full_range_over_mean_pct_mv_raw": 3.5106352973675317,
+      "rms_mv_detrended": 0.644450222544948,
+      "mean_mv_detrended": 0.6443542062050704,
+      "half_range_over_mean_pct_mv_detrended": 1.7263999526146891,
+      "full_range_over_mean_pct_mv_detrended": 3.4527999052293783,
+      "code_rms_raw": 0.8011076571699836
+    },
+    "rr_warm": {
+      "n": 1,
+      "rms_mv_raw": 0.9106872991396989,
+      "mean_mv_raw": 0.9106872991396989,
+      "half_range_over_mean_pct_mv_raw": 0.0,
+      "full_range_over_mean_pct_mv_raw": 0.0,
+      "rms_mv_detrended": 0.9095056968807794,
+      "mean_mv_detrended": 0.9095056968807794,
+      "half_range_over_mean_pct_mv_detrended": 0.0,
+      "full_range_over_mean_pct_mv_detrended": 0.0,
+      "code_rms_raw": 1.130080148477899
+    },
+    "rr_cold": {
+      "n": 2,
+      "rms_mv_raw": 0.7360667418627267,
+      "mean_mv_raw": 0.7359644286550066,
+      "half_range_over_mean_pct_mv_raw": 1.6675064770460373,
+      "full_range_over_mean_pct_mv_raw": 3.3350129540920745,
+      "rms_mv_detrended": 0.735996963066229,
+      "mean_mv_detrended": 0.735893777622965,
+      "half_range_over_mean_pct_mv_detrended": 1.674680151177702,
+      "full_range_over_mean_pct_mv_detrended": 3.349360302355404,
+      "code_rms_raw": 0.9133919114932926
+    }
+  }
+}

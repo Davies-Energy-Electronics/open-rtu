@@ -8,7 +8,9 @@ over the full 360 s replay window and over the five regions of the estimator
 decomposition reported in §3.1 of the paper (pre-event nominal, RoCoF descent,
 nadir and early recovery, late recovery, post-event settled).
 
-Following IEEE C37.118.1-2011 §5.2, the per-frame TVE-equivalent is:
+Following the TVE definition of IEC/IEEE 60255-118-1 (formerly IEEE
+C37.118.1-2011, §5.2), which is the standard the paper cites, the per-frame
+TVE-equivalent is:
 
     TVE(n) = sqrt[ (V_meas(n) - V_ref)^2
                  + ( V_meas(n) * 2*pi * Delta_f(n) * T_report )^2 ]
@@ -19,20 +21,21 @@ and V_ref and T_report as set out below. Both constants are conventions rather
 than measurements, and both are stated here explicitly because neither is
 self-evident from the numbers this script prints.
 
-V_ref — DESIGN-INTENT, not measured:
+V_ref — A RETAINED NOMINAL CONVENTION, not measured:
 
     V_ref = K_design * V_nom = 0.2364 * 3.25 = 0.7683 V
 
-K_design is the nominal conditioning-chain divider ratio (§2.1.2). The gain
-actually measured on the build is 0.220 (§2.8.3, §2.8.5), and the mean Vb_rms
-over the pre-event window of this capture is 0.749817 V. Referencing to the
-design value therefore introduces a fixed +2.406 % offset into the magnitude
-term — which is the entirety of the 2.41 % mean magnitude contribution
-reported for the pre-event region below. That floor is a calibration-reference
-choice, not instrument error. The design value is retained because it is the
-constant the released JSON sidecars and figures were generated with; anyone
-re-deriving these numbers against §2.8 needs to know which of the two gains
-is in play.
+K_design = 0.2364 is an earlier estimate of the conditioning-chain gain that the
+as-built analysis of the paper (Section 2.1.2) withdraws: with the 100 nF bias
+capacitor in the forward path the gain at 50 Hz is 0.2240 (0.728 V for 3.25 V in),
+and the breadboard bring-up read 0.715 V. The value is retained as the magnitude
+reference because it lies within 0.2 % of the 0.7673 V mean Vb_rms over the whole
+canonical run, and because the released JSON sidecars were generated with it;
+changing it changes every TVE figure. The mean Vb_rms over the pre-event window of
+this capture is 0.749817 V, 2.406 % below V_ref, which is the entirety of the
+2.41 % pre-event magnitude contribution. Against other references the aggregate
+TVE-equivalent is 3.73 % mean / 10.07 % max (V_ref = 0.7498 V) and 6.08 % / 12.59 %
+(V_ref = 0.728 V), against 3.18 % / 8.72 % here (paper Section 3.4).
 
 T_report = 0.020 s — PMU convention, not the RTU's cadence:
 
@@ -45,10 +48,10 @@ reflects the per-reporting-window phase error contribution (the PMU-relevant
 quantity) rather than the unbounded long-baseline drift that would arise
 without GPS-locked timestamping.
 
-PMU compliance threshold (IEEE C37.118.1): TVE <= 1.0 %. The open RTU is not a
-PMU and makes no claim to that threshold. The metric is reported as a
-TVE-equivalent so that the distance to PMU-class instrumentation is quantified
-rather than asserted.
+PMU compliance threshold (IEC/IEEE 60255-118-1, formerly IEEE C37.118.1):
+TVE <= 1.0 %. The open RTU is not a PMU and makes no claim to that threshold.
+The metric is reported as a TVE-equivalent so that the distance to PMU-class
+instrumentation is quantified rather than asserted.
 
 Usage:
     python tve_metrics.py replay_20260627_102507V2.csv
@@ -99,12 +102,12 @@ import sys
 from pathlib import Path
 
 # ============================================================================
-# Constants (paper §2.1.2 conditioning chain, §2.7 tiers, §3.1 regions)
+# Constants (paper §2.1.2 conditioning chain, §2.8 tiers, §3.1 regions)
 # ============================================================================
 
-K_DESIGN = 0.2364                 # Design-intent divider ratio (§2.1.2); measured 0.220 (§2.8.3)
-V_NOM = 3.25                      # Nominal pre-divider RMS (paper §2.2)
-V_REF = K_DESIGN * V_NOM          # Reference RMS at ADC input: 0.7683 V (design, not measured)
+K_DESIGN = 0.2364                 # Retained nominal reference (Section 3.4); as-built gain is 0.2240 (Section 2.1.2)
+V_NOM = 3.25                      # Nominal pre-divider RMS (paper §2.1.2)
+V_REF = K_DESIGN * V_NOM          # Reference RMS at ADC input: 0.7683 V (convention, not measured)
 T_REPORT = 0.020                  # PMU C37.118 frame interval (50 fps); NOT the V2 build's 1 s cadence
 PMU_TVE_THRESHOLD = 0.01          # IEEE C37.118.1 TVE compliance threshold: 1.0%
 
@@ -248,13 +251,18 @@ def read_canonical_csv(path):
 
 def analyse_regions(rows):
     """
-    Compute per-region TVE statistics for the five §5.3.4 regions.
+    Compute per-region TVE statistics for the five regions of Section 3.4 of
+    the paper (the Section 3.1 partition by replay index).
+
+    Every frame is scored (the full-stream basis). Where two frames share a
+    replay index, both are included; neither is averaged nor dropped.
 
     Inputs: list of dicts from read_canonical_csv()
     Returns: dict mapping region name to its stats dict, with separate
              magnitude-contrib and phase-contrib breakdowns.
     """
-    # Aggregate by replay_index: if multiple frames share an index, use mean
+    # Group frames by replay_index. Where several frames share an index, every
+    # one of them is scored below (full-stream basis); they are not averaged.
     by_index = {}
     for r in rows:
         idx = r["replay_index"]
@@ -316,7 +324,7 @@ def print_console_report(rows, region_stats, hash_value, source_path):
     print(f"  Frames processed:     {len(rows)}")
     print(f"  V_ref (nominal):      {V_REF:.4f} V  (K_design = {K_DESIGN}, V_nom = {V_NOM} V)")
     print(f"  T_report (PMU 50Hz):  {T_REPORT*1000:.0f} ms")
-    print(f"  PMU TVE threshold:    {100*PMU_TVE_THRESHOLD:.1f}% (IEEE C37.118.1)")
+    print(f"  PMU TVE threshold:    {100*PMU_TVE_THRESHOLD:.1f}% (IEC/IEEE 60255-118-1)")
     print()
     print("  ── PER-REGION RESULTS (§3.1 five-region partition) ─────────────")
     print()
@@ -366,7 +374,7 @@ def build_json_sidecar(rows, region_stats, hash_value, source_path):
         "schema_version": "1.1",
         "tool": "tve_metrics.py",
         "input": {
-            "source_file": str(source_path),
+            "source_file": Path(source_path).name,
             "sha256": hash_value,
             "frames_processed": len(rows),
         },
@@ -415,7 +423,7 @@ def build_json_sidecar(rows, region_stats, hash_value, source_path):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Compute TVE-equivalent characterisation of the open RTU "
-                    "canonical NESO replay capture (per IEEE C37.118.1 §5.2).",
+                    "canonical NESO replay capture (TVE as defined in IEC/IEEE 60255-118-1, formerly IEEE C37.118.1).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -454,7 +462,7 @@ def main(argv=None):
 
     if args.json:
         sidecar = build_json_sidecar(rows, region_stats, hash_value, source_path)
-        with open(args.json, "w", encoding="utf-8") as fh:
+        with open(args.json, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(sidecar, fh, indent=2)
         if not args.quiet:
             print(f"\n  JSON sidecar written: {args.json}")

@@ -32,7 +32,7 @@
     }
   ],
   "replay_measured_descent_rocof_hz_s": 0.0091,
-  "rocof_provenance": "published real-event value; NOT measured by the instrument. NESO [10] states no measured system RoCoF for the event - this input needs its own citation",
-  "dp_provenance": "1378 MW does not appear in NESO [10]; published cumulative totals are 981 / 1131 / 1481 / 1691 / 1878 MW",
+  "rocof_provenance": "nominal initial RoCoF for the event; NOT measured by the instrument and not a published measurement: the ESO technical report states no measured system RoCoF (its only Hz/s figure is the 0.125 Hz/s protection threshold). See Section 3.11",
+  "dp_provenance": "published cumulative losses in the ESO technical report: 981 / 1131 / 1481 / 1691 / 1878 MW; the primary scenario uses 1481 MW (after the embedded generation lost on RoCoF protection)",
   "claim_scope": "consistency check on published figures and on this implementation; not evidence of instrument accuracy"
 }

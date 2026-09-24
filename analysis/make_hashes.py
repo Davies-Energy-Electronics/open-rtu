@@ -4,7 +4,7 @@ make_hashes.py — write or verify hashes.txt, the release manifest.
 
 hashes.txt is what lets a reader confirm that the bundle they downloaded is the
 bundle the paper describes. It went stale the moment the analysis layer moved on
-from the v1.0.0 release, which is one half of HQ task L42; this script exists so
+from the v1.0.0 release; this script exists so
 that it cannot go stale silently again.
 
     python analysis/make_hashes.py            # rewrite hashes.txt
@@ -31,8 +31,18 @@ MANIFEST = os.path.join(ROOT, "hashes.txt")
 # Directories that are part of the release. Anything outside them is working
 # material and is deliberately not manifested.
 INCLUDE_DIRS = ("analysis", "captures", "trajectories", "firmware", "hmi", "figures",
-                "characterisation")
-INCLUDE_ROOT_FILES = ("README.md", "LICENSE", "CITATION.cff", ".gitattributes")
+                "characterisation", "hardware")
+INCLUDE_ROOT_FILES = ("README.md", "LICENSE", "CITATION.cff", ".gitattributes", "CHANGELOG.md",
+                      # derived outputs written to the repository root (v1.2.0: previously
+                      # unmanifested although the Data Availability Statement relies on them)
+                      "inertia_output.json", "crb_output.json", "hybrid_output.json",
+                      "kalman_output.json", "paper_tables_output.json",
+                      # v1.2.0: bill of materials as released data
+                      "bom.csv", "kalman_sweep_output.json",
+                      # v1.2.0: CRB cross-check output (Section 3.5)
+                      "crb_confirm_output.json",
+                      # v1.2.0: the library versions that produced the manifested outputs
+                      "requirements.txt")
 
 SKIP_NAMES = {".DS_Store", "Thumbs.db", "hashes.txt"}
 SKIP_DIRS = {".git", "__pycache__", ".ipynb_checkpoints", ".vscode", ".idea"}

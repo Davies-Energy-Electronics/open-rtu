@@ -1,0 +1,123 @@
+{
+  "record": "../../20260913/B1_ac_running.txt",
+  "f1_hz": 49.99692417204831,
+  "amplitude_v": 1.0927843764349743,
+  "residual_mv": 12.28195103647033,
+  "harmonic_table": [
+    {
+      "window": "rect",
+      "half_bw_bins": 1,
+      "harmonic_share_pct": 98.65770283638611,
+      "broadband_mv": 1.41460846584896
+    },
+    {
+      "window": "rect",
+      "half_bw_bins": 2,
+      "harmonic_share_pct": 98.66809270956914,
+      "broadband_mv": 1.4091230358033642
+    },
+    {
+      "window": "rect",
+      "half_bw_bins": 3,
+      "harmonic_share_pct": 98.67431485917213,
+      "broadband_mv": 1.405827747050188
+    },
+    {
+      "window": "rect",
+      "half_bw_bins": 5,
+      "harmonic_share_pct": 98.68754833225593,
+      "broadband_mv": 1.3987934052588686
+    },
+    {
+      "window": "rect",
+      "half_bw_bins": 8,
+      "harmonic_share_pct": 98.70867127966791,
+      "broadband_mv": 1.3874914695215859
+    },
+    {
+      "window": "hann",
+      "half_bw_bins": 1,
+      "harmonic_share_pct": 98.68183458824178,
+      "broadband_mv": 1.4014704239713498
+    },
+    {
+      "window": "hann",
+      "half_bw_bins": 2,
+      "harmonic_share_pct": 98.69072251611985,
+      "broadband_mv": 1.3967376203632629
+    },
+    {
+      "window": "hann",
+      "half_bw_bins": 3,
+      "harmonic_share_pct": 98.69713242479558,
+      "broadband_mv": 1.3933143791122808
+    },
+    {
+      "window": "hann",
+      "half_bw_bins": 5,
+      "harmonic_share_pct": 98.70986182735516,
+      "broadband_mv": 1.3864911245711085
+    },
+    {
+      "window": "hann",
+      "half_bw_bins": 8,
+      "harmonic_share_pct": 98.73300488270196,
+      "broadband_mv": 1.3739991111829928
+    }
+  ],
+  "reference_choice": {
+    "window": "rect",
+    "half_bw_bins": 5,
+    "harmonic_share_pct": 98.68754833225593,
+    "broadband_mv": 1.3987934052588686
+  },
+  "thd_pct_from_residual": 1.5697249909441193,
+  "thd_pct_analyse_sinad_h19": 1.565,
+  "harmonic_amplitudes_mv": [
+    1092.802002115041,
+    8.742146981911336,
+    12.60315071833311,
+    5.49998938926596,
+    3.2728890858128605,
+    1.4515222494328568,
+    0.11254842970603422,
+    0.6667180206139992,
+    1.5429188681734824,
+    0.39905456541382095,
+    1.4730147276569525,
+    0.3957202748443356,
+    0.9928189977463378,
+    0.05621913917106132,
+    1.0366965155675443,
+    0.48653931600368633,
+    1.278807211521322,
+    0.8214477718886357,
+    2.4155317375290815
+  ],
+  "simulation": [
+    {
+      "sigma_mv": 1.399,
+      "windows": 20000,
+      "sd_clean_mhz": 3.4535880968351353,
+      "sd_distorted_mhz": 3.7273254305166565,
+      "mean_clean_offset_mhz": 0.048931473585867025,
+      "mean_distorted_offset_mhz": 0.04572117880030646,
+      "delta_sd_mhz": 0.27373733368152126,
+      "delta_sd_se_mhz": 0.014035931325399723,
+      "delta_mean_mhz": -0.0032102947855605635,
+      "delta_mean_se_mhz": 0.0133361222982634
+    },
+    {
+      "sigma_mv": 0.659,
+      "windows": 20000,
+      "sd_clean_mhz": 1.8301910695122026,
+      "sd_distorted_mhz": 1.9223747073350739,
+      "mean_clean_offset_mhz": 0.05988358296349361,
+      "mean_distorted_offset_mhz": 0.07663850056616184,
+      "delta_sd_mhz": 0.09218363782287137,
+      "delta_sd_se_mhz": 0.009558383003437839,
+      "delta_mean_mhz": 0.01675491760266823,
+      "delta_mean_se_mhz": 0.010703075859930074
+    }
+  ]
+}

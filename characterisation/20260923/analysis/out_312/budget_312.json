@@ -1,0 +1,154 @@
+{
+  "predictions": {
+    "0.659": {
+      "analytic_k4": 1.6966406603093345,
+      "mc_exact_port_median": 1.6679584967785563,
+      "mc_mean_pooling": 0.9839161995885317,
+      "paper": 1.69
+    },
+    "1.399": {
+      "analytic_k4": 3.6018213714305896,
+      "mc_exact_port_median": 3.4190223688377896,
+      "mc_mean_pooling": 2.1074878313441534,
+      "paper": 3.59
+    }
+  },
+  "pooling": {
+    "record": "20260923/captures/F_stim_baseline.txt",
+    "mean_mhz": 3.0777092004091413,
+    "median_mhz": 5.056373981312822,
+    "penalty": 1.642901798727652,
+    "b1_13sep_median_mhz": 3.0470069744278594
+  },
+  "timing_walk": {
+    "modes": {
+      "A": {
+        "name": "0 deadline, ts after",
+        "interval_sd_us": [
+          0.007812738429493593,
+          0.007812738429493593,
+          0.015625476858987186
+        ],
+        "random_jitter_us": [
+          0.0078125,
+          0.0078125,
+          0.015625
+        ],
+        "mean_random_jitter_us": 0.010416666666666666,
+        "mean_interval_sd_us": 0.010416984572658125,
+        "mean_mhz": 0.03682847818679935,
+        "half_range_over_mean_pct": 37.5,
+        "range_over_mean_pct": 75.0
+      },
+      "B": {
+        "name": "1 deadline, ts before",
+        "interval_sd_us": [
+          0.7004280367618334,
+          0.6892267939033255,
+          0.6652051260947683
+        ],
+        "random_jitter_us": [
+          0.6994213172340513,
+          0.6892249666667818,
+          0.6646453017517886
+        ],
+        "mean_random_jitter_us": 0.6844305285508739,
+        "mean_interval_sd_us": 0.6849533189199758,
+        "mean_mhz": 2.4198273399470795,
+        "half_range_over_mean_pct": 2.5405073292020615,
+        "range_over_mean_pct": 5.081014658404123
+      },
+      "C": {
+        "name": "2 free-run",
+        "interval_sd_us": [
+          1.0244538764150892,
+          1.01024883710261,
+          1.0073370992948394
+        ],
+        "random_jitter_us": [
+          1.0244164978828036,
+          1.01024071868765,
+          1.0072802094345228
+        ],
+        "mean_random_jitter_us": 1.0139791420016588,
+        "mean_interval_sd_us": 1.014013270937513,
+        "mean_mhz": 3.584957636455451,
+        "half_range_over_mean_pct": 0.8450020191960133,
+        "range_over_mean_pct": 1.6900040383920265
+      },
+      "D": {
+        "name": "3 free-run + V2 arithmetic",
+        "interval_sd_us": [
+          1.2071409744334605,
+          1.1977221714709023,
+          1.2193724186341108
+        ],
+        "random_jitter_us": [
+          1.207140797010187,
+          1.197708633787584,
+          1.2193723492229804
+        ],
+        "mean_random_jitter_us": 1.2080739266735838,
+        "mean_interval_sd_us": 1.2080785215128247,
+        "mean_mhz": 4.271186328627755,
+        "half_range_over_mean_pct": 0.8966220922856615,
+        "range_over_mean_pct": 1.793244184571323
+      }
+    },
+    "attribution_mhz": {
+      "ts_placement": 2.4195470688436305,
+      "free_run": 2.64506274028139,
+      "arithmetic": 2.321876697560917
+    },
+    "G_stim_mhz": 4.026832867096609
+  },
+  "crossings": {
+    "D_b1.txt": {
+      "fw_pos": 2648,
+      "fw_neg": 2648,
+      "recount_pos": 2648,
+      "recount_neg": 2648
+    },
+    "D_b2.txt": {
+      "fw_pos": 2486,
+      "fw_neg": 2486,
+      "recount_pos": 2486,
+      "recount_neg": 2486
+    },
+    "D_b3.txt": {
+      "fw_pos": 2949,
+      "fw_neg": 2949,
+      "recount_pos": 2949,
+      "recount_neg": 2949
+    },
+    "G_stim_v2arith.txt": {
+      "fw_pos": 451,
+      "fw_neg": 451,
+      "recount_pos": 451,
+      "recount_neg": 451
+    }
+  },
+  "runE": {
+    "n_windows": 305,
+    "mean_hz": 49.9947868852459,
+    "sd_mhz": 7.972742945124371,
+    "successive_difference_mhz": 7.805908501255209,
+    "min_hz": 49.97,
+    "max_hz": 50.015,
+    "expected_quantisation_step_mhz": 2.4994787157011555,
+    "reference": {
+      "archived_floor_mhz": 5.46,
+      "september_clean_mhz": 3.047
+    },
+    "range_in_sd": 5.644230638029146,
+    "gaussian_range_percentile": 43.885000000000005
+  },
+  "predicted_floor_mhz": 6.463923017674853,
+  "predicted_floor_1816_mhz": 6.107863396253172,
+  "derived": {
+    "apparent_residual": 4.528697384458361,
+    "pred_over_archived_pct": 18.386868455583393,
+    "pred_below_runE_pct": 18.924728137287026,
+    "runE_over_archived_pct": 46.02093306088592
+  }
+}

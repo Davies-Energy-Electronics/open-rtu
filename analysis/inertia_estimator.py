@@ -16,19 +16,25 @@ Rearranged for E_k in GVA*s, with dP in MW and RoCoF in Hz/s:
 
 WHAT THIS SCRIPT DOES AND DOES NOT ESTABLISH
 --------------------------------------------
-Every term in the recovery (f0, dP, RoCoF) is a published figure, not a
-measurement made by this instrument. The 215.3 GVA*s result is a consistency
-check on those published figures and on this implementation. It is NOT
-evidence about the instrument's accuracy and the paper does not present it
-as such. The operative output is the sensitivity analysis in panel (b) of
-Figure 18: it establishes the RoCoF measurement accuracy a field deployment
-must achieve, which is a specification for Gate 2 (sub-cycle cadence) and
-Gate 4 (real disturbance) of the roadmap in Section 4.4.
+No term in the recovery (f0, dP, RoCoF) is a measurement made by this
+instrument. f0 and dP are published figures; the initial RoCoF of 0.16 Hz/s
+is a nominal figure for the event, not a published measurement (see the
+provenance block below). The 231.4 GVA*s recovered at 1,481 MW, against the
+published 210 GVA*s pre-event inertia, is therefore a worked instance of the
+sensitivity in panel (b): the 0.16 Hz/s input sits about 10 % below the
+0.176 Hz/s implied by the two published figures, and the recovered inertia
+sits about 10 % above 210 GVA*s. It is NOT evidence about the instrument's
+accuracy and the paper does not present it as such. The operative output is
+the sensitivity analysis in panel (b) of Figure 18: it establishes the RoCoF
+measurement accuracy a field deployment must achieve, which is a
+specification for Gate 2 (sub-cycle cadence) and Gate 4 (real disturbance)
+of the roadmap in Section 4.5.
 
 PROVENANCE OF THE INPUTS - READ THIS BEFORE CITING ANY NUMBER BELOW
 -------------------------------------------------------------------
-The NESO Technical Report on the events of 9 August 2019 [10] gives the
-generation losses as a running cumulative total:
+The National Grid ESO Technical Report on the Events of 9 August 2019
+(reference [2] of the manuscript as submitted; Table 2 of the report) gives
+the generation losses as a running cumulative total:
 
     Hornsea One deload (799 MW -> 62 MW)            737 MW
     + Little Barford steam turbine trip             244 MW   -> 981 MW
@@ -37,30 +43,29 @@ generation losses as a running cumulative total:
     + Little Barford GT1A                           210 MW   -> 1,691 MW
     + Little Barford GT1B                           187 MW   -> 1,878 MW
 
-Two inputs used below are NOT supported by that source and are flagged in
-the code as PAPER INPUT:
+  * dP. The primary scenario uses the published cumulative total of
+    1,481 MW (after the embedded generation lost on RoCoF protection) and
+    the second the published final total of 1,878 MW. Revisions before
+    23 September 2026 used 1378 MW, which does not appear in the report: it
+    was justified as 737 + 244 + 397 MW, whereas the report gives ~150 MW
+    on vector shift and ~350 MW on RoCoF protection. For reference, the
+    inversion at 0.16 Hz/s gives 153.3 GVA*s at 981 MW, 176.7 at 1,131 MW,
+    231.4 at 1,481 MW and 293.4 at 1,878 MW, against the published
+    210 GVA*s pre-event inertia.
 
-  * dP = 1378 MW. This figure does not appear in [10]. The cumulative totals
-    published there are 1,131 / 1,481 / 1,691 / 1,878 MW. Earlier revisions
-    of this docstring justified 1378 MW as 737 + 244 + 397 MW; the 397 MW
-    distributed-generation component is not a figure in [10], which gives
-    ~150 MW on vector shift and ~350 MW on RoCoF protection. Either 1378 MW
-    needs a citation of its own, or the scenario should move to a published
-    total. For reference, the inversion at 0.16 Hz/s gives 153.3 GVA*s at
-    981 MW, 176.7 at 1,131 MW, 231.4 at 1,481 MW and 293.4 at 1,878 MW,
-    against the published 210 GVA*s pre-event inertia.
+  * RoCoF = 0.16 Hz/s - flagged in the code as PAPER INPUT. The report
+    states no measured system-wide initial RoCoF for the event. Its only
+    Hz/s figure is a protection threshold - "some parts of the system may
+    have experienced a rate of change of frequency of 0.125 Hz/s or above"
+    - which is not the same quantity. Section 3.11 of the manuscript
+    therefore identifies 0.16 Hz/s as a nominal figure for the event and
+    makes no claim that it is retrievable from the public record.
 
-  * RoCoF = 0.16 Hz/s. [10] states no measured system-wide RoCoF for the
-    event. Its only Hz/s figure is a protection threshold - "some parts of
-    the system may have experienced a rate of change of frequency of
-    0.125 Hz/s or above" - which is not the same quantity. The 0.16 Hz/s
-    initial-descent value needs its own citation.
-
-The reference inertia of 210 GVA*s IS stated in [10] and needs no flag.
-Reference numbers follow the V26/V27 reference list. Earlier revisions of
-this file cited [45] and [46] for these figures; in the current list those
-are two unrelated low-cost-metering papers, and the correct citations are
-[10] for the NESO technical report and [11] for the interim report.
+The reference inertia of 210 GVA*s IS stated in the report (Table 4) and
+needs no flag. Manuscript reference numbers change between revisions (this
+file previously cited the report as [10], [45] or [46]), so the documents
+are named here as well as numbered: [2] is the ESO technical report and [3]
+the ESO interim report in the manuscript as submitted.
 
 WHY THE REPLAY'S OWN SLOPE IS NOT USED
 ---------------------------------------
@@ -68,12 +73,12 @@ The reason is temporal resolution and window length, not time dilation. The
 canonical bench replay runs in real time (0.9997 s per replay index, verified
 against replay_20260627_102507V2.csv). What differs is the averaging window:
 
-  * The published 0.16 Hz/s is an INITIAL RoCoF, conventionally evaluated
+  * The nominal 0.16 Hz/s is an INITIAL RoCoF, conventionally evaluated
     over a sub-second window at the instant of the step.
   * The diagnostic this script prints is a least-squares MEAN slope over the
     whole 74-second descent region (indices 46-119). Measured on the
     canonical capture it is 0.00913 Hz/s - a factor of 17.5 below the
-    published initial value, not the "factor of nearly nine" stated in
+    nominal initial value, not the "factor of nearly nine" stated in
     earlier revisions of this file and in Section 3.11 of the manuscript.
     That earlier figure of 0.018 Hz/s is not what this script produces and
     never was; inertia_output.json has reported 0.0091 since the deposit.
@@ -81,10 +86,10 @@ against replay_20260627_102507V2.csv). What differs is the averaging window:
   * Most of that factor is window length rather than record smoothing. Over
     the steepest 10-second window the same capture gives 0.1156 Hz/s on the
     measured channel (at index 50) and 0.0839 Hz/s on the reference
-    trajectory (at index 43) - within a factor of 1.4 of the published
+    trajectory (at index 43) - within a factor of 1.4 of the nominal
     initial value. The one-second resolution of the source record still
     prevents a true sub-second initial RoCoF from being formed, which is why
-    the inversion uses published inputs; but the 17.5x figure is an artefact
+    the inversion uses external inputs; but the 17.5x figure is an artefact
     of comparing a 74-second mean with an instantaneous value and should not
     be read as instrument error.
 
@@ -115,13 +120,13 @@ Usage:
     python inertia_estimator.py --figure Figure_12_inertia.png
     python inertia_estimator.py --measured-rocof replay_20260627_102507V2.csv
 
-Reproducibility (re-run against the canonical capture 22 September 2026):
-    Recovered E_k at 1378 MW, 0.16 Hz/s:      215.3 GVA*s  (+2.5% vs 210)
+Reproducibility (re-run against the canonical capture, release v1.2.0):
+    Recovered E_k at 1481 MW, 0.16 Hz/s:      231.4 GVA*s  (+10.2% vs 210)
     Recovered E_k at 1878 MW, 0.16 Hz/s:      293.4 GVA*s  (+39.7%)
     Recovered E_k at  900 MW, 0.16 Hz/s:      140.6 GVA*s  (-33.0%)
     Replay descent-region mean slope:         0.0091 Hz/s
-    inertia_output.json SHA-256 (LF):
-      9ca8ad45ecef1dbdcc5a90c4560e69411627ca478e3e1350eecd5266af589cf1
+    inertia_output.json SHA-256 (LF): quoted in the Data Availability
+    Statement and checked by reproduce_all.py (DERIVED_HASHES).
 
 Standard library only for the numerics; matplotlib only for --figure.
 
@@ -138,25 +143,27 @@ import argparse, csv, json, math, os
 
 F0_HZ            = 50.0
 
-# PAPER INPUT - initial-descent RoCoF. NESO [10] states no measured
-# system-wide RoCoF for the event; its only Hz/s figure is the 0.125 Hz/s
-# protection threshold, which is a different quantity. Needs its own citation.
+# PAPER INPUT - nominal initial-descent RoCoF for the event. The ESO
+# technical report (manuscript ref. [2]) states no measured system-wide RoCoF;
+# its only Hz/s figure is the 0.125 Hz/s protection threshold, a different
+# quantity. Section 3.11 identifies 0.16 Hz/s as nominal. (The constant's
+# name is historical and is kept because paper_figures.py imports it.)
 PUBLISHED_ROCOF  = 0.16      # Hz/s
 
-# Stated in NESO [10] for 9 August 2019 system conditions. Sourced.
-REF_INERTIA_GVAS = 210.0     # GVA*s, published pre-event NESO inertia [10]
+# Stated in the ESO technical report (manuscript ref. [2], Table 4). Sourced.
+REF_INERTIA_GVAS = 210.0     # GVA*s, published pre-event inertia
 
 # Three generation-loss scenarios (Figure 18 panel (a); see the provenance
 # block in the module docstring before citing any of these).
 SCENARIOS = [
-    # CORRECTED 23 September 2026. Was 1378 MW, which does not appear in NESO
-    # [10]; its published cumulative totals are 981 / 1,131 / 1,481 / 1,691 /
-    # 1,878 MW. 1,481 MW is the cumulative loss after the embedded generation
+    # CORRECTED 23 September 2026. Was 1378 MW, which does not appear in the
+    # ESO technical report; its published cumulative totals are 981 / 1,131 /
+    # 1,481 / 1,691 / 1,878 MW. 1,481 MW is the cumulative loss after the embedded generation
     # lost on RoCoF protection - the same quantity the old figure named, and
     # sourced. It is also consistent with Section 1, which already reports
     # ~500 MW of distribution-connected loss and 1,878 MW cumulative.
     ("Initial trip + embedded loss", 1481.0),
-    # 1,878 MW is the published final cumulative loss in NESO [10] (after
+    # 1,878 MW is the published final cumulative loss in the report (after
     # Little Barford GT1A and GT1B). The label "to LFDD" is the paper's.
     ("Cumulative to LFDD", 1878.0),
     ("Reference (900 MW)",  900.0),    # smaller reference case, illustrative
@@ -204,7 +211,7 @@ def descent_rocof_from_csv(path: str,
 
 
 # ============================================================================
-# Figure 12
+# Figure 18 (default file name Figure_12_inertia.png is historical)
 # ============================================================================
 
 def render_figure(rocof: float, ref_inertia: float, recovered_primary: float,
@@ -214,7 +221,7 @@ def render_figure(rocof: float, ref_inertia: float, recovered_primary: float,
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
-        print("[figure] matplotlib not installed - skipping Figure 12.")
+        print("[figure] matplotlib not installed - skipping Figure 18.")
         return False
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
@@ -333,11 +340,15 @@ def main(argv=None):
         "table_15_rows": rows,
         "replay_measured_descent_rocof_hz_s": (round(measured, 4)
                                                if measured is not None else None),
-        "rocof_provenance": ("published real-event value; NOT measured by the "
-                             "instrument. NESO [10] states no measured system RoCoF "
-                             "for the event - this input needs its own citation"),
-        "dp_provenance": ("1378 MW does not appear in NESO [10]; published cumulative "
-                          "totals are 981 / 1131 / 1481 / 1691 / 1878 MW"),
+        "rocof_provenance": ("nominal initial RoCoF for the event; NOT measured by "
+                             "the instrument and not a published measurement: the "
+                             "ESO technical report states no measured system RoCoF "
+                             "(its only Hz/s figure is the 0.125 Hz/s protection "
+                             "threshold). See Section 3.11"),
+        "dp_provenance": ("published cumulative losses in the ESO technical report: "
+                          "981 / 1131 / 1481 / 1691 / 1878 MW; the primary scenario "
+                          "uses 1481 MW (after the embedded generation lost on "
+                          "RoCoF protection)"),
         "claim_scope": ("consistency check on published figures and on this "
                         "implementation; not evidence of instrument accuracy"),
     }

@@ -3,34 +3,55 @@ tost_metrics.py
 ===============
 
 Two One-Sided Tests (TOST) for measurement equivalence of the open RTU's
-M2 frequency output against the NESO reference, with non-parametric bootstrap
-cross-validation of the standard-normal approximation.
+M2 frequency output against the NESO reference, with a non-parametric
+bootstrap interval for the mean error in each window.
 
 Implements:
     1. Schuirmann (1987) TOST procedure with the equivalence margin delta and
        significance level alpha set explicitly. Reports p-values and a verdict
        for each of three windows of the canonical replay capture (pre-event
        nominal, post-event settled, full replay).
-    2. Non-parametric bootstrap percentile 95% confidence interval for the
-       mean error in each window, computed via 10,000 resamples with
-       replacement. Compares against the asymptotic Wald interval to
-       cross-validate the standard-normal approximation that underpins the
-       parametric TOST result. The bootstrap makes no distributional
-       assumption, so agreement between the two intervals constitutes
-       empirical confirmation that the t-distribution-via-normal-CDF
-       approximation is valid under the actual data distribution.
+    2. Non-parametric (i.i.d.) percentile bootstrap 95% confidence interval
+       for the mean error in each window, computed via 10,000 resamples with
+       replacement, compared with the asymptotic Wald interval
+       (mean +/- 1.96 SE). Agreement between the two 95% intervals shows that
+       the sampling distribution of the mean is close to normal near the
+       centre. It does NOT confirm the p-values in the far tail, and the
+       bootstrap resamples frames independently, so it does not address
+       serial correlation.
 
-The t-distribution CDF in the parametric TOST step is approximated by the
-standard-normal CDF via math.erfc(), valid for df > 30 (all three windows
-satisfy this). The bootstrap step provides the independent cross-validation
-of this approximation.
+NORMAL APPROXIMATION. The Student-t CDF in the parametric TOST step is
+replaced by the standard-normal CDF (math.erfc). This is mildly
+anti-conservative: the normal tail is thinner than the t tail, so the p-values
+printed here are slightly smaller than the exact t values near the verdict
+threshold, and many orders of magnitude smaller at the 100 mHz margin, where
+|t| is large. In addition, the upper-tail probability is formed as
+1 - CDF(t1), which cancels to exactly 0 in double precision for large t1, so
+the 100 mHz p-values printed here are not even accurate normal-tail values.
+Use this script for its verdicts only; they agree with the exact test on all
+three windows. The exact Student-t p-values of Table 2 of the paper are
+computed by paper_tables.py (function tost_exact), not by this script.
+
+TIER NAMES. The console labels the margins Tier 1 (±10 mHz) and Tier 2
+(±100 mHz), the declared accuracy tiers of the paper (Section 2.8); they are
+not IEC 61400-21 classes. The JSON sidecar keeps its historical window keys
+"Class I (±10 mHz)" and "Class II (±100 mHz)" so that the released sidecar is
+reproduced byte for byte and reproduce_all.py can read it; those keys hold the
+Tier 1 and Tier 2 results respectively.
 
 Usage:
     python tost_metrics.py replay_20260627_102507V2.csv
     python tost_metrics.py replay_20260627_102507V2.csv --no-bootstrap
     python tost_metrics.py replay_20260627_102507V2.csv --bootstrap-seed 42
 
-Writes a JSON sidecar <csv>_tost.json alongside the input CSV.
+Writes a JSON sidecar <csv>_tost.json alongside the input CSV, overwriting
+any existing file of that name. For the canonical capture that is the
+manifested captures/replay_20260627_102507V2_tost.json. Any run with a
+non-default --alpha, --bootstrap-seed, --bootstrap-n or --no-bootstrap should
+therefore be given --json with a path outside captures/, for example
+    python tost_metrics.py captures/replay_20260627_102507V2.csv \
+        --bootstrap-seed 42 --json /tmp/tost_seed42.json
+so that the released sidecar is not replaced.
 
 Reproducibility:
     Canonical input:  replay_20260627_102507V2.csv
@@ -91,9 +112,10 @@ def load_errors(path: str):
 
 def t_cdf_normal_approx(t: float, df: int) -> float:
     """Standard-normal approximation of the t-distribution CDF.
-    Valid for df > 30 (error < 1% at df = 30, < 0.1% at df = 60).
-    The bootstrap cross-validation below independently confirms this
-    approximation is valid for the present dataset."""
+    The df argument is ignored. The approximation is mildly
+    anti-conservative (p-values slightly too small) and poor in the far tail;
+    see the module docstring. The bootstrap below compares 95% intervals only
+    and does not validate far-tail p-values."""
     return 0.5 * math.erfc(-t / math.sqrt(2))
 
 
@@ -116,7 +138,7 @@ def tost(errs, delta_mhz: float, alpha: float = 0.05):
 
 
 # ============================================================================
-# Non-parametric bootstrap cross-validation (NEW in v1.1)
+# Non-parametric bootstrap interval (NEW in v1.1)
 # ============================================================================
 
 def bootstrap_ci_mean(errs, n_resamples: int = BOOTSTRAP_N_RESAMPLES,
@@ -129,9 +151,10 @@ def bootstrap_ci_mean(errs, n_resamples: int = BOOTSTRAP_N_RESAMPLES,
     Resamples `errs` with replacement n_resamples times, computes the sample
     mean of each resample, and returns the alpha/2 and 1-alpha/2 quantiles of
     the resulting bootstrap distribution. The percentile method makes no
-    distributional assumption (no normality, no symmetry), serving as the
-    independent cross-validation of the standard-normal approximation used
-    in the parametric TOST procedure above.
+    normality or symmetry assumption, but resampling is i.i.d., so it assumes
+    independent frames. Agreement with the Wald interval shows that the
+    sampling distribution of the mean is close to normal at the 95% level; it
+    says nothing about p-values in the far tail.
 
     Returns a dict with all summary statistics plus an explicit comparison
     against the asymptotic Wald interval (mean +/- z_{1-alpha/2} * SE), so
@@ -217,6 +240,10 @@ def main():
                     help=f'PRNG seed (default {BOOTSTRAP_SEED_DEFAULT})')
     ap.add_argument('--bootstrap-n', type=int, default=BOOTSTRAP_N_RESAMPLES,
                     help=f'Resample count (default {BOOTSTRAP_N_RESAMPLES})')
+    ap.add_argument('--json', default=None,
+                    help='Output path for the JSON sidecar (default: '
+                         '<csv>_tost.json next to the input, which overwrites '
+                         'the manifested sidecar for the canonical capture)')
     args = ap.parse_args()
 
     windows = load_errors(args.csv)
@@ -228,9 +255,11 @@ def main():
     }
 
     print()
-    print("=== TOST equivalence testing + bootstrap cross-validation ===")
+    print("=== TOST equivalence testing + bootstrap interval ===")
     print(f"  CSV:                 {os.path.basename(args.csv)}")
     print(f"  alpha (TOST and CI): {args.alpha}")
+    print("  p-values:            standard-normal approximation (verdicts only;"
+          " exact t: paper_tables.py)")
     if not args.no_bootstrap:
         print(f"  bootstrap N:         {args.bootstrap_n} resamples")
         print(f"  bootstrap seed:      {args.bootstrap_seed}")
@@ -240,13 +269,16 @@ def main():
         print(f"  {label}  (n = {len(errs)}):")
         win_result = {}
 
-        for delta, band_name in [(10, 'Class I (\u00b110 mHz)'),
-                                  (100, 'Class II (\u00b1100 mHz)')]:
+        # band_name is the historical JSON key and is kept unchanged so that
+        # the released sidecar is reproduced; tier_label is what is printed.
+        for delta, band_name, tier_label in [
+                (10, 'Class I (\u00b110 mHz)', 'Tier 1 (\u00b110 mHz)'),
+                (100, 'Class II (\u00b1100 mHz)', 'Tier 2 (\u00b1100 mHz)')]:
             r = tost(errs, delta, args.alpha)
             if r is None:
                 continue
             verdict = "EQUIVALENT" if r['equivalent'] else "NOT EQUIVALENT"
-            print(f"    {band_name}:  mean = {r['mean']:+.2f} mHz, "
+            print(f"    {tier_label}:  mean = {r['mean']:+.2f} mHz, "
                   f"sd = {r['sd']:.2f} mHz,  "
                   f"p1 = {r['p1']:.4g}, p2 = {r['p2']:.4g}  --> {verdict}")
             win_result[band_name] = r
@@ -272,8 +304,8 @@ def main():
         results['windows'][label] = win_result
         print()
 
-    out_path = os.path.splitext(args.csv)[0] + '_tost.json'
-    with open(out_path, 'w', encoding='utf-8') as fh:
+    out_path = args.json or (os.path.splitext(args.csv)[0] + '_tost.json')
+    with open(out_path, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(results, fh, indent=2)
     print(f"  -> {out_path}")
 

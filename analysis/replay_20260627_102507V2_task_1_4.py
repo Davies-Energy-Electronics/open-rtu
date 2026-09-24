@@ -3,8 +3,9 @@ task_1_4_metrics.py
 ===================
 
 Computes the σ (standard deviation) of the M1, M3, M4, M5 module outputs
-across a sliced window of a replay CSV, populating the four module-precision
-cells of Table 8 in the Open RTU paper.
+across a sliced window of a replay CSV: the four module-precision figures
+of a table in an earlier draft of the Open RTU paper (the published
+manuscript carries no module-precision table).
 
 Default slice: replay indices 0-45 (pre-event nominal region of the V2
 canonical capture). The signal in this region is the NESO 50.045 Hz
@@ -70,7 +71,7 @@ def main():
     if not rows:
         raise SystemExit(f"No rows in window i={args.i_start}..{args.i_end}")
 
-    # Table 8 column mapping. The canonical channel for each module:
+    # Column mapping. The canonical channel for each module:
     #   M1 -> Vb_rms (clean DAC2 voltage channel)
     #   M3 -> Ph_VbIb (phase pair stabilised by GPIO27 sync)
     #   M4 -> Pb (per-phase active power on phase b)
@@ -83,7 +84,7 @@ def main():
     ]
 
     print()
-    print(f"=== Task 1.4 sigma statistics ===")
+    print(f"=== Module sigma statistics ===")
     print(f"  CSV: {os.path.basename(args.csv)}")
     print(f"  Window: replay_index = {args.i_start}..{args.i_end}  (n = {len(rows)})")
     print()

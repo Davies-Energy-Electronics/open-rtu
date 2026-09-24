@@ -45,9 +45,15 @@ TIMING_CSV_DEFAULT = "runtime_capture_20260725.csv"
 # there: the file inherited the platform's line endings. inertia_estimator.py
 # now writes LF explicitly, so the hash below is the same on Windows, macOS
 # and Linux.
+# UPDATED for v1.2.0 (24 September 2026): the provenance strings inside
+# inertia_output.json were corrected to match Section 3.11 (the 0.16 Hz/s
+# input is nominal, not published; the 1378 MW note was stale). The numbers in
+# the file are unchanged; the hash changes because the text does. The value
+# below is the one quoted in the Data Availability Statement of the
+# manuscript as submitted. v1.1.0 quoted 23EEF956...CAF3CC5.
 DERIVED_HASHES = {
     "inertia_output.json":
-        "23EEF95605F88DA1AA68E68E50E2DBCA18137D86C1B7E4A2F3D984527CAF3CC5",
+        "91AFA54072CB60C38444D0223FC3AE2C41960CDB8703BD84F90D5DB055FCF9B2",
 }
 
 # Figure_12_inertia.png (which renders Figure 18 of the paper) is DELIBERATELY
@@ -67,7 +73,7 @@ GREEN = "\033[92m"; RED = "\033[91m"; DIM = "\033[2m"; RST = "\033[0m"
 
 
 # ============================================================================
-# Location independence  (HQ task L42, 24 September 2026)
+# Location independence  (24 September 2026)
 # ============================================================================
 # This wrapper used to resolve every script and data file as a bare name in the
 # current working directory. That worked in the flat authoring folder and could
@@ -78,7 +84,7 @@ GREEN = "\033[92m"; RED = "\033[91m"; DIM = "\033[2m"; RST = "\033[0m"
 #
 # Copying one file over the other would have fixed it once and let it diverge
 # again on the next edit. Resolving paths instead makes ONE file correct in
-# BOTH layouts, which is what actually closes the task.
+# BOTH layouts, which is what actually closes the gap.
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = (os.path.dirname(_HERE)
          if os.path.isdir(os.path.join(os.path.dirname(_HERE), "analysis"))
@@ -245,16 +251,16 @@ def main(argv=None):
 
     # --- Step 1: TOST + bootstrap (paper Table 2) ---
     print("\n[1] TOST equivalence + bootstrap (paper Section 3.2, Table 2)")
-    # tost_metrics.py takes no --json flag: it writes its sidecar
-    # automatically, named from the input CSV. Verified 8 Aug 2026 --
-    # its JSON self-reports the correct source filename, unlike the two
-    # scripts that needed --json adding above.
+    # tost_metrics.py writes its sidecar automatically, named from the input
+    # CSV, when --json is not given; this step relies on that default.
+    # Verified 8 Aug 2026 -- its JSON self-reports the correct source
+    # filename, unlike the two scripts that needed --json adding above.
     all_ok &= run([py, script("tost_metrics.py"), args.canonical], "tost_metrics")
     ts, _ok = need_json(os.path.splitext(args.canonical)[0] + "_tost.json",
                         "TOST metrics"); all_ok &= _ok
     if ts is None:
-        print(f"{DIM}        tost_metrics.py exposes no --json flag. If it does not write\n"
-              f"        its sidecar automatically, add one so this step can be verified.{RST}")
+        print(f"{DIM}        tost_metrics.py writes <csv>_tost.json by default; it did not\n"
+              f"        appear, so this step could not be verified.{RST}")
     if ts:
         CLASS_I = "Class I (\u00b110 mHz)"
         CLASS_II = "Class II (\u00b1100 mHz)"
@@ -275,11 +281,18 @@ def main(argv=None):
                   f"{w2.get('equivalent')}, Class I equivalent={w1.get('equivalent')}")
             all_ok &= ok
 
-    # --- Step 2: Bland-Altman (paper Figure 11) ---
+    # --- Step 2: Bland-Altman (paper Figure 13) ---
+    # Under --skip-figures the script's own plot is sent to the null device, so
+    # no Figure_10_Bland_Altman.png is written. Without --skip-figures the
+    # script keeps its default and writes that file into the current working
+    # directory. (In earlier revisions ba_fig was built but never passed, so the plot
+    # was written on every run.) The manuscript's Figure 13 is drawn by
+    # paper_figures.py in step 13.
     print("\n[2] Bland-Altman (paper Section 3.3, Figure 13)")
     ba_fig = [] if not args.skip_figures else ["--figure", os.devnull]
     all_ok &= run([py, script("bland_altman.py"), args.canonical,
-                   "--json", os.path.splitext(args.canonical)[0] + "_bland_altman.json"],
+                   "--json", os.path.splitext(args.canonical)[0] + "_bland_altman.json"]
+                  + ba_fig,
                   "bland_altman")
     ba, _ok = need_json(os.path.splitext(args.canonical)[0] + "_bland_altman.json",
                         "Bland-Altman"); all_ok &= _ok
@@ -316,7 +329,7 @@ def main(argv=None):
             else:
                 print(f"{GREEN}  [ OK ]{RST} aggregate TVE max is consistent with its regions")
 
-    # --- Step 4: TOST sweep (paper Figure 10) ---
+    # --- Step 4: TOST sweep (paper Figure 12) ---
     print("\n[4] TOST sensitivity sweep (paper Section 3.2, Figure 12)")
     all_ok &= run([py, script("tost_sweep.py"), args.canonical,
                    "--json", os.path.splitext(args.canonical)[0] + "_tost_sweep.json",
@@ -348,7 +361,7 @@ def main(argv=None):
         if monotonic:
             print(f"{GREEN}  [ OK ]{RST} all sweeps monotonic in delta")
 
-    # --- Step 5: replay metrics (paper Figure 9) ---
+    # --- Step 5: replay metrics (paper Figure 11) ---
     print("\n[5] Replay metrics (paper Section 3.1, Figure 11)")
     all_ok &= run([py, script("replay_metrics.py"), args.canonical, "--neso", args.neso],
                   "replay_metrics")
@@ -359,7 +372,7 @@ def main(argv=None):
                         rm.get("metric_3_max_rocof_tracking_error_hz_per_s"),
                         0.721, 0.005)
 
-    # --- Step 6: runtime (paper Section 3.7) ---
+    # --- Step 6: runtime (paper Section 3.6) ---
     print("\n[6] Runtime characterisation (paper Section 3.6)")
     if os.path.isfile(args.timing):
         all_ok &= run([py, script("runtime_metrics.py"), args.timing], "runtime_metrics")
@@ -393,8 +406,10 @@ def main(argv=None):
               f"(improvement {kf.get('v4_improvement_over_v2_std_pct'):+.1f}% "
               f"over V2; matches Table 4){RST}")
 
-    # --- Step 9: swing-equation inversion on published inputs (paper Figure 12) ---
-    print("\n[9] Swing-equation inversion on PUBLISHED inputs (paper Section 3.11, Figure 18)")
+    # --- Step 9: swing-equation inversion on external inputs (paper Figure 18) ---
+    # f0 and dP are published; the 0.16 Hz/s initial RoCoF is a nominal figure
+    # (Section 3.11). None of the three is measured by the instrument.
+    print("\n[9] Swing-equation inversion on external inputs (paper Section 3.11, Figure 18)")
     all_ok &= run([py, script("inertia_estimator.py"),
                    "--measured-rocof", args.canonical] + figflag, "inertia_estimator")
     ie, _ok = need_json(data("inertia_output.json"), "inertia estimator"); all_ok &= _ok
@@ -402,7 +417,7 @@ def main(argv=None):
         # 231.4 GVA*s at the published 1,481 MW cumulative loss. The previous
         # expected value, 215.3, was obtained at 1378 MW, which does not appear
         # in the NESO technical report. See inertia_estimator.py.
-        all_ok &= check("Inversion on published inputs (GVA*s)",
+        all_ok &= check("Inversion on external inputs (GVA*s)",
                         ie.get("primary_recovered_ek_gvas"), 231.4, 0.5)
         prov = ie.get("rocof_provenance")
         if prov:
@@ -424,9 +439,11 @@ def main(argv=None):
         # bound is therefore larger by exactly sqrt(2): 3.899 mHz. Confirmed
         # 22 September 2026 by closed form and by inverting the 3x3 Fisher
         # information matrix for (A, f, phi), which gives 3.901 mHz. The
-        # Table 4 ratios move from 47.5 / 75.8 / 42.4 / 70.5x to
-        # 33.6 / 53.6 / 29.9 / 49.8x. See HQ task L46.
-        # SAMPLING RATE CORRECTED 23 Sep 2026 (HQ task L41): the canonical M2
+        # whole-replay ratios (quoted in Table 4 of an earlier draft; the
+        # published Table 4 quotes stationary-block ratios computed by
+        # paper_tables.py) move from 47.5 / 75.8 / 42.4 / 70.5x to
+        # 33.6 / 53.6 / 29.9 / 49.8x.
+        # SAMPLING RATE CORRECTED 23 Sep 2026: the canonical M2
         # build's per-channel rate is a MEASURED 1816.5 Hz, not the assumed
         # 2000 Hz. The bound is linear in f_s at fixed N, so it falls to
         # 3.541 mHz and the ratios rise to 37.0 / 59.0 / 33.0 / 54.9x.
@@ -448,6 +465,36 @@ def main(argv=None):
             print(f"{RED}  [FAIL]{RST} {fname}\n        got      {got}\n"
                   f"        expected {expected}")
             all_ok = False
+
+    # --- Step 12: per-region tables and statistics (added in release v1.2.0) ---
+    # Tables 2-8 and the per-region statistics of Sections 2.3, 3.1, 3.2 and 3.8
+    # were computed by no released script before v1.2.0. paper_tables.py
+    # regenerates every one of them from the released captures and checks each
+    # against the manuscript; it exits non-zero if any value moves.
+    print("\n[12] Per-region tables and statistics (paper_tables.py --check; Tables 2-8)")
+    stale_pt = data("paper_tables_output.json")
+    if os.path.isfile(stale_pt):
+        os.remove(stale_pt)
+    all_ok &= run([py, script("paper_tables.py"), "--check"], "paper_tables")
+    pt, _ok = need_json(data("paper_tables_output.json"), "paper tables"); all_ok &= _ok
+    if pt:
+        all_ok &= check("Sec 2.3 realised noise floor (mHz)",
+                        pt.get("canonical", {}).get("noise_floor_pre_event_mhz"), 5.46, 0.005)
+        all_ok &= check("Table 8 overall mean |e| (mHz)",
+                        pt.get("table8", {}).get("regions", {}).get("Overall", {}).get("mean_abs_mhz"),
+                        78.3, 0.05)
+
+    # --- Step 13: figures (added in release v1.2.0) ---
+    if args.skip_figures:
+        print(f"\n{DIM}[13] Figures skipped (--skip-figures){RST}")
+    else:
+        print("\n[13] Figures 11-15, 17 and 18 (paper_figures.py)")
+        # Written to figures_regenerated/, not figures/: a rendered PNG is not byte-
+        # reproducible across matplotlib versions, and overwriting the released,
+        # manifested copies would make `make_hashes.py --check` fail for a reader who
+        # had done nothing wrong. Compare the two folders by eye.
+        all_ok &= run([py, script("paper_figures.py"), "--outdir",
+                       os.path.join(_ROOT, "figures_regenerated")], "paper_figures")
 
     print("\n" + "=" * 74)
     if all_ok:

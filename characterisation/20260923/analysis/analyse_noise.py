@@ -8,7 +8,7 @@ referred to the converter input.
 
 This is the measurement that replaces the assumed 40 dB SNR in
 crb_analysis.py with a measured figure, and that settles the effective-
-resolution inference in Section 2.8.6.
+resolution inference in Section 2.8.
 
 Usage:
     python analyse_noise.py capture_A1.txt
@@ -18,6 +18,16 @@ Usage:
 Writes a JSON sidecar so the figures can be chained into crb_analysis.py
 rather than retyped.
 
+CRB FIGURE — NOT THE BOUND THE PAPER USES. The "CRB at N=200, this SNR" line
+printed by this script, and the sidecar field crb_mhz_at_freq_win, use the
+coefficient 6 in the Rife-Boorstyn expression. That is the bound for a
+COMPLEX exponential. For the real sampled sinusoid the paper analyses the
+coefficient is 12 (analysis/crb_analysis.py, confirmed by
+analysis/crb_confirm.py), so the figure printed here is LOW by exactly
+sqrt(2). It is left unchanged because the archived sidecars were generated
+with it; it is not used anywhere in the paper. The Section 3.12 bounds
+(0.301 and 0.332 mHz at 61.4 dB) come from analysis/crb_analysis.py.
+
 Standard library plus numpy.
 """
 from __future__ import annotations
@@ -26,7 +36,7 @@ import numpy as np
 
 LSB_V      = 3.3 / 4095.0          # 0.806 mV, the paper's stated LSB
 SIGMA_Q_V  = LSB_V / math.sqrt(12) # 0.233 mV, ideal uniform quantisation
-AMPLITUDE  = 1.060                 # V, conditioned amplitude at the ADC (Sec 2.2)
+AMPLITUDE  = 1.060                 # V, conditioned amplitude at the ADC (Sec 2.3)
 FREQ_WIN   = 200                   # samples per M2 estimate
 FS_NOMINAL = 2000.0
 
@@ -77,6 +87,10 @@ def analyse(codes, meta, label):
 
     # Cramer-Rao bound at the estimator's own basis, with this measured noise.
     rho = AMPLITUDE ** 2 / (2 * sd_v ** 2)
+    # NOTE: coefficient 6 is the COMPLEX-exponential bound. The paper uses the
+    # real-sinusoid bound (coefficient 12, analysis/crb_analysis.py), which is
+    # larger by sqrt(2). This figure is kept as archived and is not used by
+    # the paper; see the module docstring.
     crb_hz = math.sqrt(6.0 * fs * fs /
                        ((2 * math.pi) ** 2 * rho * FREQ_WIN * (FREQ_WIN ** 2 - 1)))
 
@@ -106,7 +120,7 @@ def analyse(codes, meta, label):
     print(f"  CRB at N={FREQ_WIN}, this SNR   {crb_hz*1e3:.4f} mHz")
     print(f"{'='*66}")
     print("  Reference points:")
-    print(f"    paper Sec 2.8.6 infers   0.45 mV  (0.56 LSB, ~11 bits)")
+    print(f"    earlier Sec 2.8 inference 0.45 mV (0.56 LSB, ~11 bits)")
     print(f"    simulation of the V2 estimator against the 5.40 mHz")
     print(f"    realised floor predicts  2.24 mV  (2.78 LSB, ~8.7 bits)")
     print(f"    crb_analysis.py assumes  40 dB conservative / 74 dB ideal")
@@ -114,13 +128,13 @@ def analyse(codes, meta, label):
     if sd_v * 1e3 < 1.0:
         print("  >> READS LOW. If sigma_v is well under 1 mV the excess noise is")
         print("     NOT additive at the converter input, and the 5.40 mHz floor")
-        print("     has another source. Do not proceed to the paper edit; find it.")
+        print("     has another source. Do not rely on this figure; find it.")
     elif 1.5 < sd_v * 1e3 < 3.2:
-        print("  >> CONSISTENT with the simulation. Section 2.8.6 can be rewritten")
-        print("     around this measured figure.")
+        print("  >> CONSISTENT with the simulation. The Section 2.8 budget can")
+        print("     rest on this measured figure.")
     else:
         print("  >> OUTSIDE the predicted band. Record it and investigate before")
-        print("     changing anything in the manuscript.")
+        print("     relying on it.")
     print()
 
     return {

@@ -4,7 +4,16 @@ bland_altman.py
 
 Computes Bland-Altman agreement statistics and 95 % confidence intervals for
 the V2 M2 frequency-detector output against the NESO reference trajectory
-from the canonical replay CSV, and renders Figure 10 of the paper.
+from the canonical replay CSV, and renders a diagnostic Bland-Altman plot.
+
+The manuscript's Figure 13 is drawn by paper_figures.py (function fig13),
+which calls stats_for_errors() from this module. The plot drawn here is the
+script's own: it shades the Tier 2 band (±100 mHz, the declared accuracy tier
+of Section 2.8 of the paper, not an IEC 61400-21 class) and draws both limits
+of agreement dashed. Its default file name, Figure_10_Bland_Altman.png, is
+historical (an earlier figure numbering) and is kept so that existing
+workflows are not broken; pass --figure to choose another path.
+reproduce_all.py --skip-figures sends this plot to the null device.
 
 Bland-Altman analysis is a standard measurement-agreement methodology
 (Bland & Altman, 1986) that decomposes the disagreement between two
@@ -13,14 +22,16 @@ measurement techniques into (i) the mean bias between them, and (ii) the
 
 Usage:
     python bland_altman.py replay_20260627_102507V2.csv
-    python bland_altman.py replay_20260627_102507V2.csv --json ba_out.json --figure Figure_10.png
+    python bland_altman.py replay_20260627_102507V2.csv --json ba_out.json --figure ba_plot.png
 
 Standard library plus matplotlib only.
 
 Reproducibility:
     Expected input  : replay_20260627_102507V2.csv (canonical V2 capture)
                       SHA-256 dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f
-    Expected outputs: <csv>_bland_altman.json  and  Figure_10_Bland_Altman.png
+    Expected outputs: <csv>_bland_altman.json  and the plot (default
+                      Figure_10_Bland_Altman.png in the current directory;
+                      this is not the manuscript's Figure 13)
 
 Author: Jack Davies
 """
@@ -140,7 +151,7 @@ def render_figure(frames, aggregate_stats, out_path):
     ax.axhline(loa_lower, color='#333333', linestyle='--', linewidth=1.0,
                label=f'-1.96 SD = {loa_lower:+.1f} mHz')
     ax.axhspan(-100, 100, alpha=0.08, color='green', zorder=0)
-    ax.text(min(means_Hz), 90, 'IEC 61400-21 Class II band (±100 mHz)',
+    ax.text(min(means_Hz), 90, 'Tier 2 (±100 mHz)',
             fontsize=8, ha='left', va='top', color='#2d6b2d', style='italic')
 
     ax.set_xlabel('(measured + reference) / 2  [Hz]', fontsize=11)
@@ -209,7 +220,7 @@ def main(argv=None):
 
     # JSON output
     out_json = args.json or (os.path.splitext(args.csv_path)[0] + '_bland_altman.json')
-    with open(out_json, 'w', encoding='utf-8') as fh:
+    with open(out_json, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump({
             'schema_version': '1.0',
             'tool': 'bland_altman.py',

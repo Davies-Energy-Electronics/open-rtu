@@ -2,15 +2,18 @@
 regenerate_figure_9_overlays.py
 ================================
 
-Regenerates the Figure 9 replay-overlay PNGs from archived and live capture
-CSVs, using the updated `generate_overlay_plot()` from SCADA_HMI.py (with the
-B.3 changes: |error| as percentage of nominal 50 Hz, IEC 61400-21 Class I
-and Class II compliance lines, and five region-shaded performance bands).
+Regenerates the HMI's replay-overlay PNGs from archived and live capture
+CSVs, using `generate_overlay_plot()` from SCADA_HMI.py (|error| as
+percentage of nominal 50 Hz, the +-10 mHz and +-100 mHz lines, and five
+region-shaded performance bands). The file name is historical: the overlay
+was the replay figure of an earlier draft (numbered Figure 9 there). The
+manuscript's own replay figures (Figures 11 and 15-17) are drawn by
+paper_figures.py, not by this script.
 
 This exists because SCADA_HMI.py itself only produces the overlay at the end
 of a live replay session; regenerating from archived CSVs would otherwise
 require a bench run. This script imports `generate_overlay_plot()` directly
-and calls it against each provided CSV, so the paper's Figure 9 can be
+and calls it against each provided CSV, so the overlays can be
 refreshed without touching the boards.
 
 Usage:
@@ -32,13 +35,13 @@ import os
 import sys
 
 
-# Default set: the two archived canonical captures used for Figure 9 in the
-# paper, plus the two 7 July 2026 live captures that back Table 18.
+# Default set: the two archived canonical captures (V2 and the V1 baseline),
+# plus the two 7 July 2026 live captures that back Table 6.
 DEFAULT_CSVS = [
-    "replay_20260627_102507V2.csv",   # archived V2 canonical (Figure 9b)
-    "replay_20260625_180520V1.csv",   # archived V1 baseline  (Figure 9a)
-    "replay_20260707_132321.csv",     # live V2 (7 Jul, Table 18)
-    "replay_20260707_133804V1.csv",   # live V1 (7 Jul, Table 18)
+    "replay_20260627_102507V2.csv",   # archived V2 canonical (cf. Figure 11)
+    "replay_20260625_180520V1.csv",   # archived V1 baseline  (Table 4, V1 row)
+    "replay_20260707_132321.csv",     # live V2 (7 Jul, Table 6)
+    "replay_20260707_133804V1.csv",   # live V1 (7 Jul, Table 6)
 ]
 
 
@@ -82,7 +85,7 @@ def main(argv=None):
 
     print()
     print("=" * 68)
-    print("  Regenerating Figure 9 overlays with B.3 percentage scale")
+    print("  Regenerating replay overlays with percentage error scale")
     print("  and region-shaded performance bands")
     print("=" * 68)
 

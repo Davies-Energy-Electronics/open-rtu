@@ -38,7 +38,7 @@ quadrature, because it displaces the crossing along the same axis:
 
 This chain reproduces the paper's own quantisation figures exactly: at the
 ideal 12-bit step of 0.233 mV it gives 0.700 us, 0.989 us and 2.47 mHz
-against the 0.698 us, 0.987 us and 2.47 mHz stated in Section 2.2. That
+against the 0.698 us, 0.987 us and 2.47 mHz stated in Section 2.3. That
 agreement is the reason the chain is trusted to propagate the measured
 jitter.
 
@@ -63,13 +63,13 @@ import argparse, csv, io, json, math, statistics, sys
 
 # --- constants from the manuscript ------------------------------------------
 F0_HZ_DEFAULT      = 50.0      # nominal fundamental
-AMPLITUDE_V_DEFAULT = 1.060    # conditioned amplitude at the converter input (S2.2)
+AMPLITUDE_V_DEFAULT = 1.060    # conditioned amplitude at the converter input (S2.3)
 IDEAL_LSB_MV       = 0.233     # ideal 12-bit quantisation step, Section 3.12
 QUIET_NOISE_MV     = 0.659     # measured quiet-input noise, Section 3.12
 BROADBAND_MV       = 1.399     # measured broadband noise with stimulus, Section 3.12
 ESTIMATOR_CHAR_MHZ = 3.05      # estimator over the characterisation samples
 ARCHIVED_FLOOR_MHZ = 5.46      # floor realised in the archived replay capture
-STATED_FS_HZ       = 2000.0    # the figure stated in Sections 2.1.2, 2.2 and 2.7
+STATED_FS_HZ       = 2000.0    # the nominal figure stated in Sections 2.1.2 and 2.3
 DERIVED_FS_HZ      = 1854.6    # 1e6 / (39.21 + 500) us, the Section 3.12 derivation
 
 
@@ -305,7 +305,7 @@ def self_test():
                    math.sqrt(ARCHIVED_FLOOR_MHZ ** 2 - ESTIMATOR_CHAR_MHZ ** 2),
                    4.53, "mHz", 0.01))
     ok = True
-    print("SELF-TEST against the published figures in Sections 2.2 and 3.12")
+    print("SELF-TEST against the published figures in Sections 2.3 and 3.12")
     print("-" * 72)
     for name, got, want, unit, tol in checks:
         good = abs(got - want) <= tol

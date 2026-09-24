@@ -2,7 +2,7 @@
 kalman_freq.py
 ==============
 
-V4 Kalman frequency estimator for Section 5.3.11 (Table 16, V4 row) of the
+V4 Kalman frequency estimator for Section 3.5 (Table 4, V4 row) of the
 open-RTU MDPI Sensors paper.
 
 The V4 algorithm is a two-state linear Kalman filter run over the V2
@@ -24,8 +24,8 @@ V4 smooths the single V2 stream:
 -------------------------------------------------------------------------
 PROVENANCE NOTE - read before quoting these numbers.
 
-The Table 16 V4 row in Draft V8 was an ESTIMATE inserted ahead of running
-this filter. This script REPLACES that estimate with the filter's true
+The V4 row of the algorithm-comparison table (Table 4 of the paper) was, in
+an earlier draft, an ESTIMATE inserted ahead of running this filter. This script REPLACES that estimate with the filter's true
 output on the real V2 data. The tuning constants Q and R are NOT recovered
 from a prior run (none existed); they are DERIVED FROM FIRST PRINCIPLES so
 the result is defensible and reproducible rather than fitted to a target:
@@ -43,7 +43,7 @@ the result is defensible and reproducible rather than fitted to a target:
 
 Both are printed and stored in the JSON so a reviewer can see exactly where
 they came from. Whatever std/RMSE the filter then produces IS the V4 result;
-Table 16 should be updated to match this script's output, not the reverse.
+Table 4 is matched to this script's output, not the reverse.
 -------------------------------------------------------------------------
 
 Usage:
@@ -243,7 +243,7 @@ def main(argv=None):
 
     print()
     print("=" * 72)
-    print("  V4 KALMAN FREQUENCY ESTIMATOR (Table 16, V4 row)")
+    print("  V4 KALMAN FREQUENCY ESTIMATOR (Table 4, V4 row)")
     print("=" * 72)
     print(f"  Input CSV:            {os.path.basename(args.csv)}")
     print(f"  Frames:               {v4_stats['n']}")
@@ -265,14 +265,17 @@ def main(argv=None):
     print()
     print(f"  V4 improvement over V2 (std): {improvement:+.1f}%")
     print("=" * 72)
-    print("  NOTE: this is the TRUE filter output. Update Table 16's V4 row to")
-    print("        match these numbers (the previous row was an estimate).")
+    print("  NOTE: this is the TRUE filter output; it is the V4 row of Table 4")
+    print("        (an estimate stood there in drafts before July 2026).")
     print("=" * 72)
 
     out = {
         "schema_version": "1.0",
         "tool": "kalman_freq.py",
         "source_file": os.path.basename(args.csv),
+        # This string is written to kalman_output.json and is kept verbatim so
+        # the released output is reproduced byte for byte. "Draft V8" was an
+        # earlier draft of the manuscript; the row is Table 4's V4 row.
         "provenance": "V4 row was an estimate in Draft V8; this is the true "
                       "filter output. Q and R derived from first principles.",
         "tuning": {
@@ -291,7 +294,7 @@ def main(argv=None):
         # convenience block for crb_analysis.py --from-json chaining
         "achieved_std_mhz": {"V4 Kalman": v4_stats["std_mhz"]},
     }
-    with open(args.json, "w", encoding="utf-8") as fh:
+    with open(args.json, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, indent=2)
     print(f"  -> {args.json}")
 

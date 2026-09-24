@@ -1,0 +1,14 @@
+"# Bill of materials, dual-Feather MIMO instrument as reported (paper Table 9). UK retail GBP incl. VAT, prices checked 7 August 2026. 'indicative' lines total GBP 7.00."
+item,description,supplier_sku,qty,unit_gbp,line_gbp,price_status
+1,Adafruit ESP32 Feather V2 (Espressif ESP32-PICO-MINI-02-N8R2 module),The Pi Hut ADA5400,2,19.20,38.40,verified
+2,"575-piece resistor kit, 1/4 W 1 % metal film — supplies 10 kΩ ×3, 1 kΩ ×3, 1 MΩ ×12",The Pi Hut 102328,1,6.00,6.00,verified
+3,"Resistors, 3.3 kΩ 1 % metal film ×6 — not included in item 2",(pack),1,1.50,1.50,indicative
+4,"200-piece capacitor kit — supplies 0.1 µF ×6, 1 µF ×6, 10 µF ×2",The Pi Hut,1,8.00,8.00,verified
+5,"Capacitors, 10 nF ceramic ×2 — not included in item 4",(pack),1,2.50,2.50,indicative
+6,"MCP6002-I/P dual rail-to-rail op-amp, DIP-8",Farnell 1292245,3,1.00,3.00,indicative
+7,"8-pin DIL IC socket, pack of 10",(UK trade),1,4.55,4.55,verified
+8,"Stripboard, 100 × 160 mm FR2, 2.54 mm pitch",(UK trade),1,3.99,3.99,verified
+9,"Prototyping wire, solid core, 6-spool set",The Pi Hut 102329,1,12.00,12.00,verified
+10,"Breakaway 2.54 mm male pin headers, 10-pack",The Pi Hut,1,3.50,3.50,verified
+11,"USB-A to USB-C cable, 1 m",The Pi Hut,2,2.25,4.50,verified
+TOTAL,,,,,87.94,

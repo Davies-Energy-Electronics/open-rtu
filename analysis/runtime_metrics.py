@@ -4,8 +4,9 @@ runtime_metrics.py
 
 Processes the runtime-characterisation CSV produced by the timing-instrumented
 variant of the canonical V2 firmware (Feather1codeMimoDemo_TIMED.ino) and
-reports per-module execution-time statistics matching the row schema of
-Table 13 in Section 5.4.4 of the open-RTU MDPI Sensors paper.
+reports per-module execution-time statistics: the runtime profile of the
+canonical build summarised in Section 3.6 of the open-RTU MDPI Sensors paper
+(per-module detail in Supplementary Document S3).
 
 For each of the eight measured stages (M1 RMS, M2 Frequency, M5 THD,
 M4-phase, M4-pwr, alarm evaluation, M6 DNP3 build, Serial output) the script
@@ -25,9 +26,9 @@ figure and compared against three reference budgets:
     - IEC 61400-21 Class II:  100 ms (intermediate target)
     - Current V2 architecture: ~ measured (the actual cycle time)
 
-A headline "engineering quantification" line for §6.3 Gate 2 is produced
-that breaks the total cycle into acquisition-paced (delayMicroseconds)
-versus computation, since the §6.3 Gate 2 argument is that continuous DMA
+A headline "engineering quantification" line for Gate 2 (Section 4.5) is
+produced that breaks the total cycle into acquisition-paced (delayMicroseconds)
+versus computation, since the Gate 2 argument is that continuous DMA
 into a ring buffer removes the acquisition pacing as a cycle-time
 constraint.
 
@@ -236,7 +237,7 @@ def print_console_report(rows, cycle_stats, module_stats, source_path):
           f"{tot['p99_ms']:>10.2f} {tot['max_us']/1000.0:>10.2f} {tot['pct_cycle']:>9.2f}%")
     print()
 
-    # Headline for §6.3 Gate 2: how far above PMU-class target
+    # Headline for Gate 2 (Section 4.5): how far above PMU-class target
     target_ratio = cycle_stats["mean_us"] / PMU_TARGET_US
     classII_ratio = cycle_stats["mean_us"] / CLASS_II_TARGET_US
     print(f"  Cycle vs PMU target (20 ms):       {target_ratio:.1f}x over target")
@@ -259,8 +260,8 @@ def print_console_report(rows, cycle_stats, module_stats, source_path):
           f"({100.0 * total_compute_us / cycle_stats['mean_us']:.1f}% of cycle)")
     print()
 
-    # Engineering quantification for §6.3 Gate 2
-    print("  Headline (engineering quantification for §6.3 Gate 2):")
+    # Engineering quantification for Gate 2 (Section 4.5)
+    print("  Headline (engineering quantification for Gate 2, Section 4.5):")
     print(f"    Current cycle:                       {cycle_mean_ms:.0f} ms")
     print(f"    PMU-class target (C37.118.2 50 Hz):  20 ms")
     print(f"    Acquisition-pacing dominates ({100.0 * total_acquisition_us / cycle_stats['mean_us']:.0f}%);")
@@ -350,7 +351,7 @@ def main(argv=None):
     out_path = (args.json if args.json
                 else os.path.splitext(args.csv_path)[0] + "_runtime.json")
     sidecar = build_json_sidecar(rows, cycle_stats, module_stats, args.csv_path)
-    with open(out_path, "w", encoding="utf-8") as fh:
+    with open(out_path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(sidecar, fh, indent=2)
     print(f"  JSON sidecar written: {out_path}")
     return 0

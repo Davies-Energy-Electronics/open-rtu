@@ -6,8 +6,8 @@ Generate a synthetic three-phase frequency-following trajectory from a
 one-second NESO reference CSV. Produces balanced 120-degree-shifted phase
 waveforms with per-phase THD and per-phase magnitude variation.
 
-**DUAL-FEATHER OUTPUT (matches actual MIMO stripboard, Table 4.1 of the
-dissertation):**
+**DUAL-FEATHER OUTPUT (matches the MIMO stripboard as built; channel map in
+Figure 8 of the paper):**
   - Feather 2 generates Va (DAC1, 0°) and Vb (DAC2, -120°)
   - Feather 1 generates Vc (DAC1, +120°)
 
@@ -19,10 +19,10 @@ The script therefore emits TWO Feather-ready `.h` headers:
 plus a single `<prefix>_3phase.csv` for the analysis toolchain.
 
 Vc phase is set to -120° (equivalently +240°), consistent with the
-dissertation Table 4.1 convention. Va = 0° reference, Vb = -120°, Vc = +120°
-would ALSO be a positive-sequence set; this generator uses the dissertation
+channel-map convention of Figure 8 of the paper. Va = 0° reference, Vb = -120°, Vc = +120°
+would ALSO be a positive-sequence set; this generator uses the Figure 8
 convention Va = 0°, Vb = -120°, Vc = +120° which is the same as Va = 0°,
-Vb = 240°, Vc = 120° after modulo. Users who need the strict Table 4.1
+Vb = 240°, Vc = 120° after modulo. Users who need the strict Figure 8
 labelling can pass --vc-phase-deg 240 (default is 120, but both produce a
 mathematically valid balanced set).
 

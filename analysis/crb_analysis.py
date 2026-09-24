@@ -2,8 +2,21 @@
 crb_analysis.py
 ===============
 
-Cramer-Rao Lower Bound (CRB) analysis for the M2 frequency estimator,
-reproducing Table 17 of Section 5.3.12 of the open-RTU MDPI Sensors paper.
+Cramer-Rao Lower Bound (CRB) for the M2 frequency estimator (Sections 3.5
+and 3.12 of the open-RTU MDPI Sensors paper).
+
+WHAT THE PAPER USES FROM THIS SCRIPT. The only quantity in crb_output.json
+that the paper uses is the 40 dB bound, 3.5408 mHz at N = 200 and
+f_s = 1816.5 Hz (Table 4, Sections 3.5 and 3.12). The Section 3.12 bounds at
+61.4 dB (0.301 mHz at 1816.5 Hz, 0.332 mHz at 2 kHz) come from this script's
+closed form with --snr-conservative 61.4 (and --fs 2000). The ratios to the
+bound in the paper's Table 4 (34.3x, 9.3x, 12.2x and 8.7x for V1-V4) are
+STATIONARY-BLOCK ratios, computed by paper_tables.py (function
+four_estimators) from pooled within-region dispersions of the pre-event and
+settled regions. They are NOT produced by this script. The ratios this script
+prints and writes divide WHOLE-REPLAY dispersions by the bound; the paper no
+longer uses them, because most of each whole-replay dispersion is the
+estimator tracking a moving reference, to which the bound does not apply.
 
 For an unbiased estimator of the frequency of a single real sinusoid in
 additive white Gaussian noise, sampled at f_s over N samples at
@@ -15,19 +28,19 @@ the estimator variance is the standard Rife-Boorstyn result:
 where eta = A^2 / (2*sigma^2) is the signal-to-noise ratio of a REAL sinusoid.
 The CRB standard deviation is sqrt of the above, reported here in mHz.
 
-CORRECTED 23 September 2026 (HQ task L46). Earlier releases used the
+CORRECTED 23 September 2026. Earlier releases used the
 coefficient 6, which is the bound for a COMPLEX exponential. A real sampled
 sinusoid carries half the Fisher information per sample about frequency, so
 the coefficient is 12 and the bound is larger by exactly sqrt(2). Confirmed
 three independent ways: the closed form; a Monte-Carlo single-tone
 least-squares fit; and numerical inversion of the 3x3 Fisher information
-matrix for (A, f, phi), which gives 3.9007 mHz against the closed form's
-3.8985 at N = 200, f_s = 2 kHz and 40 dB. The released bound of 2.757 mHz was
+matrix for (A, f, phi). crb_confirm.py (in this folder) performs all three and
+writes crb_confirm_output.json. The released bound of 2.757 mHz was
 therefore not a bound: the Kalman estimator's own Monte-Carlo dispersion sits
 below it, which is impossible for a true lower bound.
 
-SAMPLING RATE CORRECTED 23 September 2026 (HQ task L41). Earlier releases used
-the 2000 Hz quoted in Sections 2.1.2 and 2.2. That figure is correct for the
+SAMPLING RATE CORRECTED 23 September 2026. Earlier releases used the
+2000 Hz quoted as nominal in Sections 2.1.2 and 2.3. That figure is correct for the
 deadline-scheduled characterisation loop, which measures 2000.0002 Hz with an
 interval standard deviation of 0.0135 us. The canonical M2 build does not run
 at that rate: it paces with a fixed 500 us delay AFTER its per-sample work, so
@@ -39,15 +52,28 @@ cent and raises every ratio to it, in the conservative direction.
 
 This script:
   1. Evaluates the CRB standard deviation at two bracketing SNR scenarios:
-       - conservative: SNR = 40 dB (practical measurement conditions)
-       - ideal:        SNR = 74 dB (ADC SINAD ceiling, Section 4.1.4)
-  2. Compares each of the four algorithms' achieved standard deviation
-     (from Table 16) against the conservative-scenario CRB, reporting the
-     ratio-to-CRB that quantifies headroom for further refinement.
+       - conservative: SNR = 40 dB (an assumption, not a measurement)
+       - ideal:        SNR = 74 dB (twelve-bit quantisation limit, the upper
+                       end of the bracket in Section 3.5)
+  2. Divides four user-supplied whole-replay standard deviations (V1-V4) by
+     the conservative-scenario CRB. These whole-replay ratios are NOT the
+     paper's Table 4 ratios (see above).
 
-The four achieved-std inputs default to the Table 16 values but can be
-overridden from a hybrid/kalman JSON sidecar via --from-json so the wrapper
-can chain real (not hardcoded) numbers.
+The four achieved-std inputs default to whole-replay values (V1 130.85,
+V2 208.93, V3 116.75, V4 194.25 mHz) and can be overridden on the command
+line or from a hybrid/kalman JSON sidecar via --from-json, so the wrapper can
+chain real (not hardcoded) numbers. reproduce_all.py passes --v4 194.2539, the
+value computed by kalman_freq.py; run with bare defaults, the V4 row therefore
+differs in its last digits from the released crb_output.json. The bound itself
+does not depend on these inputs.
+
+The JSON key "table_17_rows" is historical (an earlier section numbering) and
+is kept so that the released crb_output.json is reproduced byte for byte. It
+holds the whole-replay ratios described above.
+
+paper_tables.py does not import this script: it uses the 40 dB bound as the
+literal constant CRB_MHZ = 3.5408423594085563, so changing this script's flags
+does not change the Table 4 ratios.
 
 Usage:
     python crb_analysis.py
@@ -55,12 +81,18 @@ Usage:
     python crb_analysis.py --v1 130.85 --v2 208.93 --v3 116.75 --v4 202.52
     python crb_analysis.py --json crb_output.json
 
-Writes crb_output.json. Standard library only. No external dependencies.
+Writes crb_output.json in the CURRENT DIRECTORY unless --json is given; run
+from the repository root with non-default flags, that overwrites the released
+file, so pass --json with a scratch path for any such run.
+Standard library only. No external dependencies.
 
 Reproducibility:
-    Defaults reproduce Table 4 exactly:
-      CRB std (40 dB) = 3.541 mHz ; CRB std (74 dB) = 0.071 mHz
-      ratios: V1 37.0x, V2 59.0x, V3 33.0x, V4 54.9x
+    python crb_analysis.py --v4 194.2539 --json crb_output.json
+    regenerates the released crb_output.json byte for byte:
+      CRB std (40 dB) = 3.5408 mHz  (the value the paper uses)
+      CRB std (74 dB) = 0.0706 mHz  (not quoted in the paper)
+      whole-replay ratios (not used by the paper):
+      V1 37.0x, V2 59.0x, V3 33.0x, V4 54.9x
     (Superseded values, for anyone comparing against earlier deposits:
      2.757 mHz with 47.5x/75.8x/42.4x/70.5x, from the complex-exponential
      coefficient; and 3.899 mHz with 33.6x/53.6x/29.9x/49.8x, which used the
@@ -79,10 +111,11 @@ import argparse, json, math, os
 
 N_DEFAULT       = 200          # samples per M2 window
 FS_DEFAULT      = 1816.5       # Hz, M2 per-channel rate, MEASURED 23 Sep 2026
-SNR_CONSERV_DB  = 40.0         # practical measurement conditions
-SNR_IDEAL_DB    = 74.0         # ADC SINAD ceiling (Section 4.1.4)
+SNR_CONSERV_DB  = 40.0         # conservative assumption (not measured)
+SNR_IDEAL_DB    = 74.0         # twelve-bit quantisation limit (Section 3.5)
 
-# Table 16 achieved standard deviations (mHz) - defaults
+# Whole-replay achieved standard deviations (mHz) - defaults. These give the
+# whole-replay ratios only; the paper's Table 4 ratios come from paper_tables.py.
 STD_DEFAULTS_MHZ = {
     "V1 baseline":  130.85,
     "V2 canonical": 208.93,
@@ -147,14 +180,16 @@ def main(argv=None):
 
     print()
     print("=" * 70)
-    print("  CRAMER-RAO LOWER BOUND ANALYSIS (Table 17)")
+    print("  CRAMER-RAO LOWER BOUND ANALYSIS (Sections 3.5 and 3.12)")
     print("=" * 70)
-    print(f"  N = {args.n} samples,  f_s = {args.fs:.0f} Hz")
-    print(f"  CRB std (conservative, {args.snr_conservative:.0f} dB SNR): "
-          f"{crb_conserv:.3f} mHz")
-    print(f"  CRB std (ideal,        {args.snr_ideal:.0f} dB SNR): "
-          f"{crb_ideal:.3f} mHz")
+    print(f"  N = {args.n} samples,  f_s = {args.fs:.1f} Hz")
+    print(f"  CRB std (conservative, {args.snr_conservative:.1f} dB SNR): "
+          f"{crb_conserv:.4f} mHz")
+    print(f"  CRB std (ideal,        {args.snr_ideal:.1f} dB SNR): "
+          f"{crb_ideal:.4f} mHz")
     print()
+    print("  Whole-replay ratios below are NOT the paper's Table 4 ratios")
+    print("  (stationary-block ratios: paper_tables.py).")
     print(f"  {'Algorithm':<16}{'Achieved std [mHz]':>20}{'CRB std [mHz]':>16}"
           f"{'Ratio to CRB':>16}")
     print(f"  {'-'*16}{'-'*20}{'-'*16}{'-'*16}")

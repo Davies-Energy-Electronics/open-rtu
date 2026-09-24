@@ -6,3 +6,4 @@ analysis/*_output.json
 analysis/*_output.csv
 __pycache__/
 *.pyc
+figures_regenerated/

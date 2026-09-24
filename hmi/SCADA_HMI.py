@@ -4,7 +4,7 @@ Reads serial telemetry from Feather 1 M6 sketch.
 Displays live measurements, alarms, three-phase waveform reconstruction,
 PDS compliance summary and a raw-hex DNP3 frame inspector.
 
-NESO replay capture mode (added for Task 1.2):
+NESO replay capture mode:
 - Optional second serial connection to Feather 2 (DAC generator).
 - "Start Replay" button issues REPLAY_START to Feather 2.
 - Logs every Feather 1 DNP3 frame to a timestamped CSV, tagged with the
@@ -18,7 +18,7 @@ Usage:  python SCADA_HMI.py                  (port selector dialog opens)
         python SCADA_HMI.py COM5             (Feather 1 only on COM5)
         python SCADA_HMI.py COM5 COM6        (Feather 1 = COM5, Feather 2 = COM6)
 
-Architecture: matches Appendix E of the dissertation. A startup dialog lets
+Architecture: a startup dialog lets
 the operator pick the Feather's COM port from a dropdown (two dropdowns:
 Feather 1 required, Feather 2 optional). Tkinter UI on the main thread,
 two daemon reader threads polling 115 200 baud with automatic reconnection,
@@ -534,7 +534,7 @@ def generate_overlay_plot(csv_path, neso_csv_path="neso_trajectory.csv"):
     ax1.grid(True, alpha=0.3)
     ax1.legend(loc='lower right', fontsize=9)
 
-    # ── Error panel (B.3): |error| as percentage of nominal 50 Hz ──────────
+    # ── Error panel: |error| as percentage of nominal 50 Hz ────────────────
     # 500 mHz = 1 % of 50 Hz; written as /50*100 to make the "% of nominal"
     # meaning obvious to a reader following the code.
     err_pct = [
@@ -544,7 +544,9 @@ def generate_overlay_plot(csv_path, neso_csv_path="neso_trajectory.csv"):
     finite_err_pct = [e for e in err_pct if not math.isnan(e)]
     max_err_pct = max(finite_err_pct) if finite_err_pct else float('nan')
 
-    # Five performance regions (matches Table 7 of the paper). Shading is
+    # Five performance regions, for display only. This is an earlier partition:
+    # the paper's Section 3.1 partition ends the nadir region at index 200, not
+    # 180 (nadir and early recovery 120-200, late recovery 201-300). Shading is
     # drawn first with zorder=0 so the error trace paints on top.
     REGIONS = [
         ('Pre-event nominal',   0,   45,  '#e8f0fe'),
@@ -593,9 +595,9 @@ def generate_overlay_plot(csv_path, neso_csv_path="neso_trajectory.csv"):
 
 # ──────────────────────────────── GUI ─────────────────────────────────────
 class SCADAApp:
-    """Tkinter dashboard. Compliance limits sourced from Section 2.5 / 3.4."""
+    """Tkinter dashboard. Compliance limits: GB Grid Code and EREC G5/5 (below)."""
 
-    # GB Grid Code (Reference [17], Rev. 37, 13 April 2026)
+    # GB Grid Code (manuscript reference [26]; limits checked against Rev. 37, 13 April 2026)
     F_NOM_MIN = 49.5
     F_NOM_MAX = 50.5
     F_STAT_MIN = 47.0
@@ -604,7 +606,7 @@ class SCADAApp:
     THD_LIMIT = 5.0
     # GB Grid Code PF floor (Change 16 applied below)
     PF_FLOOR = 0.95
-    # Section 3.5.2 V_rms nominal at ADC node
+    # V_rms nominal at ADC node (value set from an earlier draft's design section)
     V_NOM = 0.928
     # 90 % undervoltage threshold
     V_UV = 0.835
@@ -702,7 +704,7 @@ class SCADAApp:
         self.lbl_Ib = self._row(left, "Ib_rms", "A")
         self.lbl_Ic = self._row(left, "Ic_rms", "A")
         # Ia is not sampled by Feather 1 (M1 covers 5 channels: Va, Vb, Vc,
-        # Ib, Ic - see paper Section 5.4.4, Table 12a). Show a persistent
+        # Ib, Ic - see the channel map, Figure 8 of the paper). Show a persistent
         # "not sampled" placeholder in the muted label colour so the
         # three-phase panel is visually complete without misrepresenting
         # what is measured.
@@ -736,7 +738,7 @@ class SCADAApp:
         self.tile_thd = self._tile(tile_row, "THD ")
         self.tile_pf = self._tile(tile_row, "PF  ")
 
-        self._section(right, "NESO REPLAY (Task 1.2 capture mode)")
+        self._section(right, "NESO REPLAY (capture mode)")
         rep_row = tk.Frame(right, bg=self.C_BG)
         rep_row.pack(fill='x', padx=4, pady=(2, 0))
         self.btn_replay_start = tk.Button(
@@ -1065,7 +1067,7 @@ class SCADAApp:
                  f"{'PASS' if f_grid_ok else 'FAIL'}   f_avg = {f_avg:.3f} Hz\n")
         t.insert(tk.END,
                  f"Statutory  (47.0-52.0 Hz):  "
-                 f"{'WITHIN' if f_stat_ok else 'OUT  '}   (Reference [17])\n")
+                 f"{'WITHIN' if f_stat_ok else 'OUT  '}   (Grid Code [26])\n")
         t.insert(tk.END,
                  f"EREC G5/5  (THD <= 5 %):    "
                  f"{'PASS' if thd_ok else 'FAIL'}   THD_max = {thd_max:.2f} %\n")

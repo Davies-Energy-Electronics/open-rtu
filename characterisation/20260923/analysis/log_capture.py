@@ -240,7 +240,7 @@ def capture(port, outfile, skip_warmup, baud, timeout_s, expect=None,
         print(f"  On-board sd estimate: {header['sd_millivolts']} mV"
               f"   (the analyser recomputes this properly)")
 
-    # Added 24 Sep 2026 (HQ task L45). On 13 September three captures were
+    # Added 24 Sep 2026. On 13 September three captures were
     # taken without re-editing the sketch between uploads, so A2 and C1 both
     # repeated A1's mode and the two measurements were silently lost. The
     # sketch prints what it actually did; the operator is the only thing that

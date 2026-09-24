@@ -16,7 +16,8 @@ Reads a characterise.ino capture taken with Feather 2 running its normal
      bench today? The exact firmware algorithm — two-point interpolation,
      same-polarity periods from both edges, median — is run over consecutive
      200-sample windows and the scatter reported. That is directly comparable
-     to the 5.40 mHz realised floor quoted in Section 2.2, reproduced from
+     to the realised floor quoted in Section 2.3 (5.46 mHz with n - 1
+     normalisation, 5.40 mHz with population normalisation), reproduced from
      raw samples rather than inherited from a 2026-06-27 capture.
 
 Usage:
@@ -176,7 +177,7 @@ def main(argv=None):
         d = np.diff(freqs)
         print(f"    successive-difference floor    "
               f"{np.std(d, ddof=1)/math.sqrt(2)*1e3:.3f} mHz"
-              f"   <-- same statistic as Sec 2.2's 5.40 mHz")
+              f"   <-- same statistic as Sec 2.3's 5.46 mHz floor")
     else:
         print("  Estimator produced too few valid windows — is the AC running?")
     print(f"{'='*68}")
@@ -187,8 +188,8 @@ def main(argv=None):
         print("  >> THE STIMULUS DOMINATES. Noise with the signal present is")
         print(f"     {r:.1f}x the quiet-input figure. The realised floor is a")
         print("     property of the 8-bit DAC source, not of the acquisition")
-        print("     chain. Sec 2.2's attribution needs rewriting, and it favours")
-        print("     the instrument: the chain is better than the paper claims.")
+        print("     chain. The floor cannot be attributed to the chain alone,")
+        print("     and that favours the instrument (see Section 3.12).")
     elif r > 1.4:
         print("  >> PARTIALLY. The stimulus contributes but does not dominate.")
         print("     Report both terms; neither alone explains the floor.")

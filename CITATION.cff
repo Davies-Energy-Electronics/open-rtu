@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite both the paper and this deposit."
+title: "Open RTU: an open reference instrument for grid-side frequency compliance monitoring"
+type: software
+version: "1.2.0"
+date-released: "2026-09-26"
+license: GPL-3.0-only
+repository-code: "https://github.com/Davies-Energy-Electronics/open-rtu"
+doi: "10.5281/zenodo.21575262"
+abstract: >-
+  Firmware, bill of materials, SCADA HMI, analysis toolchain, bench captures,
+  acquisition-chain characterisation records and the LTspice conditioning netlist
+  for a dual-ESP32 Remote Terminal Unit proxy validated by replaying the NESO
+  one-second frequency record of the 9 August 2019 GB event. Release v1.2.0 is the
+  release cited by the submitted manuscript.
+keywords:
+  - remote terminal unit
+  - replay validation
+  - grid frequency
+  - offshore wind
+  - DNP3
+  - TOST equivalence testing
+  - ESP32
+authors:
+  - family-names: Davies
+    given-names: Jack
+    affiliation: "School of Electrical and Electronic Engineering, University of Portsmouth"
+    orcid: "https://orcid.org/0009-0009-4154-2758"
+  - family-names: Kang
+    given-names: Lei
+    affiliation: "School of Electrical and Electronic Engineering, University of Portsmouth"
+    orcid: "https://orcid.org/0000-0003-2485-8039"
+  - family-names: Hettiarachchige Don
+    given-names: Anton
+    affiliation: "School of Electrical and Electronic Engineering, University of Portsmouth"
+    orcid: "https://orcid.org/0009-0007-3046-4083"
+preferred-citation:
+  type: article
+  title: "Replay Validation Against NESO Records: An Open Reference Instrument for Offshore Wind Frequency Compliance"
+  journal: "Sensors"
+  year: 2026
+  notes: "Submitted"
+  authors:
+    - family-names: Davies
+      given-names: Jack
+    - family-names: Kang
+      given-names: Lei
+    - family-names: Hettiarachchige Don
+      given-names: Anton

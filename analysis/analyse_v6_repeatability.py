@@ -2,7 +2,7 @@
 analyse_v6_repeatability.py
 ===========================
 
-Reproduces the Section 3.9 run-to-run repeatability result (Roadmap C.2) from
+Reproduces the Section 3.8 run-to-run repeatability result from
 the three raw V6 parallel-firmware captures of 24 July 2026. This is the
 released, reproducible record of the analysis first performed for the paper.
 
@@ -20,10 +20,11 @@ WHAT IT DOES
    (f_Vb - 50) against the 20 ms-expanded (f_target - 50).
 4. Scores |f_Vb - f_target| per frame; reports per-region and overall mean/max,
    Class II (<=100 mHz) and Class I (<=10 mHz) coverage.
-5. Compares each run's overall mean to the archived Table 6 result
+5. Compares each run's overall mean to the archived Table 8 result
    (78.3 mHz) on BOTH bases: the full 360 s window, and re-weighted to the
-   archived Table 6 regional frame counts (the archived capture's settled
-   tail was truncated, so the weighted basis is the like-for-like one).
+   archived Table 8 regional frame counts on the Section 3.1 partition (the
+   archived capture's settled tail was truncated, so the weighted basis is the
+   like-for-like one).
 6. Writes repeatability_summary.json with all stats and input SHA-256 hashes.
 
 USAGE
@@ -38,7 +39,7 @@ USAGE
 --neso accepts either the archived canonical V2 SCADA CSV (trajectory is
 reconstructed from it) or a trajectory CSV from extract_neso_window.py.
 
-Requires numpy. Author: Jack Davies (analysis specification: paper Section 3.9).
+Requires numpy. Author: Jack Davies (analysis specification: paper Section 3.8).
 """
 
 from __future__ import annotations
@@ -47,11 +48,14 @@ import numpy as np
 
 ARCHIVED_OVERALL_MHZ = 78.3
 TOLERANCE_MHZ = 8.0
-# Table 6 regional frame counts of the archived canonical V6 capture
-ARCHIVED_WEIGHTS = {"Pre-event": 2299, "RoCoF descent": 2750, "Nadir": 4000,
-                    "Recovery": 4850, "Settled tail": 1997}
-REGIONS = [(0, 45, "Pre-event"), (45, 100, "RoCoF descent"), (100, 180, "Nadir"),
-           (180, 285, "Recovery"), (285, 360, "Settled tail")]
+# Regional frame counts of the archived V6 capture on the Section 3.1 partition
+# (manuscript Table 8). Release v1.2.0: the partition and weights previously used
+# here (0-45/45-100/100-180/180-285/285-360 s) did not match Section 3.1.
+ARCHIVED_WEIGHTS = {"Pre-event nominal": 2349, "RoCoF descent": 3700, "Nadir + early recovery": 4050,
+                    "Late recovery": 4600, "Post-event settled": 1197}
+# (first index, last index + 1, name): replay indices, one second each
+REGIONS = [(0, 46, "Pre-event nominal"), (46, 120, "RoCoF descent"), (120, 201, "Nadir + early recovery"),
+           (201, 301, "Late recovery"), (301, 360, "Post-event settled")]
 CADENCE_MS = 20
 WINDOW_S = 360
 
@@ -78,7 +82,7 @@ def load_trajectory(path):
         f = np.array([traj[i] for i in sorted(traj)])
     else:
         fcol = next(c for c in cols if c.lower() in
-                    ("f_neso_hz", "f", "f_hz", "frequency"))
+                    ("f_neso_hz", "f", "f_hz", "frequency", "frequency_hz"))
         f = np.array([float(r[fcol]) for r in rows])
     if len(f) != WINDOW_S:
         print(f"  warning: trajectory has {len(f)} samples, expected {WINDOW_S}",
@@ -188,7 +192,7 @@ def main(argv=None):
            "spread_weighted_mHz": round(max(wtds) - min(wtds), 1),
            "runs": runs}
     dst = os.path.join(args.outdir, "repeatability_summary.json")
-    with open(dst, "w", encoding="utf-8") as fh:
+    with open(dst, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, indent=2)
     print(f"Wrote {dst}")
     return 0 if verdict else 1

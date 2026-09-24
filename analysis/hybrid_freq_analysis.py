@@ -217,7 +217,7 @@ def main(argv=None):
     print(f'\nWrote {args.out_csv}')
 
     # Write JSON sidecar
-    with open(args.out_json, 'w') as f:
+    with open(args.out_json, 'w', encoding='utf-8', newline='\n') as f:
         json.dump({
             'tool':          'hybrid_freq_analysis.py',
             'schema':        '1.0',

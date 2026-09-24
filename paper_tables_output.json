@@ -1,0 +1,546 @@
+{
+  "schema_version": "1.0",
+  "tool": "paper_tables.py",
+  "regions": [
+    [
+      "Pre-event nominal",
+      0,
+      45
+    ],
+    [
+      "RoCoF descent",
+      46,
+      119
+    ],
+    [
+      "Nadir + early recovery",
+      120,
+      200
+    ],
+    [
+      "Late recovery",
+      201,
+      300
+    ],
+    [
+      "Post-event settled",
+      301,
+      359
+    ]
+  ],
+  "canonical": {
+    "regions": {
+      "Pre-event nominal": {
+        "n": 48,
+        "mean_mhz": -21.197916666666927,
+        "sd_mhz": 20.435612319832938,
+        "max_abs_mhz": 79.00000000000063
+      },
+      "RoCoF descent": {
+        "n": 78,
+        "mean_mhz": -103.23076923076951,
+        "sd_mhz": 259.32356627960377,
+        "max_abs_mhz": 557.0000000000022
+      },
+      "Nadir + early recovery": {
+        "n": 85,
+        "mean_mhz": -115.3164705882353,
+        "sd_mhz": 228.14245332950318,
+        "max_abs_mhz": 629.100000000001
+      },
+      "Late recovery": {
+        "n": 105,
+        "mean_mhz": 191.2209523809521,
+        "sd_mhz": 98.45634106160023,
+        "max_abs_mhz": 429.00000000000205
+      },
+      "Post-event settled": {
+        "n": 63,
+        "mean_mhz": -9.153968253967841,
+        "sd_mhz": 39.36555242683575,
+        "max_abs_mhz": 87.49999999999858
+      }
+    },
+    "noise_floor_pre_event_mhz": 5.459886516866288,
+    "noise_floor_pre_event_population_norm_mhz": 5.401490329696214,
+    "noise_floor_settled_mhz": 20.782524795096535,
+    "reference_sd_pre_event_mhz": 20.123719729331373,
+    "coverage": {
+      "tier2_pct": 44.327176781002635,
+      "tier1_pct": 6.596306068601583
+    },
+    "mean_abs_error_mhz": 159.35963060686024
+  },
+  "table2": [
+    {
+      "window": "Pre-event nominal (i = 0-45)",
+      "n": 48,
+      "mean_mhz": -21.197916666666927,
+      "sd_mhz": 20.435612319832938,
+      "ci90_t_mhz": [
+        -26.14717390478027,
+        -16.248659428553584
+      ],
+      "ci95_bootstrap_mhz": [
+        -26.33333333333339,
+        -15.04166666666743
+      ],
+      "p_tost_delta10": 0.9997899813747833,
+      "p_tost_delta100": 2.296343382457279e-30,
+      "crossover_continuous_mhz": 26.14717390478027,
+      "lag1_autocorrelation": 0.5214679273722398,
+      "n_eff": 15.096959372521036,
+      "crossover_neff_mhz": 30.456994281745974,
+      "p_tost_delta100_neff": 2.3498434568236064e-10
+    },
+    {
+      "window": "Post-event settled (i = 301-359)",
+      "n": 63,
+      "mean_mhz": -9.153968253967841,
+      "sd_mhz": 39.36555242683575,
+      "ci90_t_mhz": [
+        -17.435518000917384,
+        -0.872418507018299
+      ],
+      "ci95_bootstrap_mhz": [
+        -18.588888888888256,
+        0.3587301587297738
+      ],
+      "p_tost_delta10": 0.43255281791501743,
+      "p_tost_delta100": 5.278569997174208e-27,
+      "crossover_continuous_mhz": 17.435518000917384,
+      "lag1_autocorrelation": 0.6873102108607416,
+      "n_eff": 11.675065194872532,
+      "crossover_neff_mhz": 29.901973439826207,
+      "p_tost_delta100_neff": 4.501193023603072e-06
+    },
+    {
+      "window": "Full replay window (i = 0-359)",
+      "n": 379,
+      "mean_mhz": 1.6625329815302432,
+      "sd_mhz": 208.93290452321975,
+      "ci90_t_mhz": [
+        -16.03367297208252,
+        19.35873893514301
+      ],
+      "ci95_bootstrap_mhz": [
+        -19.263324538258548,
+        22.29736147757255
+      ],
+      "p_tost_delta10": 0.21886144129442164,
+      "p_tost_delta100": 1.6337016300835947e-18,
+      "crossover_continuous_mhz": 19.35873893514301,
+      "lag1_autocorrelation": 0.6033962073211934,
+      "n_eff": 93.74653422462346,
+      "crossover_neff_mhz": 37.514776694790946,
+      "p_tost_delta100_neff": 7.890460133150919e-06
+    }
+  ],
+  "table3": {
+    "Pre-event nominal": {
+      "frames": 48,
+      "tve_max_pct": 3.0401573571565135,
+      "tve_mean_pct": 2.433980447666775
+    },
+    "RoCoF descent": {
+      "frames": 78,
+      "tve_max_pct": 8.388497037418166,
+      "tve_mean_pct": 3.8456250906072067
+    },
+    "Nadir + early recovery": {
+      "frames": 85,
+      "tve_max_pct": 8.722382600262966,
+      "tve_mean_pct": 3.9411661425135143
+    },
+    "Late recovery": {
+      "frames": 105,
+      "tve_max_pct": 6.2734005225065905,
+      "tve_mean_pct": 3.538310792258733
+    },
+    "Post-event settled": {
+      "frames": 63,
+      "tve_max_pct": 4.1270535335542275,
+      "tve_mean_pct": 1.31924164973783
+    },
+    "Aggregate (full replay)": {
+      "frames": 379,
+      "tve_max_pct": 8.722382600262966,
+      "tve_mean_pct": 3.183176247466138
+    }
+  },
+  "table4": {
+    "V1": {
+      "stationary_sd_mhz": 121.4850941537172,
+      "n_stationary": 105,
+      "ratio_to_crb": 34.30965906485863,
+      "dynamic_sd_mhz": 135.2311348480874,
+      "n_dynamic": 255
+    },
+    "V2": {
+      "stationary_sd_mhz": 32.79047265072744,
+      "n_stationary": 105,
+      "ratio_to_crb": 9.260641768927716,
+      "dynamic_sd_mhz": 202.2291136084766,
+      "n_dynamic": 255
+    },
+    "V3": {
+      "stationary_sd_mhz": 43.2467155309068,
+      "n_stationary": 105,
+      "ratio_to_crb": 12.213680006395569,
+      "dynamic_sd_mhz": 135.752889833683,
+      "n_dynamic": 255
+    },
+    "V4": {
+      "stationary_sd_mhz": 30.83172970829478,
+      "n_stationary": 105,
+      "ratio_to_crb": 8.707456186624684,
+      "dynamic_sd_mhz": 178.43666016966304,
+      "n_dynamic": 255
+    }
+  },
+  "table5": {
+    "V1": {
+      "Pre-event nominal": {
+        "n": 46,
+        "mean_mhz": 10.173913043479418,
+        "sd_mhz": 87.85859961648644
+      },
+      "RoCoF descent": {
+        "n": 74,
+        "mean_mhz": 14.835135135134456,
+        "sd_mhz": 153.75872081954807
+      },
+      "Nadir + early recovery": {
+        "n": 81,
+        "mean_mhz": -17.871604938271442,
+        "sd_mhz": 138.99273203531902
+      },
+      "Late recovery": {
+        "n": 100,
+        "mean_mhz": -1.666000000000026,
+        "sd_mhz": 116.21445625404856
+      },
+      "Post-event settled": {
+        "n": 59,
+        "mean_mhz": -19.191525423727498,
+        "sd_mhz": 142.19811857736838
+      },
+      "Aggregate (aligned)": {
+        "n": 360,
+        "mean_mhz": -3.27972222222197,
+        "sd_mhz": 131.34861502294683
+      }
+    },
+    "V2": {
+      "Pre-event nominal": {
+        "n": 46,
+        "mean_mhz": -20.728260869565485,
+        "sd_mhz": 20.702309726677967
+      },
+      "RoCoF descent": {
+        "n": 74,
+        "mean_mhz": -100.83513513513547,
+        "sd_mhz": 265.6200347455001
+      },
+      "Nadir + early recovery": {
+        "n": 81,
+        "mean_mhz": -119.30864197530882,
+        "sd_mhz": 228.84110819383554
+      },
+      "Late recovery": {
+        "n": 100,
+        "mean_mhz": 191.63099999999977,
+        "sd_mhz": 98.78271195309496
+      },
+      "Post-event settled": {
+        "n": 59,
+        "mean_mhz": -9.411864406779223,
+        "sd_mhz": 39.710330822725155
+      },
+      "Aggregate (aligned)": {
+        "n": 360,
+        "mean_mhz": 1.4680555555554342,
+        "sd_mhz": 211.2343565280616
+      }
+    },
+    "V3": {
+      "Pre-event nominal": {
+        "n": 46,
+        "mean_mhz": -20.728260869565485,
+        "sd_mhz": 20.702309726677967
+      },
+      "RoCoF descent": {
+        "n": 74,
+        "mean_mhz": 15.637837837837111,
+        "sd_mhz": 156.076024417592
+      },
+      "Nadir + early recovery": {
+        "n": 81,
+        "mean_mhz": -17.871604938271442,
+        "sd_mhz": 138.99273203531902
+      },
+      "Late recovery": {
+        "n": 100,
+        "mean_mhz": -2.9100000000000397,
+        "sd_mhz": 115.4827876457101
+      },
+      "Post-event settled": {
+        "n": 59,
+        "mean_mhz": -3.740677966101106,
+        "sd_mhz": 54.67022173322549
+      },
+      "Aggregate (aligned)": {
+        "n": 360,
+        "mean_mhz": -4.876666666666729,
+        "sd_mhz": 116.75212993350969
+      }
+    },
+    "V4": {
+      "Pre-event nominal": {
+        "n": 46,
+        "mean_mhz": -20.89286291131774,
+        "sd_mhz": 20.617291910932465
+      },
+      "RoCoF descent": {
+        "n": 74,
+        "mean_mhz": -102.20524183620333,
+        "sd_mhz": 231.59157274603447
+      },
+      "Nadir + early recovery": {
+        "n": 81,
+        "mean_mhz": -120.92233447443424,
+        "sd_mhz": 203.9752834519406
+      },
+      "Late recovery": {
+        "n": 100,
+        "mean_mhz": 192.3443388669504,
+        "sd_mhz": 88.75038633447453
+      },
+      "Post-event settled": {
+        "n": 59,
+        "mean_mhz": -9.237571036588504,
+        "sd_mhz": 36.855512312323874
+      },
+      "Aggregate (aligned)": {
+        "n": 360,
+        "mean_mhz": 1.029023648076347,
+        "sd_mhz": 196.0846913867775
+      }
+    }
+  },
+  "table7": {
+    "balanced": {
+      "Pre-event nominal": {
+        "n": 48,
+        "max_abs_mhz": 81.49999999999835,
+        "mean_abs_mhz": 23.833333333333446
+      },
+      "RoCoF descent": {
+        "n": 78,
+        "max_abs_mhz": 542.2000000000012,
+        "mean_abs_mhz": 245.16666666666626
+      },
+      "Nadir + early recovery": {
+        "n": 86,
+        "max_abs_mhz": 511.40000000000185,
+        "mean_abs_mhz": 229.15000000000006
+      },
+      "Late recovery": {
+        "n": 105,
+        "max_abs_mhz": 434.79999999999563,
+        "mean_abs_mhz": 199.9685714285716
+      },
+      "Post-event settled": {
+        "n": 63,
+        "max_abs_mhz": 77.99999999999585,
+        "mean_abs_mhz": 35.55079365079409
+      },
+      "Overall": {
+        "n": 380,
+        "max_abs_mhz": 542.2000000000012,
+        "mean_abs_mhz": 166.3428947368422
+      }
+    },
+    "thd_injected": {
+      "Pre-event nominal": {
+        "n": 48,
+        "max_abs_mhz": 86.50000000000091,
+        "mean_abs_mhz": 23.822916666667027
+      },
+      "RoCoF descent": {
+        "n": 78,
+        "max_abs_mhz": 762.4999999999957,
+        "mean_abs_mhz": 272.5794871794871
+      },
+      "Nadir + early recovery": {
+        "n": 86,
+        "max_abs_mhz": 580.3000000000011,
+        "mean_abs_mhz": 221.2965116279074
+      },
+      "Late recovery": {
+        "n": 105,
+        "max_abs_mhz": 386.49999999999807,
+        "mean_abs_mhz": 197.1171428571426
+      },
+      "Post-event settled": {
+        "n": 63,
+        "max_abs_mhz": 86.50000000000091,
+        "mean_abs_mhz": 33.44285714285742
+      },
+      "Overall": {
+        "n": 380,
+        "max_abs_mhz": 762.4999999999957,
+        "mean_abs_mhz": 169.05368421052646
+      }
+    }
+  },
+  "table8": {
+    "regions": {
+      "Pre-event nominal": {
+        "n": 2349,
+        "max_abs_mhz": 85.3000000000037,
+        "mean_abs_mhz": 22.091656023839853,
+        "signed_mean_mhz": -17.610855683269293,
+        "sd_mhz": 20.842767152682658,
+        "v2_sd_mhz": 20.702309726677967,
+        "sd_ratio": 0.9932610950851306
+      },
+      "RoCoF descent": {
+        "n": 3700,
+        "max_abs_mhz": 457.9999999999984,
+        "mean_abs_mhz": 82.57067567567547,
+        "signed_mean_mhz": 45.25727027027004,
+        "sd_mhz": 103.52000128594524,
+        "v2_sd_mhz": 265.6200347455001,
+        "sd_ratio": 2.5658812929474233
+      },
+      "Nadir + early recovery": {
+        "n": 4050,
+        "max_abs_mhz": 404.40000000000254,
+        "mean_abs_mhz": 87.42728395061711,
+        "signed_mean_mhz": 0.757506172839458,
+        "sd_mhz": 107.10226716882535,
+        "v2_sd_mhz": 228.84110819383554,
+        "sd_ratio": 2.136659794821273
+      },
+      "Late recovery": {
+        "n": 4600,
+        "max_abs_mhz": 416.19999999999635,
+        "mean_abs_mhz": 107.90036956521743,
+        "signed_mean_mhz": 62.8977173913044,
+        "sd_mhz": 109.82932492958582,
+        "v2_sd_mhz": 98.78271195309496,
+        "sd_ratio": 0.8994201868802061
+      },
+      "Post-event settled": {
+        "n": 1197,
+        "max_abs_mhz": 55.5000000000021,
+        "mean_abs_mhz": 30.61821219716001,
+        "signed_mean_mhz": 30.616207184628674,
+        "sd_mhz": 12.390852758821984,
+        "v2_sd_mhz": 39.710330822725155,
+        "sd_ratio": 3.2048101608222543
+      },
+      "Overall": {
+        "n": 15896,
+        "max_abs_mhz": 457.9999999999984,
+        "mean_abs_mhz": 78.28868897835927,
+        "signed_mean_mhz": 28.631668344237557,
+        "sd_mhz": 99.49950783306437,
+        "v2_sd_mhz": 211.2343565280616,
+        "sd_ratio": 2.1229688581219994
+      }
+    },
+    "coverage": {
+      "tier2_pct": 68.92299949672874,
+      "tier1_pct": 9.920734776044288
+    },
+    "excluded_indices_without_reference": [
+      232,
+      239
+    ],
+    "sensitivity_including_unreferenced": {
+      "n": 16296,
+      "mean_abs_mhz": 79.08312469317616,
+      "tier2_pct": 68.34192439862544
+    }
+  },
+  "table8_excluded_frames": 400,
+  "repeatability": {
+    "runs": [
+      {
+        "file": "replay_20260724_130842_v6_run1.csv",
+        "overall_mean_mhz": 71.51641111111104,
+        "weighted_to_table8_mhz": 74.73955917832153,
+        "regions_mean_abs_mhz": {
+          "Pre-event nominal": 21.297826086956533,
+          "RoCoF descent": 68.7336486486484,
+          "Nadir + early recovery": 82.09943209876545,
+          "Late recovery": 111.56817999999994,
+          "Post-event settled": 31.746542372881343
+        }
+      },
+      {
+        "file": "replay_20260724_131622_v6_run2.csv",
+        "overall_mean_mhz": 68.47714999999994,
+        "weighted_to_table8_mhz": 71.28171835018993,
+        "regions_mean_abs_mhz": {
+          "Pre-event nominal": 21.05017391304334,
+          "RoCoF descent": 63.96343243243229,
+          "Nadir + early recovery": 74.8190617283951,
+          "Late recovery": 109.85389999999991,
+          "Post-event settled": 32.278610169491515
+        }
+      },
+      {
+        "file": "replay_20260724_132305_v6_run3.csv",
+        "overall_mean_mhz": 71.43273333333326,
+        "weighted_to_table8_mhz": 74.58965495831593,
+        "regions_mean_abs_mhz": {
+          "Pre-event nominal": 20.993739130434687,
+          "RoCoF descent": 67.66532432432402,
+          "Nadir + early recovery": 83.9220987654321,
+          "Late recovery": 110.25406000000001,
+          "Post-event settled": 32.538000000000004
+        }
+      }
+    ],
+    "overall_range_mhz": [
+      68.47714999999994,
+      71.51641111111104
+    ],
+    "weighted_range_mhz": [
+      71.28171835018993,
+      74.73955917832153
+    ],
+    "spread_overall_mhz": 3.0392611111111023,
+    "spread_weighted_mhz": 3.4578408281315944,
+    "region_minus_table8_mhz": {
+      "Pre-event nominal": [
+        -0.7938299368833199,
+        -1.0414821107965118,
+        -1.0979168934051664
+      ],
+      "RoCoF descent": [
+        -13.837027027027077,
+        -18.607243243243182,
+        -14.905351351351456
+      ],
+      "Nadir + early recovery": [
+        -5.327851851851662,
+        -12.608222222222011,
+        -3.505185185185013
+      ],
+      "Late recovery": [
+        3.66781043478251,
+        1.9535304347824791,
+        2.3536904347825782
+      ],
+      "Post-event settled": [
+        1.1283301757213344,
+        1.6603979723315057,
+        1.9197878028399948
+      ]
+    }
+  }
+}

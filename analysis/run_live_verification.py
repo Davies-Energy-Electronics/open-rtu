@@ -18,10 +18,10 @@ WHAT IT DOES NOT DO
 -------------------
 It does not flash or talk to the Feathers. The V3 hybrid and V4 Kalman are
 computed OFF-LINE in Python over the captured V1/V2 streams - which is exactly
-how Section 5.3.11 of the paper presents them (emulation over captured
+how Section 3.5 of the paper presents them (emulation over captured
 streams, not on-board execution). No Arduino step is required or appropriate
 for the claims the paper makes. Running the algorithms on-board is a separate
-firmware task (Phase 2) and is intentionally out of scope here.
+firmware task and is intentionally out of scope here.
 
 USAGE
 -----
@@ -32,11 +32,12 @@ USAGE
         --outdir live_verification
 
 Produces, in --outdir:
-    Figure_bland_altman_live.png     (Table 10 / Figure 11 equivalent)
-    Figure_tost_sweep_live.png       (Figure 9 equivalent)
+    Figure_bland_altman_live.png     (Section 3.3 / Figure 13 equivalent)
+    Figure_tost_sweep_live.png       (Figure 12 equivalent)
     Figure_hybrid_live.png           (V3 hybrid Bland-Altman)
     Figure_kalman_live.png           (V4 Kalman vs reference)
-    Figure_12_inertia_live.png       (Table 15 / Figure 12)   [inputs published]
+    Figure_12_inertia_live.png       (Section 3.11 / Figure 18; the file name is
+                                     historical)   [inputs external, not measured]
     *_live.json sidecars for every metric
     live_verification_summary.json   (the full comparison table, machine-readable)
 
@@ -65,8 +66,9 @@ ARCHIVED = {
     "Max |f error|":             (629.10, 40.0, "mHz"),
     "RoCoF max (1.0s basis)":    (0.721,  0.20, "Hz/s"),  # noisiest metric (a max); wide band
     "RoCoF RMS (1.0s basis)":    (0.187,  0.04, "Hz/s"),
-    "TVE aggregate mean":        (3.16,   0.5,  "%"),
-    "TVE aggregate max":         (7.63,   0.8,  "%"),
+    "TVE aggregate mean":        (3.18,   0.5,  "%"),   # v1.2.0: was 3.16 (stale)
+    "TVE aggregate max":         (8.72,   0.8,  "%"),   # v1.2.0: was 7.63 (stale); a single-frame
+                                                       # extreme, expected to move between captures
     "V1 std":                    (131.35, 8.0,  "mHz"),
     "V2 std":                    (211.23, 8.0,  "mHz"),
     "V3 hybrid std":             (116.75, 8.0,  "mHz"),
@@ -138,7 +140,7 @@ def main(argv=None):
     print(f"    SHA-256:   {sha256(args.v1)}")
     print()
 
-    # --- Bland-Altman (Table 10) ---
+    # --- Bland-Altman (Section 3.3, Figure 13) ---
     print(f"{DIM}  [1/6] Bland-Altman ...{RST}")
     run_script([py, "bland_altman.py", args.v2,
                 "--json", f"{od}/bland_altman_live.json",
@@ -150,13 +152,13 @@ def main(argv=None):
         live["BA aggregate bias"] = agg["mean_mHz"]
         live["BA Pearson r"] = agg["pearson_r"]
 
-    # --- TOST sweep (Figure 9) ---
+    # --- TOST sweep (Figure 12) ---
     print(f"{DIM}  [2/6] TOST sensitivity sweep ...{RST}")
     run_script([py, "tost_sweep.py", args.v2,
                 "--plot", f"{od}/Figure_tost_sweep_live.png",
                 "--json", f"{od}/tost_sweep_live.json"])
 
-    # --- TVE (Table 9) ---
+    # --- TVE (Table 3) ---
     print(f"{DIM}  [3/6] Total Vector Error ...{RST}")
     run_script([py, "tve_metrics.py", args.v2, "--json", f"{od}/tve_live.json"])
     tve = load_json(f"{od}/tve_live.json")
@@ -167,7 +169,7 @@ def main(argv=None):
         if agg.get("tve_max_pct") is not None:
             live["TVE aggregate max"] = agg["tve_max_pct"]
 
-    # --- Replay metrics (Table 6) ---
+    # --- Replay metrics (Section 3.1) ---
     print(f"{DIM}  [4/6] Replay metrics (RoCoF, max error) ...{RST}")
     run_script([py, "replay_metrics.py", args.v2, "--neso", args.neso])
     rm = load_json(os.path.splitext(args.v2)[0] + "_metrics.json")
@@ -176,7 +178,7 @@ def main(argv=None):
         live["RoCoF max (1.0s basis)"] = rm.get("metric_3_max_rocof_tracking_error_hz_per_s")
         live["RoCoF RMS (1.0s basis)"] = rm.get("metric_3_rms_rocof_tracking_error_hz_per_s")
 
-    # --- Hybrid V1/V2/V3 (Table 16 V1/V2/V3 rows) ---
+    # --- Hybrid V1/V2/V3 (Table 4 V1/V2/V3 rows) ---
     print(f"{DIM}  [5/6] Hybrid V1/V2 -> V3 ...{RST}")
     run_script([py, "hybrid_freq_analysis.py", args.v1, args.v2,
                 "--out-csv", f"{od}/hybrid_live.csv",
@@ -190,7 +192,7 @@ def main(argv=None):
         v2s = hy["v2_stats"]["std_mHz"]; v3s = hy["hybrid_stats"]["std_mHz"]
         live["V3 improvement over V2"] = (1 - v3s / v2s) * 100.0
 
-    # --- Kalman V4 (Table 16 V4 row) ---
+    # --- Kalman V4 (Table 4 V4 row) ---
     print(f"{DIM}  [6/6] Kalman V4 ...{RST}")
     run_script([py, "kalman_freq.py", args.v2, "--neso", args.neso,
                 "--json", f"{od}/kalman_live.json",
@@ -200,7 +202,7 @@ def main(argv=None):
         live["V4 Kalman std"] = kf["v4_stats"]["std_mhz"]
         live["V4 improvement over V2"] = kf["v4_improvement_over_v2_std_pct"]
 
-    # --- Inertia (Table 15) - inputs are published values, capture-independent ---
+    # --- Inertia (Section 3.11, Figure 18) - inputs are external values, capture-independent ---
     run_script([py, "inertia_estimator.py",
                 "--measured-rocof", args.v2,
                 "--json", f"{od}/inertia_live.json",
@@ -253,7 +255,7 @@ def main(argv=None):
             f"{od}/Figure_12_inertia_live.png",
         ],
     }
-    with open(f"{od}/live_verification_summary.json", "w", encoding="utf-8") as fh:
+    with open(f"{od}/live_verification_summary.json", "w", encoding="utf-8", newline="\n") as fh:
         json.dump(summary, fh, indent=2)
     print(f"  Summary written: {od}/live_verification_summary.json")
 

@@ -1,0 +1,63 @@
+{
+  "all_agree": true,
+  "config": {
+    "amplitude": 1.0,
+    "fisher_parameters": "A, f, phi",
+    "fisher_phase_grid_deg": "0, 1, ..., 359",
+    "monte_carlo_fit": "scipy.optimize.least_squares, method lm, analytic Jacobian, started from the true values",
+    "monte_carlo_phase": "uniform on [0, 2 pi) per trial",
+    "monte_carlo_rng": "numpy PCG64 (default_rng)",
+    "monte_carlo_seed": 20260925,
+    "monte_carlo_trials": 5000,
+    "n_samples": 200,
+    "rounding": "six significant figures",
+    "snr_definition": "eta = A^2 / (2 sigma^2)",
+    "tone_hz": 50.0
+  },
+  "points": [
+    {
+      "closed_form_coefficient_6_mhz": 2.75668,
+      "closed_form_mhz": 3.89853,
+      "fisher_max_over_phase_mhz": 3.91643,
+      "fisher_mean_over_phase_mhz": 3.90455,
+      "fisher_min_over_phase_mhz": 3.89272,
+      "fs_hz": 2000.0,
+      "label": "2 kHz, 40 dB",
+      "monte_carlo_mean_bias_mhz": -0.140427,
+      "monte_carlo_sd_mhz": 3.88646,
+      "monte_carlo_se_mhz": 0.0388685,
+      "monte_carlo_z_vs_closed_form": -0.310616,
+      "snr_db": 40.0
+    },
+    {
+      "closed_form_coefficient_6_mhz": 2.50375,
+      "closed_form_mhz": 3.54084,
+      "fisher_max_over_phase_mhz": 3.55921,
+      "fisher_mean_over_phase_mhz": 3.54536,
+      "fisher_min_over_phase_mhz": 3.5316,
+      "fs_hz": 1816.5,
+      "label": "1816.5 Hz, 40 dB",
+      "monte_carlo_mean_bias_mhz": -0.0337502,
+      "monte_carlo_sd_mhz": 3.5659,
+      "monte_carlo_se_mhz": 0.0356626,
+      "monte_carlo_z_vs_closed_form": 0.702739,
+      "snr_db": 40.0
+    },
+    {
+      "closed_form_coefficient_6_mhz": 0.213104,
+      "closed_form_mhz": 0.301375,
+      "fisher_max_over_phase_mhz": 0.302938,
+      "fisher_mean_over_phase_mhz": 0.301759,
+      "fisher_min_over_phase_mhz": 0.300588,
+      "fs_hz": 1816.5,
+      "label": "1816.5 Hz, 61.4 dB",
+      "monte_carlo_mean_bias_mhz": -0.00159589,
+      "monte_carlo_sd_mhz": 0.30274,
+      "monte_carlo_se_mhz": 0.00302771,
+      "monte_carlo_z_vs_closed_form": 0.451091,
+      "snr_db": 61.4
+    }
+  ],
+  "schema_version": "1.0",
+  "tool": "crb_confirm.py"
+}

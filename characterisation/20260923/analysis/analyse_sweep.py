@@ -194,8 +194,8 @@ def report(res, baseline_sd=None):
         print("  budget becomes a measurement.")
     elif abs(rho) >= 0.50:
         print("  VERDICT: the noise floor IS code-dependent and trends with code.")
-        print("  Quote the pooled figure in the budget and say in Section 3.12")
-        print("  which end of the range is worst.")
+        print("  Quote the pooled figure in the budget and state which end of")
+        print("  the range is worst.")
     else:
         print("  VERDICT: mixed - spread and trend disagree. Usually one bin is")
         print("  an outlier; read the table before writing anything.")

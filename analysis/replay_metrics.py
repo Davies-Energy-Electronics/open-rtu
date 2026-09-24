@@ -2,8 +2,9 @@
 replay_metrics.py
 =================
 
-Standalone post-processor for a captured replay CSV. Computes the four
-Table 6 metrics defined in Task 1.3 of the publication roadmap:
+Standalone post-processor for a captured replay CSV. Computes four
+replay metrics (the maximum RoCoF tracking error of Section 3.1 of the paper
+is metric 3):
 
     1. Max |f_instrument(t) - f_NESO(t)| across the full window     (mHz)
        Target: +- 10 mHz  (IEC 61400-21 Class I band)
@@ -25,8 +26,7 @@ Usage:
     python replay_metrics.py replay_*.csv --neso neso_trajectory.csv
 
 Outputs a one-page text summary on stdout plus a JSON sidecar
-'<csv>_metrics.json' alongside each input CSV. Drop those four numbers
-straight into Table 6 of the V3 draft.
+'<csv>_metrics.json' alongside each input CSV.
 """
 
 from __future__ import annotations
@@ -226,7 +226,7 @@ def process(csv_path: str, neso_path: str) -> dict:
 
     # Write JSON sidecar
     json_path = os.path.splitext(csv_path)[0] + "_metrics.json"
-    with open(json_path, 'w', encoding='utf-8') as fh:
+    with open(json_path, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(result, fh, indent=2)
     print(f"  -> {json_path}")
     return result

@@ -1,0 +1,7 @@
+# Versions that produced every manifested output in release v1.2.0 (Python 3.11.15).
+# With these, a regeneration reproduces the derived JSON/CSV sidecars byte for byte.
+# Newer versions reproduce every value reproduce_all.py checks, within the printed
+# tolerances, but some sidecars can then differ in trailing digits (see README).
+numpy==2.4.4
+scipy==1.17.1
+matplotlib==3.10.9

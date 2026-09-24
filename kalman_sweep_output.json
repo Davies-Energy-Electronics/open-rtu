@@ -1,0 +1,825 @@
+{
+  "schema_version": "1.0",
+  "tool": "kalman_sweep.py",
+  "source_file": "replay_20260627_102507V2.csv",
+  "reference_file": "neso_trajectory.csv",
+  "filter": "kalman_freq.kalman_run (imported, unmodified)",
+  "metric": "improvement_pct = (1 - std(V4-ref)/std(V2-ref)) * 100, whole replay (replay_index >= 0)",
+  "n_frames": 379,
+  "baseline": {
+    "q0": 0.0008356097348183354,
+    "r0_hz2": 0.0010779980277574898,
+    "v2_std_mhz": 208.93290452321972,
+    "v4_std_mhz": 194.25387993878257,
+    "improvement_pct": 7.025712210307111
+  },
+  "sweep_2d_independent": {
+    "definition": "q = q0*a, r = r0*b; a, b each log-spaced over [1/4, 4] (q/r therefore spans 1/16..16 x q0/r0)",
+    "factors": [
+      0.25,
+      0.3535533905932738,
+      0.5,
+      0.7071067811865476,
+      1.0,
+      1.4142135623730951,
+      2.0,
+      2.8284271247461903,
+      4.0
+    ],
+    "summary": {
+      "min_pct": 2.2670396802369708,
+      "max_pct": 11.925007052484638,
+      "median_pct": 7.025712210307111,
+      "mean_pct": 7.068329546870996,
+      "n_points": 81
+    },
+    "summary_qr_ratio_within_quarter_to_4x": {
+      "min_pct": 4.361419951759893,
+      "max_pct": 9.828995026684195,
+      "median_pct": 7.025712210307111,
+      "mean_pct": 7.052680482820524,
+      "n_points": 61
+    },
+    "points": [
+      {
+        "q_factor": 0.25,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25389618907766,
+        "improvement_pct": 7.025704432549396
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 0.7071067811865475,
+        "v4_std_mhz": 192.74907624775744,
+        "improvement_pct": 7.745945193455006
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24954335055278,
+        "improvement_pct": 8.463655455812468
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 0.35355339059327373,
+        "v4_std_mhz": 189.78810102467162,
+        "improvement_pct": 9.163134711708587
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.39696339150126,
+        "improvement_pct": 9.828964556148312
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 0.17677669529663687,
+        "v4_std_mhz": 187.10458284507317,
+        "improvement_pct": 10.447527031684311
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.125,
+        "v4_std_mhz": 185.93363548743955,
+        "improvement_pct": 11.007968844478565
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.08838834764831843,
+        "v4_std_mhz": 184.9007221040722,
+        "improvement_pct": 11.502344484220151
+      },
+      {
+        "q_factor": 0.25,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.0625,
+        "v4_std_mhz": 184.01764092386478,
+        "improvement_pct": 11.925007052484638
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 1.4142135623730951,
+        "v4_std_mhz": 195.73402310216463,
+        "improvement_pct": 6.317282311838168
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25389393387766,
+        "improvement_pct": 7.025705511938984
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 0.7071067811865476,
+        "v4_std_mhz": 192.74907304080486,
+        "improvement_pct": 7.745946728374841
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.2495388108313,
+        "improvement_pct": 8.463657628625555
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 0.3535533905932738,
+        "v4_std_mhz": 189.78809463256673,
+        "improvement_pct": 9.163137771114139
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.39695444692697,
+        "improvement_pct": 9.828968837223284
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.1767766952966369,
+        "v4_std_mhz": 187.1045704153055,
+        "improvement_pct": 10.447532980851438
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.125,
+        "v4_std_mhz": 185.9336183464071,
+        "improvement_pct": 11.007977048563266
+      },
+      {
+        "q_factor": 0.3535533905932738,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.08838834764831845,
+        "v4_std_mhz": 184.9006986733806,
+        "improvement_pct": 11.502355698677569
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16515514157328,
+        "improvement_pct": 5.6323102426112275
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 1.414213562373095,
+        "v4_std_mhz": 195.73402087218884,
+        "improvement_pct": 6.31728337915487
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25389075086036,
+        "improvement_pct": 7.0257070354028395
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 0.7071067811865475,
+        "v4_std_mhz": 192.74906851745527,
+        "improvement_pct": 7.745948893351962
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24953241361433,
+        "improvement_pct": 8.463660690477859
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 0.35355339059327373,
+        "v4_std_mhz": 189.788085637004,
+        "improvement_pct": 9.163142076593333
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.39694188317748,
+        "improvement_pct": 9.828974850517136
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.17677669529663687,
+        "v4_std_mhz": 187.10455300361022,
+        "improvement_pct": 10.447541314481468
+      },
+      {
+        "q_factor": 0.5,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.125,
+        "v4_std_mhz": 185.93359442863425,
+        "improvement_pct": 11.007988496148746
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 2.8284271247461903,
+        "v4_std_mhz": 198.5303959385166,
+        "improvement_pct": 4.9788752080202165
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16515294657694,
+        "improvement_pct": 5.6323112931859765
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 1.4142135623730951,
+        "v4_std_mhz": 195.73401772527234,
+        "improvement_pct": 6.317284885340079
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25388626198026,
+        "improvement_pct": 7.025709183882101
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 0.7071067811865476,
+        "v4_std_mhz": 192.74906214428276,
+        "improvement_pct": 7.74595194369605
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24952341209786,
+        "improvement_pct": 8.463664998806653
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.3535533905932738,
+        "v4_std_mhz": 189.78807300297044,
+        "improvement_pct": 9.163148123526721
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.396924284603,
+        "improvement_pct": 9.828983273591774
+      },
+      {
+        "q_factor": 0.7071067811865476,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.1767766952966369,
+        "v4_std_mhz": 187.1045287067536,
+        "improvement_pct": 10.44755294350499
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.82046313955257,
+        "improvement_pct": 4.361419951759893
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 2.82842712474619,
+        "v4_std_mhz": 198.53039379089307,
+        "improvement_pct": 4.978876235921259
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.1651498497097,
+        "improvement_pct": 5.63231277541647
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 1.414213562373095,
+        "v4_std_mhz": 195.73401328829658,
+        "improvement_pct": 6.317287008976747
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25387993878257,
+        "improvement_pct": 7.025712210307111
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 0.7071067811865475,
+        "v4_std_mhz": 192.74905317852915,
+        "improvement_pct": 7.745956234907925
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24951077215655,
+        "improvement_pct": 8.463671048567612
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.35355339059327373,
+        "v4_std_mhz": 189.78805530857508,
+        "improvement_pct": 9.163156592463384
+      },
+      {
+        "q_factor": 1.0,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.39689972852563,
+        "improvement_pct": 9.828995026684195
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 5.656854249492381,
+        "v4_std_mhz": 201.03218406125396,
+        "improvement_pct": 3.7814629916695153
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.8204610546675,
+        "improvement_pct": 4.361420949632899
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 2.8284271247461903,
+        "v4_std_mhz": 198.53039076179562,
+        "improvement_pct": 4.978877685715622
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16514548466608,
+        "improvement_pct": 5.632314864624799
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 1.4142135623730951,
+        "v4_std_mhz": 195.7340070401854,
+        "improvement_pct": 6.3172899994636715
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25387104612707,
+        "improvement_pct": 7.025716466532583
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 0.7071067811865476,
+        "v4_std_mhz": 192.74904059262172,
+        "improvement_pct": 7.74596225880706
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24949307431763,
+        "improvement_pct": 8.463679519152457
+      },
+      {
+        "q_factor": 1.4142135623730951,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.3535533905932738,
+        "v4_std_mhz": 189.78803062393615,
+        "improvement_pct": 9.163168407088273
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 8.0,
+        "v4_std_mhz": 202.1656592209337,
+        "improvement_pct": 3.2389562178962383
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 5.65685424949238,
+        "v4_std_mhz": 201.03218205669165,
+        "improvement_pct": 3.7814639510982406
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.82045811530983,
+        "improvement_pct": 4.361422356475774
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 2.82842712474619,
+        "v4_std_mhz": 198.53038649412682,
+        "improvement_pct": 4.978879728318153
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16513934055848,
+        "improvement_pct": 5.632317805333253
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 1.414213562373095,
+        "v4_std_mhz": 195.73399825703348,
+        "improvement_pct": 6.317294203278257
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25385856834953,
+        "improvement_pct": 7.025722438678317
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 0.7071067811865475,
+        "v4_std_mhz": 192.7490229779451,
+        "improvement_pct": 7.745970689588555
+      },
+      {
+        "q_factor": 2.0,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24946839432607,
+        "improvement_pct": 8.463691331552992
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 11.313708498984761,
+        "v4_std_mhz": 203.22107985553038,
+        "improvement_pct": 2.73380810012841
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 8.0,
+        "v4_std_mhz": 202.16565731521737,
+        "improvement_pct": 3.238957130015041
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 5.656854249492381,
+        "v4_std_mhz": 201.03217923223332,
+        "improvement_pct": 3.7814653029476952
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.82045397655753,
+        "improvement_pct": 4.361424337375963
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 2.8284271247461903,
+        "v4_std_mhz": 198.53038049075363,
+        "improvement_pct": 4.978882601667944
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.1651307089659,
+        "improvement_pct": 5.63232193660812
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 1.4142135623730951,
+        "v4_std_mhz": 195.73398594060842,
+        "improvement_pct": 6.317300098197043
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25384111584526,
+        "improvement_pct": 7.025730791840445
+      },
+      {
+        "q_factor": 2.8284271247461903,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 0.7071067811865476,
+        "v4_std_mhz": 192.74899842859557,
+        "improvement_pct": 7.7459824394608745
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 0.25,
+        "qr_ratio_factor": 16.0,
+        "v4_std_mhz": 204.1963126726067,
+        "improvement_pct": 2.2670396802369708
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 0.3535533905932738,
+        "qr_ratio_factor": 11.31370849898476,
+        "v4_std_mhz": 203.22107806649177,
+        "improvement_pct": 2.733808956402639
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 0.5,
+        "qr_ratio_factor": 8.0,
+        "v4_std_mhz": 202.16565463220326,
+        "improvement_pct": 3.2389584141661043
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 0.7071067811865476,
+        "qr_ratio_factor": 5.65685424949238,
+        "v4_std_mhz": 201.03217525854873,
+        "improvement_pct": 3.781467204842759
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 1.0,
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.8204481594448,
+        "improvement_pct": 4.361427121577311
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 1.4142135623730951,
+        "qr_ratio_factor": 2.82842712474619,
+        "v4_std_mhz": 198.5303720641231,
+        "improvement_pct": 4.97888663484336
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 2.0,
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16511861561858,
+        "improvement_pct": 5.63232772475688
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 2.8284271247461903,
+        "qr_ratio_factor": 1.414213562373095,
+        "v4_std_mhz": 195.7339687288903,
+        "improvement_pct": 6.317308336113503
+      },
+      {
+        "q_factor": 4.0,
+        "r_factor": 4.0,
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25381681365727,
+        "improvement_pct": 7.025742423415693
+      }
+    ]
+  },
+  "sweep_qr_ratio": {
+    "definition": "q/r = (q0/r0)*c, c log-spaced over [1/4, 4]; q = q0*sqrt(c), r = r0/sqrt(c)",
+    "factors": [
+      0.25,
+      0.2726269331663144,
+      0.29730177875068026,
+      0.3242098886627524,
+      0.3535533905932738,
+      0.3855527063519852,
+      0.42044820762685725,
+      0.4585020216023356,
+      0.5,
+      0.5452538663326288,
+      0.5946035575013605,
+      0.6484197773255048,
+      0.7071067811865476,
+      0.7711054127039704,
+      0.8408964152537145,
+      0.9170040432046712,
+      1.0,
+      1.0905077326652577,
+      1.189207115002721,
+      1.2968395546510096,
+      1.4142135623730951,
+      1.5422108254079407,
+      1.681792830507429,
+      1.8340080864093424,
+      2.0,
+      2.1810154653305154,
+      2.378414230005442,
+      2.5936791093020193,
+      2.8284271247461903,
+      3.0844216508158815,
+      3.363585661014858,
+      3.668016172818685,
+      4.0
+    ],
+    "summary": {
+      "min_pct": 4.361422356475774,
+      "max_pct": 9.828974850517136,
+      "median_pct": 7.025712210307111,
+      "mean_pct": 7.053622599552606,
+      "n_points": 33
+    },
+    "points": [
+      {
+        "qr_ratio_factor": 0.25,
+        "v4_std_mhz": 188.39694188317748,
+        "improvement_pct": 9.828974850517136
+      },
+      {
+        "qr_ratio_factor": 0.2726269331663144,
+        "v4_std_mhz": 188.73649037006805,
+        "improvement_pct": 9.666459287128292
+      },
+      {
+        "qr_ratio_factor": 0.29730177875068026,
+        "v4_std_mhz": 189.08182491670803,
+        "improvement_pct": 9.501174385055055
+      },
+      {
+        "qr_ratio_factor": 0.3242098886627524,
+        "v4_std_mhz": 189.432507533264,
+        "improvement_pct": 9.333329776109323
+      },
+      {
+        "qr_ratio_factor": 0.3535533905932738,
+        "v4_std_mhz": 189.78807985328032,
+        "improvement_pct": 9.16314484481392
+      },
+      {
+        "qr_ratio_factor": 0.3855527063519852,
+        "v4_std_mhz": 190.14806542125027,
+        "improvement_pct": 8.990847633519493
+      },
+      {
+        "qr_ratio_factor": 0.42044820762685725,
+        "v4_std_mhz": 190.51197234098697,
+        "improvement_pct": 8.816673574834422
+      },
+      {
+        "qr_ratio_factor": 0.4585020216023356,
+        "v4_std_mhz": 190.87929622916639,
+        "improvement_pct": 8.64086407799254
+      },
+      {
+        "qr_ratio_factor": 0.5,
+        "v4_std_mhz": 191.24952341209786,
+        "improvement_pct": 8.463664998806653
+      },
+      {
+        "qr_ratio_factor": 0.5452538663326288,
+        "v4_std_mhz": 191.62213430024656,
+        "improvement_pct": 8.285325024546019
+      },
+      {
+        "qr_ratio_factor": 0.5946035575013605,
+        "v4_std_mhz": 191.99660687433268,
+        "improvement_pct": 8.106094005410636
+      },
+      {
+        "qr_ratio_factor": 0.6484197773255048,
+        "v4_std_mhz": 192.37242021873988,
+        "improvement_pct": 7.926221263362276
+      },
+      {
+        "qr_ratio_factor": 0.7071067811865476,
+        "v4_std_mhz": 192.74905804200355,
+        "improvement_pct": 7.745953907139402
+      },
+      {
+        "qr_ratio_factor": 0.7711054127039704,
+        "v4_std_mhz": 193.12601212976915,
+        "improvement_pct": 7.565535179593441
+      },
+      {
+        "qr_ratio_factor": 0.8408964152537145,
+        "v4_std_mhz": 193.5027856820493,
+        "improvement_pct": 7.385202860402296
+      },
+      {
+        "qr_ratio_factor": 0.9170040432046712,
+        "v4_std_mhz": 193.8788964931732,
+        "improvement_pct": 7.205187744074804
+      },
+      {
+        "qr_ratio_factor": 1.0,
+        "v4_std_mhz": 194.25387993878257,
+        "improvement_pct": 7.025712210307111
+      },
+      {
+        "qr_ratio_factor": 1.0905077326652577,
+        "v4_std_mhz": 194.62729173908684,
+        "improvement_pct": 6.846988901426498
+      },
+      {
+        "qr_ratio_factor": 1.189207115002721,
+        "v4_std_mhz": 194.99871047095684,
+        "improvement_pct": 6.669219520046599
+      },
+      {
+        "qr_ratio_factor": 1.2968395546510096,
+        "v4_std_mhz": 195.3677398032689,
+        "improvement_pct": 6.492593759181309
+      },
+      {
+        "qr_ratio_factor": 1.4142135623730951,
+        "v4_std_mhz": 195.73401043037236,
+        "improvement_pct": 6.317288376843722
+      },
+      {
+        "qr_ratio_factor": 1.5422108254079407,
+        "v4_std_mhz": 196.09718167809652,
+        "improvement_pct": 6.143466427374877
+      },
+      {
+        "qr_ratio_factor": 1.681792830507429,
+        "v4_std_mhz": 196.4569427559834,
+        "improvement_pct": 5.971276662096958
+      },
+      {
+        "qr_ratio_factor": 1.8340080864093424,
+        "v4_std_mhz": 196.813013629206,
+        "improvement_pct": 5.800853111993554
+      },
+      {
+        "qr_ratio_factor": 2.0,
+        "v4_std_mhz": 197.16514548466608,
+        "improvement_pct": 5.632314864624799
+      },
+      {
+        "qr_ratio_factor": 2.1810154653305154,
+        "v4_std_mhz": 197.51312076876908,
+        "improvement_pct": 5.465766046047326
+      },
+      {
+        "qr_ratio_factor": 2.378414230005442,
+        "v4_std_mhz": 197.85675277979982,
+        "improvement_pct": 5.301296015912593
+      },
+      {
+        "qr_ratio_factor": 2.5936791093020193,
+        "v4_std_mhz": 198.19588480588482,
+        "improvement_pct": 5.138979780057406
+      },
+      {
+        "qr_ratio_factor": 2.8284271247461903,
+        "v4_std_mhz": 198.5303888100453,
+        "improvement_pct": 4.9788786198673325
+      },
+      {
+        "qr_ratio_factor": 3.0844216508158815,
+        "v4_std_mhz": 198.86016367639965,
+        "improvement_pct": 4.821040931683706
+      },
+      {
+        "qr_ratio_factor": 3.363585661014858,
+        "v4_std_mhz": 199.1851330453175,
+        "improvement_pct": 4.66550326294769
+      },
+      {
+        "qr_ratio_factor": 3.668016172818685,
+        "v4_std_mhz": 199.50524277939226,
+        "improvement_pct": 4.512291525043011
+      },
+      {
+        "qr_ratio_factor": 4.0,
+        "v4_std_mhz": 199.82045811530983,
+        "improvement_pct": 4.361422356475774
+      }
+    ]
+  }
+}
