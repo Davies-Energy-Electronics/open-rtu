@@ -1,0 +1,8 @@
+# Run artefacts. The harness regenerates these; they are not released.
+/Figure_*.png
+/hybrid_output.csv
+analysis/Figure_*.png
+analysis/*_output.json
+analysis/*_output.csv
+__pycache__/
+*.pyc

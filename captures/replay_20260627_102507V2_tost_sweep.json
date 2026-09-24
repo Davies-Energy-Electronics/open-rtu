@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "tool": "tost_sweep.py",
   "input": {
-    "source_file": "C:\\Users\\davie\\AppData\\Local\\Temp\\l42\\clone\\captures\\replay_20260627_102507V2.csv",
+    "source_file": "replay_20260627_102507V2.csv",
     "sha256": "dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f"
   },
   "constants": {
