@@ -4,9 +4,9 @@ tve_metrics.py — Total Vector Error (TVE) characterisation of the open RTU
 canonical NESO replay capture.
 
 Computes a TVE-equivalent figure of merit per frame and aggregates statistics
-over the full 360 s replay window and over the five regions identified in
-§5.3.4 (pre-event nominal, RoCoF descent, nadir, late recovery, post-event
-settled).
+over the full 360 s replay window and over the five regions of the estimator
+decomposition reported in §3.1 of the paper (pre-event nominal, RoCoF descent,
+nadir and early recovery, late recovery, post-event settled).
 
 Following IEEE C37.118.1-2011 §5.2, the per-frame TVE-equivalent is:
 
@@ -14,34 +14,77 @@ Following IEEE C37.118.1-2011 §5.2, the per-frame TVE-equivalent is:
                  + ( V_meas(n) * 2*pi * Delta_f(n) * T_report )^2 ]
              / V_ref
 
-where V_ref = K_design * V_nom = 0.2364 * 3.25 = 0.7682 V (constant nominal
-RMS), Delta_f(n) = f_meas(n) - f_NESO(n), and T_report = 0.020 s (the SCADA
-50 Hz reporting cadence, matching the PMU C37.118 frame rate convention).
+with V_meas taken from the Vb_rms column, Delta_f(n) = f_Vb(n) - f_target(n),
+and V_ref and T_report as set out below. Both constants are conventions rather
+than measurements, and both are stated here explicitly because neither is
+self-evident from the numbers this script prints.
 
-The formulation deliberately uses the per-frame Delta_f scaled by T_report
-rather than the cumulative integrated phase drift, so the metric reflects
-the per-reporting-window phase error contribution (the PMU-relevant
+V_ref — DESIGN-INTENT, not measured:
+
+    V_ref = K_design * V_nom = 0.2364 * 3.25 = 0.7683 V
+
+K_design is the nominal conditioning-chain divider ratio (§2.1.2). The gain
+actually measured on the build is 0.220 (§2.8.3, §2.8.5), and the mean Vb_rms
+over the pre-event window of this capture is 0.749817 V. Referencing to the
+design value therefore introduces a fixed +2.406 % offset into the magnitude
+term — which is the entirety of the 2.41 % mean magnitude contribution
+reported for the pre-event region below. That floor is a calibration-reference
+choice, not instrument error. The design value is retained because it is the
+constant the released JSON sidecars and figures were generated with; anyone
+re-deriving these numbers against §2.8 needs to know which of the two gains
+is in play.
+
+T_report = 0.020 s — PMU convention, not the RTU's cadence:
+
+The 20 ms scaling is the IEEE C37.118 50 frames/s reporting convention, used
+so the phase term is directly comparable with published PMU TVE figures. The
+canonical V2 build reports at 1 s; the 20 ms figure belongs to the V6
+parallel-sampling branch. The formulation uses the per-frame Delta_f scaled by
+T_report rather than the cumulative integrated phase drift, so the metric
+reflects the per-reporting-window phase error contribution (the PMU-relevant
 quantity) rather than the unbounded long-baseline drift that would arise
 without GPS-locked timestamping.
 
-PMU compliance threshold (IEEE C37.118.1): TVE <= 1.0%.
+PMU compliance threshold (IEEE C37.118.1): TVE <= 1.0 %. The open RTU is not a
+PMU and makes no claim to that threshold. The metric is reported as a
+TVE-equivalent so that the distance to PMU-class instrumentation is quantified
+rather than asserted.
 
 Usage:
-    python tve_metrics.py replay_20260627_102507.csv
-    python tve_metrics.py replay_20260627_102507.csv --json tve_output.json
-    python tve_metrics.py replay_20260627_102507.csv --verify-hash dadbcfe247...
+    python tve_metrics.py replay_20260627_102507V2.csv
+    python tve_metrics.py replay_20260627_102507V2.csv --json tve_output.json
+    python tve_metrics.py replay_20260627_102507V2.csv \\
+        --verify-hash dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f
 
 Output:
     - Console table with aggregate TVE and per-region TVE statistics
     - Optional JSON sidecar with full per-region breakdown
 
-Reproducibility:
-    Canonical input: replay_20260627_102507.csv
+Reproducibility — every figure below was re-run against the canonical capture
+on 2026-09-22 and is what this script actually prints:
+
+    Canonical input:  replay_20260627_102507V2.csv
     Expected SHA-256: dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f
-    Expected aggregate TVE max: ~7.9% (at replay index 176, nadir region)
-    Expected aggregate TVE mean: ~2.0%
-    Expected pre-event TVE max: ~1.0% (below PMU threshold)
-    Expected settled TVE max: ~1.1% (at PMU threshold boundary)
+    Frames processed: 379 rows spanning 360 unique replay indices
+                      (19 indices carry a duplicate frame)
+
+    Aggregate TVE max:     8.72 %  at replay_index 176 (frame_count 274),
+                                   nadir and early recovery region
+    Aggregate TVE mean:    3.18 %   median 3.09 %   p95 6.02 %   sigma 1.61 %
+    Magnitude contribution mean 2.09 % (max 5.19 %)
+    Phase contribution     mean 2.00 % (max 7.56 %)
+
+    Per region (count, TVE max, TVE mean):
+      Pre-event nominal        48   3.04 %   2.43 %
+      RoCoF descent            78   8.39 %   3.85 %
+      Nadir + early recovery   85   8.72 %   3.94 %
+      Late recovery           105   6.27 %   3.54 %
+      Post-event settled       63   4.13 %   1.32 %
+
+    All five regions sit above the 1.0 % PMU threshold. The paper's "three- to
+    eight-fold TVE-equivalent gap" is these figures against that threshold
+    (mean 3.18 %, max 8.72 %); no window of this capture is PMU-compliant, and
+    nothing in this script should be read as claiming otherwise.
 
 Standard-library only. No external dependencies.
 """
@@ -56,16 +99,16 @@ import sys
 from pathlib import Path
 
 # ============================================================================
-# Constants (paper §2.3, §3.1, §5.3)
+# Constants (paper §2.1.2 conditioning chain, §2.7 tiers, §3.1 regions)
 # ============================================================================
 
-K_DESIGN = 0.2364                 # Conditioning circuit divider ratio (paper §2.3)
-V_NOM = 3.25                      # Nominal pre-divider RMS (paper §1, §2.2)
-V_REF = K_DESIGN * V_NOM          # Reference RMS at ADC input: 0.7682 V
-T_REPORT = 0.020                  # SCADA reporting cadence in seconds (50 Hz)
+K_DESIGN = 0.2364                 # Design-intent divider ratio (§2.1.2); measured 0.220 (§2.8.3)
+V_NOM = 3.25                      # Nominal pre-divider RMS (paper §2.2)
+V_REF = K_DESIGN * V_NOM          # Reference RMS at ADC input: 0.7683 V (design, not measured)
+T_REPORT = 0.020                  # PMU C37.118 frame interval (50 fps); NOT the V2 build's 1 s cadence
 PMU_TVE_THRESHOLD = 0.01          # IEEE C37.118.1 TVE compliance threshold: 1.0%
 
-# Five regions of the 360 s replay window per §5.3.4
+# Five regions of the 360 s replay window per §3.1
 REGIONS = [
     ("Pre-event nominal",       0,    45),
     ("RoCoF descent",          46,   119),
@@ -74,10 +117,6 @@ REGIONS = [
     ("Post-event settled",     301,  359),
 ]
 
-# NESO 9 August 2019 reference frequency trajectory embedded as fallback.
-# In normal operation this is read from the CSV's `f_neso` column if present.
-# The embedded sequence below is a sparse fallback for testing only.
-NESO_FALLBACK_SEQUENCE_PRESENT = False  # set True only if embedded data provided
 
 # ============================================================================
 # Core computation
@@ -279,7 +318,7 @@ def print_console_report(rows, region_stats, hash_value, source_path):
     print(f"  T_report (PMU 50Hz):  {T_REPORT*1000:.0f} ms")
     print(f"  PMU TVE threshold:    {100*PMU_TVE_THRESHOLD:.1f}% (IEEE C37.118.1)")
     print()
-    print("  ── PER-REGION RESULTS (§5.3.4 five-region partition) ─────────────")
+    print("  ── PER-REGION RESULTS (§3.1 five-region partition) ─────────────")
     print()
     print(f"  {'Region':<26} {'count':>6} {'TVE max':>8} {'TVE μ':>8} "
           f"{'|mag| μ':>8} {'|φ| μ':>8} {'verdict':>22}")

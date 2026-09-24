@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "tool": "inertia_estimator.py",
+  "config": {
+    "f0_hz": 50.0,
+    "published_rocof_hz_s": 0.16,
+    "ref_inertia_gvas": 210.0
+  },
+  "primary_recovered_ek_gvas": 231.4,
+  "primary_error_pct": 10.2,
+  "table_15_rows": [
+    {
+      "scenario": "Initial trip + embedded loss",
+      "dp_mw": 1481.0,
+      "rocof_hz_s": -0.16,
+      "recovered_ek_gvas": 231.4,
+      "error_vs_ref_pct": 10.2
+    },
+    {
+      "scenario": "Cumulative to LFDD",
+      "dp_mw": 1878.0,
+      "rocof_hz_s": -0.16,
+      "recovered_ek_gvas": 293.4,
+      "error_vs_ref_pct": 39.7
+    },
+    {
+      "scenario": "Reference (900 MW)",
+      "dp_mw": 900.0,
+      "rocof_hz_s": -0.16,
+      "recovered_ek_gvas": 140.6,
+      "error_vs_ref_pct": -33.0
+    }
+  ],
+  "replay_measured_descent_rocof_hz_s": 0.0091,
+  "rocof_provenance": "published real-event value; NOT measured by the instrument. NESO [10] states no measured system RoCoF for the event - this input needs its own citation",
+  "dp_provenance": "1378 MW does not appear in NESO [10]; published cumulative totals are 981 / 1131 / 1481 / 1691 / 1878 MW",
+  "claim_scope": "consistency check on published figures and on this implementation; not evidence of instrument accuracy"
+}

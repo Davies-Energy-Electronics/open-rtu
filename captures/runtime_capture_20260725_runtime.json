@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "tool": "runtime_metrics.py",
+  "source_file": "runtime_capture_20260725.csv",
+  "n_iterations": 1002,
+  "targets": {
+    "pmu_target_us": 20000,
+    "class_ii_target_us": 100000
+  },
+  "cycle_stats": {
+    "n": 1002,
+    "mean_us": 949776.8862275449,
+    "mean_ms": 949.7768862275449,
+    "p99_us": 950140.0,
+    "p99_ms": 950.14,
+    "max_us": 960244.0,
+    "max_ms": 960.244
+  },
+  "table_13_rows": [
+    {
+      "module": "M1  \u2014 RMS (5 channels)",
+      "n": 1002,
+      "mean_us": 108010.1,
+      "mean_ms": 108.01,
+      "p99_us": 108021.0,
+      "p99_ms": 108.02,
+      "max_us": 108025.0,
+      "pct_cycle": 11.37
+    },
+    {
+      "module": "M2  \u2014 Frequency (3 channels)",
+      "n": 1002,
+      "mean_us": 324368.4,
+      "mean_ms": 324.37,
+      "p99_us": 324411.0,
+      "p99_ms": 324.41,
+      "max_us": 324423.0,
+      "pct_cycle": 34.15
+    },
+    {
+      "module": "M5  \u2014 THD / Harmonics (3 channels)",
+      "n": 1002,
+      "mean_us": 309077.6,
+      "mean_ms": 309.08,
+      "p99_us": 309103.0,
+      "p99_ms": 309.1,
+      "max_us": 309110.0,
+      "pct_cycle": 32.54
+    },
+    {
+      "module": "M4  \u2014 Phase angle (2 channels)",
+      "n": 1002,
+      "mean_us": 25245.1,
+      "mean_ms": 25.25,
+      "p99_us": 25548.0,
+      "p99_ms": 25.55,
+      "max_us": 35802.0,
+      "pct_cycle": 2.66
+    },
+    {
+      "module": "M4  \u2014 Power + P/Q/S/PF (2 channels)",
+      "n": 1002,
+      "mean_us": 107839.7,
+      "mean_ms": 107.84,
+      "p99_us": 107865.0,
+      "p99_ms": 107.86,
+      "max_us": 107874.0,
+      "pct_cycle": 11.35
+    },
+    {
+      "module": "Alarm evaluation",
+      "n": 1002,
+      "mean_us": 1.0,
+      "mean_ms": 0.0,
+      "p99_us": 1.0,
+      "p99_ms": 0.0,
+      "max_us": 2.0,
+      "pct_cycle": 0.0
+    },
+    {
+      "module": "M6  \u2014 DNP3 frame build",
+      "n": 1002,
+      "mean_us": 45.1,
+      "mean_ms": 0.05,
+      "p99_us": 53.0,
+      "p99_ms": 0.05,
+      "max_us": 54.0,
+      "pct_cycle": 0.0
+    },
+    {
+      "module": "Serial output (verbose debug)",
+      "n": 1002,
+      "mean_us": 75190.0,
+      "mean_ms": 75.19,
+      "p99_us": 75218.0,
+      "p99_ms": 75.22,
+      "max_us": 75219.0,
+      "pct_cycle": 7.92
+    },
+    {
+      "module": "TOTAL (per-cycle, summed mean)",
+      "n": 1002,
+      "mean_us": 949776.9,
+      "mean_ms": 949.78,
+      "p99_us": 950140.0,
+      "p99_ms": 950.14,
+      "max_us": 960244.0,
+      "pct_cycle": 100.0
+    }
+  ],
+  "per_module_full_stats": {
+    "M1_RMS_us": {
+      "n": 1002,
+      "mean_us": 108010.10279441118,
+      "std_us": 4.389890777071121,
+      "p99_us": 108021.0,
+      "max_us": 108025.0
+    },
+    "M2_freq_us": {
+      "n": 1002,
+      "mean_us": 324368.41217564873,
+      "std_us": 17.13776731049576,
+      "p99_us": 324410.98,
+      "max_us": 324423.0
+    },
+    "M5_THD_us": {
+      "n": 1002,
+      "mean_us": 309077.5818363273,
+      "std_us": 12.6534453703889,
+      "p99_us": 309103.0,
+      "max_us": 309110.0
+    },
+    "M4_phase_us": {
+      "n": 1002,
+      "mean_us": 25245.102794411177,
+      "std_us": 429.6321503653423,
+      "p99_us": 25548.0,
+      "max_us": 35802.0
+    },
+    "M4_pwr_us": {
+      "n": 1002,
+      "mean_us": 107839.65469061876,
+      "std_us": 11.745406267375603,
+      "p99_us": 107865.0,
+      "max_us": 107874.0
+    },
+    "alarm_us": {
+      "n": 1002,
+      "mean_us": 1.0009980039920159,
+      "std_us": 0.03159120118032817,
+      "p99_us": 1.0,
+      "max_us": 2.0
+    },
+    "M6_DNP3_us": {
+      "n": 1002,
+      "mean_us": 45.08083832335329,
+      "std_us": 1.4207158977593786,
+      "p99_us": 53.0,
+      "max_us": 54.0
+    },
+    "serial_us": {
+      "n": 1002,
+      "mean_us": 75189.9500998004,
+      "std_us": 35.59295781954172,
+      "p99_us": 75218.0,
+      "max_us": 75219.0
+    }
+  },
+  "headline": {
+    "cycle_mean_ms": 949.7768862275449,
+    "pmu_target_ratio": 47.48884431137724,
+    "classII_target_ratio": 9.497768862275448,
+    "acquisition_estimate_us": 799245.1027944111,
+    "acquisition_pct_of_cycle": 84.15082682933709,
+    "residual_compute_us": 150531.78343313374,
+    "residual_pct_of_cycle": 15.84917317066292
+  }
+}

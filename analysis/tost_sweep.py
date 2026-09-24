@@ -5,30 +5,60 @@ tost_sweep.py — TOST sensitivity sweep for the open RTU NESO replay validation
 Companion to tost_metrics.py. Sweeps the equivalence margin delta from 5 mHz
 to 200 mHz in 5 mHz increments and computes, for each delta, the Schuirmann
 Two One-Sided Tests (TOST) verdict on the per-frame frequency error
-(f_Vb - f_target_hz) over each of the three windows reported in Table 9 of
-the paper:
+(f_Vb - f_target_hz) over each of the three windows reported in Table 2 of
+the paper (§3.2):
 
-    - Pre-event nominal region:       i = 0  - 45
+    - Pre-event nominal region:       i = 0   - 45
     - Post-event settled region:      i = 301 - 359
-    - Full 360 s replay window:       i = 0  - 359
+    - Full 360 s replay window:       i = 0   - 359
 
 For each delta, the script outputs:
     - The sample size n, mean error mu_hat, and std deviation s_hat per window
     - The TOST p-value = max(p1, p2) where p1 tests against -delta and
       p2 tests against +delta (each one-sided at alpha = 0.05)
-    - The crossover delta: the smallest delta for which max(p1, p2) < alpha,
-      i.e. the empirical equivalence margin at which the TOST formally
-      rejects non-equivalence for that window
+    - The crossover delta: the smallest delta ON THE SWEEP GRID for which
+      max(p1, p2) < alpha, i.e. the empirical equivalence margin at which the
+      TOST formally rejects non-equivalence for that window
 
-The crossover delta on each window is the "effective accuracy class" of the
-instrument on that window — a single-number summary far more informative
-than the binary Class I (10 mHz) / Class II (100 mHz) / Class L (no formal
-class) categorisation of IEC 61400-21.
+The crossover reported is grid-resolved, not continuous. The grid step is
+5 mHz, so each published crossover is the first 5 mHz multiple at or above the
+true continuous crossover; the two differ by up to one step and the difference
+is an artefact of the grid, not of the data. Both are recorded under
+Reproducibility below so that a reader recomputing on a finer grid is not
+misled into reporting a discrepancy.
 
-Following Schuirmann 1987 [36] and the established TOST procedure used
-elsewhere in this paper, all p-values use the standard normal approximation
-to the t-distribution (df > 30 across all three windows; the approximation
-is conservative, slightly overstating the p-value).
+The crossover delta on each window is a single-number summary of the
+instrument's demonstrated accuracy on that window, and is far more informative
+than a binary pass/fail against a fixed band.
+
+ACCURACY TIERS — PROVENANCE. The 10 mHz and 100 mHz margins annotated here
+and in the figure are the Product Design Specification tiers defined in §2.7
+of the paper. They are NOT the IEC 61400-21 accuracy classes, and the paper
+says so explicitly. The names "Class I" and "Class II" are retained in this
+script only because they are the names under which the released figure and
+JSON sidecar were generated; T122 renames them Tier 1 and Tier 2 in the
+manuscript, and this docstring should be revisited when that rename lands.
+The one genuine IEC citation in this work is the IEC 61400-21-1 Class I
+RMS-voltage requirement discussed in §3.6, which is a different requirement
+on a different quantity. Earlier revisions of this file referred to a
+"Class L" category; no such category exists in the PDS or in IEC 61400-21 and
+it has been removed.
+
+Following Schuirmann (1987) and the established TOST procedure used elsewhere
+in this paper, all p-values use the standard normal approximation to the
+t-distribution. The approximation is appropriate here (n = 48, 63 and 379, so
+df > 30 on all three windows) and is conservative, slightly overstating the
+p-value.
+
+INDEPENDENCE CAVEAT. The TOST as implemented treats successive frames as
+independent. They are not: the lag-1 autocorrelation of the frequency-error
+series is rho_1 = 0.52 (pre-event), 0.69 (settled) and 0.60 (full window).
+Correcting the sample size to n(1 - rho_1)/(1 + rho_1) gives effective sizes
+of roughly 15, 12 and 94 and moves the crossovers outward to approximately
+31, 30 and 38 mHz. The pre-event and settled conclusions survive that
+correction; the full-window one does not, because that series is not
+stationary. See T119 for the full treatment; this script deliberately reports
+the uncorrected figures so that it reproduces the released Table 2 exactly.
 
 Usage:
     python tost_sweep.py replay_20260627_102507V2.csv
@@ -42,14 +72,25 @@ Outputs:
     - Console table with per-window crossover delta and per-delta p-values
     - Optional JSON sidecar with full sweep results for downstream tooling
     - Optional matplotlib PNG with the three sensitivity traces and the
-      Class I (10 mHz) and Class II (100 mHz) annotation lines
+      Class I (10 mHz) and Class II (100 mHz) PDS tier annotation lines
 
-Reproducibility:
-    Canonical input: replay_20260627_102507V2.csv
+Reproducibility — every figure below was re-run against the canonical capture
+on 2026-09-22 and is what this script actually prints:
+
+    Canonical input:  replay_20260627_102507V2.csv
     Expected SHA-256: dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f
-    Expected pre-event crossover: ~ 30 mHz (within Class I band)
-    Expected settled crossover:   ~ 35 mHz (within Class I band)
-    Expected full-window crossover: ~ 90 mHz (within Class II band but not Class I)
+    Frames processed: 379 rows spanning 360 unique replay indices
+
+    Window              n     mean (mHz)   sd (mHz)   crossover   continuous
+    ------------------  ---   ----------   --------   ---------   ----------
+    Pre-event nominal    48       -21.20      20.44      30 mHz      26.1 mHz
+    Post-event settled   63        -9.15      39.37      20 mHz      17.3 mHz
+    Full 360 s replay   379        +1.66     208.93      20 mHz      19.3 mHz
+
+    The crossover column is what the paper reports in Table 2 (30, 20, 20 mHz).
+    The continuous column is the same quantity solved without the 5 mHz grid,
+    given here only to explain the difference to anyone who recomputes it.
+    None of the three crossovers falls inside the 10 mHz Class I margin.
 
 Standard library only EXCEPT matplotlib (only required if --plot is requested).
 Matplotlib is the only optional dependency; the JSON output, console table,
@@ -66,19 +107,19 @@ import sys
 from pathlib import Path
 
 # ============================================================================
-# Constants matching the existing TOST work (paper §5.3.6, Table 9)
+# Constants matching the existing TOST work (paper §3.2, Table 2)
 # ============================================================================
 
 ALPHA = 0.05                              # TOST significance level
 
-# Windows match Table 9 of the paper
+# Windows match Table 2 of the paper
 WINDOWS = [
     ("Pre-event nominal",       0,    45),
     ("Post-event settled",     301,  359),
     ("Full 360 s replay",        0,  359),
 ]
 
-# IEC 61400-21 reference accuracy bands for annotation
+# Product Design Specification accuracy tiers (§2.7) — NOT the IEC 61400-21 classes
 CLASS_I_DELTA_mHz  =  10.0
 CLASS_II_DELTA_mHz = 100.0
 
@@ -103,7 +144,7 @@ def tost_pvalue(errors, delta_mHz):
 
     Inputs:
         errors:    list of per-frame frequency errors (Hz)
-        delta_mHz: equivalence margin in mHz (e.g. 100.0 for Class II)
+        delta_mHz: equivalence margin in mHz (e.g. 100.0 for the Class II PDS margin)
 
     Returns dict with:
         n      — sample size
@@ -239,8 +280,8 @@ def print_console_report(per_window_sweep, per_window_crossover, hash_value, sou
     print(f"  Sweep range:          delta = {DELTA_MIN_mHz:.0f} - {DELTA_MAX_mHz:.0f} mHz "
           f"in {DELTA_STEP_mHz:.0f} mHz steps")
     print(f"  Significance level:   alpha = {ALPHA}")
-    print(f"  Class I band:         delta = {CLASS_I_DELTA_mHz:.0f} mHz (IEC 61400-21)")
-    print(f"  Class II band:        delta = {CLASS_II_DELTA_mHz:.0f} mHz (IEC 61400-21)")
+    print(f"  Class I band:         delta = {CLASS_I_DELTA_mHz:.0f} mHz (PDS tier, §2.7 — not IEC)")
+    print(f"  Class II band:        delta = {CLASS_II_DELTA_mHz:.0f} mHz (PDS tier, §2.7 — not IEC)")
     print()
     print("  ── CROSSOVER DELTA PER WINDOW (smallest delta with TOST equivalence) ──")
     print()
@@ -261,7 +302,7 @@ def print_console_report(per_window_sweep, per_window_crossover, hash_value, sou
             cls = "Class II"
         else:
             xover_str = f"{crossover:.0f} mHz"
-            cls = "Class L"
+            cls = "> Class II"
         print(f"  {wname:<22} {n:>5} {mean:>14.2f} {std:>12.2f} {xover_str:>14} {cls:>10}")
     print()
     print("  ── PER-WINDOW SWEEP DETAIL (first/middle/last + crossover row) ────────")
@@ -272,10 +313,6 @@ def print_console_report(per_window_sweep, per_window_crossover, hash_value, sou
         for r in sweep:
             mark = "  EQ" if r["equivalent"] else "   -"
             print(f"    {r['delta_mHz']:>11.0f} {r['p_tost']:>10.4f} {mark:>12}")
-            if r["equivalent"] and r["delta_mHz"] >= 50 and len(sweep) > 10:
-                # After the first equivalence is established and we've shown enough rows,
-                # skip ahead a bit for clarity. But still show all rows on small sweeps.
-                pass
     print()
     print("=" * 78)
 
@@ -345,7 +382,7 @@ def render_plot(per_window_sweep, per_window_crossover, output_path):
     ax.axhline(ALPHA, color="black", linestyle="--", linewidth=1.0, alpha=0.7,
                label=f"alpha = {ALPHA}")
 
-    # Class I and Class II reference lines
+    # PDS accuracy-band reference lines (§2.7) — not IEC 61400-21 classes
     ax.axvline(CLASS_I_DELTA_mHz,  color="#7f7f7f", linestyle="-", linewidth=0.8, alpha=0.5)
     ax.axvline(CLASS_II_DELTA_mHz, color="#7f7f7f", linestyle="-", linewidth=0.8, alpha=0.5)
 

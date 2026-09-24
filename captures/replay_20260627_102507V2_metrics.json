@@ -1,0 +1,12 @@
+{
+  "csv": "replay_20260627_102507V2.csv",
+  "neso_reference": "neso_trajectory.csv",
+  "metric_1_max_abs_freq_error_mhz": 629.1,
+  "metric_1_worst_replay_index": 176,
+  "metric_2_alarm_timing_error_ms": -1050.0,
+  "metric_3_max_rocof_tracking_error_hz_per_s": 0.7205,
+  "metric_3_rms_rocof_tracking_error_hz_per_s": 0.1874,
+  "metric_4_frames_received": 379,
+  "metric_4_frames_expected_min": 360,
+  "metric_4_frame_gaps": 0
+}

@@ -2,9 +2,8 @@
 inertia_estimator.py
 ====================
 
-Grid-inertia estimation from Rate of Change of Frequency (RoCoF) via the
-swing equation, reproducing Table 15 and Figure 12 of Section 5.3.10 of the
-open-RTU MDPI Sensors paper.
+Swing-equation inversion for grid inertia, reproducing Figure 18 of
+Section 3.11 (Grid-Inertia Recovery) of the open-RTU MDPI Sensors paper.
 
 The swing equation in per-unit form relates the initial RoCoF following a
 step power imbalance dP to the system's stored kinetic energy E_k:
@@ -15,19 +14,100 @@ Rearranged for E_k in GVA*s, with dP in MW and RoCoF in Hz/s:
 
     E_k [GVA*s] = | f0 * dP[MW] | / (2 * |df/dt[Hz/s]|) * 1e-3
 
-For the NESO 9 August 2019 GB blackout, the published initial-descent RoCoF
-was approximately 0.16 Hz/s and the published initial generation loss was
-1378 MW (Hornsea 737 MW + Little Barford steam 244 MW + distributed-
-generation trip 397 MW). Substituting recovers E_k = 215.3 GVA*s against a
-published pre-event inertia of ~210 GVA*s, a +2.5% match.
+WHAT THIS SCRIPT DOES AND DOES NOT ESTABLISH
+--------------------------------------------
+Every term in the recovery (f0, dP, RoCoF) is a published figure, not a
+measurement made by this instrument. The 215.3 GVA*s result is a consistency
+check on those published figures and on this implementation. It is NOT
+evidence about the instrument's accuracy and the paper does not present it
+as such. The operative output is the sensitivity analysis in panel (b) of
+Figure 18: it establishes the RoCoF measurement accuracy a field deployment
+must achieve, which is a specification for Gate 2 (sub-cycle cadence) and
+Gate 4 (real disturbance) of the roadmap in Section 4.4.
 
-IMPORTANT (matches the paper's own methodological caveat, Section 5.3.10):
-The canonical bench replay is TIME-DILATED relative to the real event, so the
-input RoCoF used here is the *published real-event* value (0.16 Hz/s), NOT the
-replay's measured RoCoF. This script reproduces the algorithmic pathway on the
-published inputs; a live-field deployment (Section 6.3 Gate 3) would supply a
-directly-measured RoCoF instead. Pass --measured-rocof to see what the replay's
-own descent-region RoCoF would recover, for comparison only.
+PROVENANCE OF THE INPUTS - READ THIS BEFORE CITING ANY NUMBER BELOW
+-------------------------------------------------------------------
+The NESO Technical Report on the events of 9 August 2019 [10] gives the
+generation losses as a running cumulative total:
+
+    Hornsea One deload (799 MW -> 62 MW)            737 MW
+    + Little Barford steam turbine trip             244 MW   -> 981 MW
+    + embedded generation lost on vector shift     ~150 MW   -> 1,131 MW
+    + embedded generation lost on RoCoF protection ~350 MW   -> 1,481 MW
+    + Little Barford GT1A                           210 MW   -> 1,691 MW
+    + Little Barford GT1B                           187 MW   -> 1,878 MW
+
+Two inputs used below are NOT supported by that source and are flagged in
+the code as PAPER INPUT:
+
+  * dP = 1378 MW. This figure does not appear in [10]. The cumulative totals
+    published there are 1,131 / 1,481 / 1,691 / 1,878 MW. Earlier revisions
+    of this docstring justified 1378 MW as 737 + 244 + 397 MW; the 397 MW
+    distributed-generation component is not a figure in [10], which gives
+    ~150 MW on vector shift and ~350 MW on RoCoF protection. Either 1378 MW
+    needs a citation of its own, or the scenario should move to a published
+    total. For reference, the inversion at 0.16 Hz/s gives 153.3 GVA*s at
+    981 MW, 176.7 at 1,131 MW, 231.4 at 1,481 MW and 293.4 at 1,878 MW,
+    against the published 210 GVA*s pre-event inertia.
+
+  * RoCoF = 0.16 Hz/s. [10] states no measured system-wide RoCoF for the
+    event. Its only Hz/s figure is a protection threshold - "some parts of
+    the system may have experienced a rate of change of frequency of
+    0.125 Hz/s or above" - which is not the same quantity. The 0.16 Hz/s
+    initial-descent value needs its own citation.
+
+The reference inertia of 210 GVA*s IS stated in [10] and needs no flag.
+Reference numbers follow the V26/V27 reference list. Earlier revisions of
+this file cited [45] and [46] for these figures; in the current list those
+are two unrelated low-cost-metering papers, and the correct citations are
+[10] for the NESO technical report and [11] for the interim report.
+
+WHY THE REPLAY'S OWN SLOPE IS NOT USED
+---------------------------------------
+The reason is temporal resolution and window length, not time dilation. The
+canonical bench replay runs in real time (0.9997 s per replay index, verified
+against replay_20260627_102507V2.csv). What differs is the averaging window:
+
+  * The published 0.16 Hz/s is an INITIAL RoCoF, conventionally evaluated
+    over a sub-second window at the instant of the step.
+  * The diagnostic this script prints is a least-squares MEAN slope over the
+    whole 74-second descent region (indices 46-119). Measured on the
+    canonical capture it is 0.00913 Hz/s - a factor of 17.5 below the
+    published initial value, not the "factor of nearly nine" stated in
+    earlier revisions of this file and in Section 3.11 of the manuscript.
+    That earlier figure of 0.018 Hz/s is not what this script produces and
+    never was; inertia_output.json has reported 0.0091 since the deposit.
+
+  * Most of that factor is window length rather than record smoothing. Over
+    the steepest 10-second window the same capture gives 0.1156 Hz/s on the
+    measured channel (at index 50) and 0.0839 Hz/s on the reference
+    trajectory (at index 43) - within a factor of 1.4 of the published
+    initial value. The one-second resolution of the source record still
+    prevents a true sub-second initial RoCoF from being formed, which is why
+    the inversion uses published inputs; but the 17.5x figure is an artefact
+    of comparing a 74-second mean with an instantaneous value and should not
+    be read as instrument error.
+
+OUTPUT FILES
+------------
+  inertia_output.json   Written with LF line endings explicitly, so that its
+                        SHA-256 is identical on Windows, macOS and Linux.
+                        Before this change the file inherited the platform's
+                        line endings and the hash quoted in the Data
+                        Availability Statement reproduced on Windows only.
+  Figure_12_inertia.png The default filename is historical: this file renders
+                        FIGURE 18 of the paper. The name is retained because
+                        it is the name under which the artefact is deposited
+                        and hashed. Note that a rendered PNG is NOT
+                        byte-reproducible across matplotlib and freetype
+                        versions - bbox_inches="tight" crops to font metrics,
+                        so the image dimensions themselves differ between
+                        environments. Any SHA-256 quoted for it can only be
+                        reproduced on the machine that made it.
+
+The JSON key "table_15_rows" is retained for wire compatibility with the
+deposited sidecar. It refers to the three-scenario table printed on the
+console; Section 3.11 of the current manuscript carries no numbered table.
 
 Usage:
     python inertia_estimator.py
@@ -35,8 +115,15 @@ Usage:
     python inertia_estimator.py --figure Figure_12_inertia.png
     python inertia_estimator.py --measured-rocof replay_20260627_102507V2.csv
 
-Writes inertia_output.json (+ optional Figure 12 PNG if matplotlib present).
-Standard library only for the numerics.
+Reproducibility (re-run against the canonical capture 22 September 2026):
+    Recovered E_k at 1378 MW, 0.16 Hz/s:      215.3 GVA*s  (+2.5% vs 210)
+    Recovered E_k at 1878 MW, 0.16 Hz/s:      293.4 GVA*s  (+39.7%)
+    Recovered E_k at  900 MW, 0.16 Hz/s:      140.6 GVA*s  (-33.0%)
+    Replay descent-region mean slope:         0.0091 Hz/s
+    inertia_output.json SHA-256 (LF):
+      9ca8ad45ecef1dbdcc5a90c4560e69411627ca478e3e1350eecd5266af589cf1
+
+Standard library only for the numerics; matplotlib only for --figure.
 
 Author: Jack Davies
 """
@@ -50,14 +137,29 @@ import argparse, csv, json, math, os
 # ============================================================================
 
 F0_HZ            = 50.0
-PUBLISHED_ROCOF  = 0.16      # Hz/s, published initial-descent RoCoF [45]
-REF_INERTIA_GVAS = 210.0     # GVA*s, published pre-event NESO inertia [46]
 
-# Three generation-loss scenarios (Table 15)
+# PAPER INPUT - initial-descent RoCoF. NESO [10] states no measured
+# system-wide RoCoF for the event; its only Hz/s figure is the 0.125 Hz/s
+# protection threshold, which is a different quantity. Needs its own citation.
+PUBLISHED_ROCOF  = 0.16      # Hz/s
+
+# Stated in NESO [10] for 9 August 2019 system conditions. Sourced.
+REF_INERTIA_GVAS = 210.0     # GVA*s, published pre-event NESO inertia [10]
+
+# Three generation-loss scenarios (Figure 18 panel (a); see the provenance
+# block in the module docstring before citing any of these).
 SCENARIOS = [
-    ("Initial trip",       1378.0),   # Hornsea + Little Barford + DG trip
-    ("Cumulative to LFDD",  1878.0),   # cumulative loss at LFDD activation
-    ("Reference (900 MW)",  900.0),    # smaller reference case
+    # CORRECTED 23 September 2026. Was 1378 MW, which does not appear in NESO
+    # [10]; its published cumulative totals are 981 / 1,131 / 1,481 / 1,691 /
+    # 1,878 MW. 1,481 MW is the cumulative loss after the embedded generation
+    # lost on RoCoF protection - the same quantity the old figure named, and
+    # sourced. It is also consistent with Section 1, which already reports
+    # ~500 MW of distribution-connected loss and 1,878 MW cumulative.
+    ("Initial trip + embedded loss", 1481.0),
+    # 1,878 MW is the published final cumulative loss in NESO [10] (after
+    # Little Barford GT1A and GT1B). The label "to LFDD" is the paper's.
+    ("Cumulative to LFDD", 1878.0),
+    ("Reference (900 MW)",  900.0),    # smaller reference case, illustrative
 ]
 
 
@@ -72,9 +174,13 @@ def recover_ek_gvas(dp_mw: float, rocof_hz_s: float, f0: float = F0_HZ) -> float
 
 def descent_rocof_from_csv(path: str,
                            i_lo: int = 46, i_hi: int = 119) -> float | None:
-    """Least-squares slope of f_Vb over the descent region (indices 46-119),
-    in Hz per replay-index-second. Returned as a positive magnitude.
-    Reference/diagnostic only - NOT used for the Table 15 recovery."""
+    """Least-squares MEAN slope of f_Vb over the descent region
+    (indices 46-119), in Hz per replay-index-second, returned as a positive
+    magnitude. Diagnostic only - NOT used for the recovery.
+
+    This is a 74-second mean, not an initial RoCoF, so it is not comparable
+    with the published 0.16 Hz/s without that caveat. See the module
+    docstring."""
     xs, ys = [], []
     with open(path, newline="", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -102,7 +208,7 @@ def descent_rocof_from_csv(path: str,
 # ============================================================================
 
 def render_figure(rocof: float, ref_inertia: float, recovered_primary: float,
-                  out_path: str) -> bool:
+                  out_path: str, dpi: int = 600) -> bool:
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -125,7 +231,7 @@ def render_figure(rocof: float, ref_inertia: float, recovered_primary: float,
              label=f"Recovered = {recovered_primary:.1f} GVA\u00b7s")
     ax1.set_xlabel("|RoCoF|  (Hz/s)")
     ax1.set_ylabel("Recovered stored kinetic energy  E$_k$  (GVA\u00b7s)")
-    ax1.set_title("(a) Swing-equation recovery")
+    ax1.set_title("(a) Swing-equation inversion on published inputs")
     ax1.set_ylim(0, 700)
     ax1.grid(True, alpha=0.3)
     ax1.legend(fontsize=8, loc="upper right")
@@ -147,12 +253,12 @@ def render_figure(rocof: float, ref_inertia: float, recovered_primary: float,
              linestyle="none", label=f"Achieved = {base_err:+.1f}%")
     ax2.set_xlabel("RoCoF measurement error  (%)")
     ax2.set_ylabel("Inertia recovery error  (%)")
-    ax2.set_title("(b) Recovery-error sensitivity")
+    ax2.set_title("(b) RoCoF accuracy requirement")
     ax2.grid(True, alpha=0.3)
     ax2.legend(fontsize=8, loc="upper left")
 
     fig.tight_layout()
-    fig.savefig(out_path, dpi=200, bbox_inches="tight")
+    fig.savefig(out_path, dpi=dpi, bbox_inches="tight")
     plt.close(fig)
     return True
 
@@ -172,13 +278,15 @@ def main(argv=None):
                     help="Optional replay CSV: also print the replay's own "
                          "descent-region RoCoF for comparison (diagnostic only)")
     ap.add_argument("--figure", type=str, default="Figure_12_inertia.png")
+    ap.add_argument("--dpi", type=int, default=600,
+                    help="figure resolution; 600 is the MDPI minimum for line art (default 600)")
     ap.add_argument("--json", type=str, default="inertia_output.json")
     ap.add_argument("--no-figure", action="store_true")
     args = ap.parse_args(argv)
 
     print()
     print("=" * 74)
-    print("  GRID INERTIA ESTIMATION FROM ROCOF (Table 15)")
+    print("  SWING-EQUATION INERTIA INVERSION (Section 3.11, Figure 18)")
     print("=" * 74)
     print(f"  f0 = {F0_HZ:.1f} Hz,  published RoCoF = {args.rocof:.3f} Hz/s,  "
           f"reference inertia = {args.ref_inertia:.0f} GVA\u00b7s")
@@ -206,9 +314,13 @@ def main(argv=None):
         m = descent_rocof_from_csv(args.measured_rocof)
         if m is not None:
             measured = m
-            print(f"\n  [diagnostic] replay descent-region measured RoCoF: "
-                  f"{m:.4f} Hz/s  (NOT used for Table 15 - replay is "
-                  f"time-dilated; see Section 5.3.10 caveat)")
+            print(f"\n  [diagnostic] replay descent-region MEAN slope over "
+                  f"indices 46-119: {m:.4f} Hz/s")
+            print(f"               Not used for the recovery, and not "
+                  f"comparable with the published {args.rocof:.2f} Hz/s "
+                  f"initial RoCoF:")
+            print(f"               this is a 74 s mean, that is a sub-second "
+                  f"instantaneous value. See Section 3.11.")
 
     out = {
         "schema_version": "1.0",
@@ -221,13 +333,24 @@ def main(argv=None):
         "table_15_rows": rows,
         "replay_measured_descent_rocof_hz_s": (round(measured, 4)
                                                if measured is not None else None),
+        "rocof_provenance": ("published real-event value; NOT measured by the "
+                             "instrument. NESO [10] states no measured system RoCoF "
+                             "for the event - this input needs its own citation"),
+        "dp_provenance": ("1378 MW does not appear in NESO [10]; published cumulative "
+                          "totals are 981 / 1131 / 1481 / 1691 / 1878 MW"),
+        "claim_scope": ("consistency check on published figures and on this "
+                        "implementation; not evidence of instrument accuracy"),
     }
-    with open(args.json, "w", encoding="utf-8") as fh:
+    # newline="\n" is deliberate: without it Python translates to CRLF on
+    # Windows and the file's SHA-256 differs between platforms, so the hash
+    # quoted in the Data Availability Statement could only ever reproduce on
+    # the machine that wrote it. Verified 22 September 2026.
+    with open(args.json, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, indent=2)
     print(f"\n  -> {args.json}")
 
     if not args.no_figure:
-        if render_figure(args.rocof, args.ref_inertia, recovered_primary, args.figure):
+        if render_figure(args.rocof, args.ref_inertia, recovered_primary, args.figure, args.dpi):
             print(f"  -> {args.figure}")
 
     return 0

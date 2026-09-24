@@ -10,9 +10,32 @@ additive white Gaussian noise, sampled at f_s over N samples at
 signal-to-noise ratio rho (linear, not dB), the Cramer-Rao Lower Bound on
 the estimator variance is the standard Rife-Boorstyn result:
 
-    Var(f_hat) >= 6 * f_s^2 / [ (2*pi)^2 * rho * N * (N^2 - 1) ]        (Hz^2)
+    Var(f_hat) >= 12 * f_s^2 / [ (2*pi)^2 * eta * N * (N^2 - 1) ]       (Hz^2)
 
+where eta = A^2 / (2*sigma^2) is the signal-to-noise ratio of a REAL sinusoid.
 The CRB standard deviation is sqrt of the above, reported here in mHz.
+
+CORRECTED 23 September 2026 (HQ task L46). Earlier releases used the
+coefficient 6, which is the bound for a COMPLEX exponential. A real sampled
+sinusoid carries half the Fisher information per sample about frequency, so
+the coefficient is 12 and the bound is larger by exactly sqrt(2). Confirmed
+three independent ways: the closed form; a Monte-Carlo single-tone
+least-squares fit; and numerical inversion of the 3x3 Fisher information
+matrix for (A, f, phi), which gives 3.9007 mHz against the closed form's
+3.8985 at N = 200, f_s = 2 kHz and 40 dB. The released bound of 2.757 mHz was
+therefore not a bound: the Kalman estimator's own Monte-Carlo dispersion sits
+below it, which is impossible for a true lower bound.
+
+SAMPLING RATE CORRECTED 23 September 2026 (HQ task L41). Earlier releases used
+the 2000 Hz quoted in Sections 2.1.2 and 2.2. That figure is correct for the
+deadline-scheduled characterisation loop, which measures 2000.0002 Hz with an
+interval standard deviation of 0.0135 us. The canonical M2 build does not run
+at that rate: it paces with a fixed 500 us delay AFTER its per-sample work, so
+its measured per-channel interval is 550.50 us and its rate 1816.5 Hz, against
+the 1855 Hz previously derived in Section 3.12. Twelve captures on the quiet
+input and two with the production stimulus agree to 0.04 per cent. The bound is
+linear in the sampling rate at fixed N, so the correction lowers it by 9 per
+cent and raises every ratio to it, in the conservative direction.
 
 This script:
   1. Evaluates the CRB standard deviation at two bracketing SNR scenarios:
@@ -35,11 +58,13 @@ Usage:
 Writes crb_output.json. Standard library only. No external dependencies.
 
 Reproducibility:
-    Defaults reproduce Table 17 exactly:
-      CRB std (40 dB) = 2.757 mHz ; CRB std (74 dB) = 0.055 mHz
-      ratios: V1 47.4x, V2 75.7x, V3 42.3x, V4 73.4x
-    (Paper rounds these to 47.5x/75.8x/42.4x/73.5x using std values carried
-     to full precision; see NOTE in main().)
+    Defaults reproduce Table 4 exactly:
+      CRB std (40 dB) = 3.541 mHz ; CRB std (74 dB) = 0.071 mHz
+      ratios: V1 37.0x, V2 59.0x, V3 33.0x, V4 54.9x
+    (Superseded values, for anyone comparing against earlier deposits:
+     2.757 mHz with 47.5x/75.8x/42.4x/70.5x, from the complex-exponential
+     coefficient; and 3.899 mHz with 33.6x/53.6x/29.9x/49.8x, which used the
+     corrected coefficient but the assumed 2 kHz sampling rate.)
 
 Author: Jack Davies
 """
@@ -53,7 +78,7 @@ import argparse, json, math, os
 # ============================================================================
 
 N_DEFAULT       = 200          # samples per M2 window
-FS_DEFAULT      = 2000.0       # Hz, M2 ADC sample rate
+FS_DEFAULT      = 1816.5       # Hz, M2 per-channel rate, MEASURED 23 Sep 2026
 SNR_CONSERV_DB  = 40.0         # practical measurement conditions
 SNR_IDEAL_DB    = 74.0         # ADC SINAD ceiling (Section 4.1.4)
 
@@ -72,9 +97,10 @@ STD_DEFAULTS_MHZ = {
 
 def crb_std_hz(n: int, fs: float, snr_db: float) -> float:
     """Cramer-Rao Lower Bound standard deviation (Hz) for single-tone
-    frequency estimation in AWGN (Rife & Boorstyn 1974)."""
+    frequency estimation in AWGN, REAL sinusoid (Rife & Boorstyn 1974;
+    Kay 1993 eq. 3.41). Coefficient 12, not 6 - see the module docstring."""
     rho = 10.0 ** (snr_db / 10.0)
-    var = 6.0 * fs * fs / ((2.0 * math.pi) ** 2 * rho * n * (n * n - 1))
+    var = 12.0 * fs * fs / ((2.0 * math.pi) ** 2 * rho * n * (n * n - 1))
     return math.sqrt(var)
 
 
@@ -154,7 +180,8 @@ def main(argv=None):
         "crb_std_ideal_mhz": crb_ideal,
         "table_17_rows": rows,
     }
-    with open(args.json, "w", encoding="utf-8") as fh:
+    # newline="\n" so the SHA-256 is identical on every platform.
+    with open(args.json, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(out, fh, indent=2)
     print(f"  -> {args.json}")
     return 0

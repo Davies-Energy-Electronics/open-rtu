@@ -2,7 +2,7 @@
   "schema_version": "1.1",
   "tool": "tve_metrics.py",
   "input": {
-    "source_file": "replay_canonical.csv",
+    "source_file": "C:\\Users\\davie\\AppData\\Local\\Temp\\l42\\clone\\captures\\replay_20260627_102507V2.csv",
     "sha256": "dadbcfe247dd4e538b71a891b2b26f070d02c42e3dd4622b5d2125aff169560f",
     "frames_processed": 379
   },
